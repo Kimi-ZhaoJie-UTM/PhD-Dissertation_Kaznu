@@ -1,0 +1,1056 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 2: Financial Opportunities and Challenges | BRI Dissertation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Crimson Text', 'Noto Serif SC', 'serif'],
+                        'sans': ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        'academic': {
+                            50: '#f8f9fa', 100: '#e9ecef', 200: '#dee2e6',
+                            300: '#ced4da', 400: '#adb5bd', 500: '#6c757d',
+                            600: '#495057', 700: '#343a40', 800: '#212529', 900: '#121416',
+                        },
+                        'primary': '#1a365d', 'secondary': '#c9a227', 'accent': '#2c5282',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .lang-en, .lang-cn, .lang-both { display: none; }
+        body[data-lang="en"] .lang-en, body[data-lang="cn"] .lang-cn { display: block; }
+        body[data-lang="both"] .lang-en, body[data-lang="both"] .lang-cn { display: block; }
+        
+        /* Bilingual Side-by-Side Layout */
+        body[data-lang="both"] .bilingual-section {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2.5rem;
+        }
+        
+        body[data-lang="both"] .bilingual-block {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        
+        body[data-lang="both"] .bilingual-block > div:first-child {
+            border-right: 1px solid #dee2e6;
+            padding-right: 1.5rem;
+        }
+        
+        body[data-lang="both"] .bilingual-block > div:last-child {
+            padding-left: 1.5rem;
+        }
+        
+        /* For tables in bilingual mode */
+        body[data-lang="both"] .bilingual-table-container {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+        
+        body[data-lang="both"] .bilingual-table-container > div:first-child {
+            border-right: 1px solid #dee2e6;
+            padding-right: 1rem;
+        }
+        
+        body[data-lang="both"] .bilingual-table-container > div:last-child {
+            padding-left: 1rem;
+        }
+        
+        .chapter-nav {
+            position: fixed; left: 0; top: 0; height: 100vh; width: 280px;
+            background: white; border-right: 1px solid #e9ecef;
+            overflow-y: auto; z-index: 40; padding: 2rem;
+            transform: translateX(-100%); transition: transform 0.3s;
+        }
+        .chapter-nav.open { transform: translateX(0); }
+        .nav-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 35; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .nav-overlay.open { opacity: 1; pointer-events: auto; }
+        .content-wrapper { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+        @media (min-width: 1024px) {
+            .content-wrapper { margin-left: 300px; margin-right: auto; padding: 3rem 2rem; }
+            .chapter-nav { transform: translateX(0); }
+            .menu-toggle { display: none; }
+        }
+        
+        /* When bilingual mode is on, expand content width */
+        body[data-lang="both"] .content-wrapper {
+            max-width: 1400px;
+        }
+        
+        @media (min-width: 1024px) {
+            body[data-lang="both"] .content-wrapper {
+                margin-left: 280px;
+                margin-right: 2rem;
+            }
+        }
+        
+        .toc-item {
+            display: block; padding: 0.5rem 0; color: #6c757d;
+            font-size: 0.875rem; border-left: 2px solid transparent;
+            padding-left: 1rem; margin-left: -1rem; transition: all 0.2s;
+        }
+        .toc-item:hover, .toc-item.active {
+            color: #1a365d; border-left-color: #c9a227;
+        }
+        .toc-item.sub { padding-left: 1.5rem; font-size: 0.8rem; }
+        
+        .section-header {
+            font-size: 1.875rem; font-weight: 700; color: #1a365d;
+            margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+            border-bottom: 2px solid #c9a227; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+        }
+        
+        .subsection-header {
+            font-size: 1.5rem; font-weight: 600; color: #2c5282;
+            margin-top: 2.5rem; margin-bottom: 1rem; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+        }
+        
+        .subsubsection-header {
+            font-size: 1.25rem; font-weight: 600; color: #495057;
+            margin-top: 2rem; margin-bottom: 0.75rem;
+        }
+        
+        .academic-table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            font-size: 0.9rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .academic-table th {
+            background: #1a365d; color: white; padding: 0.75rem;
+            text-align: left; font-weight: 600;
+        }
+        .academic-table td {
+            padding: 0.75rem; border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        .academic-table tr:nth-child(even) { background: #f8f9fa; }
+        .academic-table tr:hover { background: #e9ecef; }
+        
+        .highlight-box {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            border-left: 4px solid #c9a227; padding: 1.5rem;
+            margin: 2rem 0; border-radius: 0 8px 8px 0;
+        }
+        
+        .pagination {
+            display: flex; justify-content: space-between; margin-top: 4rem;
+            padding-top: 2rem; border-top: 1px solid #dee2e6;
+        }
+        .page-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.5rem; background: #1a365d; color: white;
+            border-radius: 6px; text-decoration: none; transition: all 0.3s;
+        }
+        .page-btn:hover { background: #2c5282; transform: translateY(-2px); }
+        
+        .case-box {
+            background: white; border: 1px solid #dee2e6; border-radius: 8px;
+            padding: 1.5rem; margin: 1.5rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .case-title {
+            font-weight: 700; color: #1a365d; margin-bottom: 0.5rem;
+            font-size: 1.1rem;
+        }
+        
+        .risk-tag {
+            display: inline-block; padding: 0.25rem 0.75rem;
+            border-radius: 9999px; font-size: 0.75rem; font-weight: 600;
+            margin-right: 0.5rem; margin-bottom: 0.5rem;
+        }
+        .risk-high { background: #fee2e2; color: #991b1b; }
+        .risk-medium { background: #fef3c7; color: #92400e; }
+        .risk-low { background: #d1fae5; color: #065f46; }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-academic-50 text-academic-800 font-sans antialiased" data-lang="both">
+
+    <!-- Language Switcher -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2 bg-white/90 backdrop-blur rounded-full shadow-lg border border-academic-200 p-1">
+        <button onclick="setLang('en')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="en">EN</button>
+        <button onclick="setLang('cn')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="cn">CN</button>
+        <button onclick="setLang('both')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium bg-primary text-white" data-lang="both">EN/CN</button>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button onclick="toggleNav()" class="menu-toggle fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-md border border-academic-200">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" onclick="toggleNav()"></div>
+
+    <!-- Chapter Navigation Sidebar -->
+    <nav class="chapter-nav" id="chapterNav">
+        <div class="mb-8">
+            <h2 class="text-lg font-bold text-primary mb-1">Chapter 2</h2>
+            <p class="text-sm text-academic-500">Financial Opportunities and Challenges<br>金融机遇与挑战</p>
+        </div>
+        
+        <div class="space-y-1 mb-8">
+            <a href="#2.0" class="toc-item" onclick="scrollToSection('2.0')">Chapter Introduction<br>章节引言</a>
+            <a href="#2.1" class="toc-item" onclick="scrollToSection('2.1')">2.1 Investment Flows Analysis<br>投资流动分析</a>
+            <a href="#2.1.1" class="toc-item sub" onclick="scrollToSection('2.1.1')">2.1.1 Scale and Distribution<br>规模与分布</a>
+            <a href="#2.1.2" class="toc-item sub" onclick="scrollToSection('2.1.2')">2.1.2 Financing Channels<br>融资渠道</a>
+            <a href="#2.1.3" class="toc-item sub" onclick="scrollToSection('2.1.3')">2.1.3 Cross-National Variation<br>跨国差异</a>
+            <a href="#2.2" class="toc-item" onclick="scrollToSection('2.2')">2.2 Economic Benefits and Risks<br>经济效益与风险</a>
+            <a href="#2.2.1" class="toc-item sub" onclick="scrollToSection('2.2.1')">2.2.1 Case Studies<br>案例研究</a>
+            <a href="#2.2.2" class="toc-item sub" onclick="scrollToSection('2.2.2')">2.2.2 Financial Risks<br>金融风险</a>
+            <a href="#2.2.3" class="toc-item sub" onclick="scrollToSection('2.2.3')">2.2.3 Risk Mitigation<br>风险缓解</a>
+            <a href="#2.3" class="toc-item" onclick="scrollToSection('2.3')">2.3 Regulatory Barriers<br>监管壁垒</a>
+            <a href="#2.3.1" class="toc-item sub" onclick="scrollToSection('2.3.1')">2.3.1 EU External Economic Law<br>欧盟对外经济法</a>
+            <a href="#2.3.2" class="toc-item sub" onclick="scrollToSection('2.3.2')">2.3.2 EU Regulatory Instruments<br>欧盟监管工具</a>
+            <a href="#2.3.3" class="toc-item sub" onclick="scrollToSection('2.3.3')">2.3.3 Member State Barriers<br>成员国层面壁垒</a>
+            <a href="#2.3.4" class="toc-item sub" onclick="scrollToSection('2.3.4')">2.3.4 Impacts on Projects<br>对项目的影响</a>
+        </div>
+
+        <div class="pt-4 border-t border-academic-200">
+            <a href="chapter1.html" class="flex items-center gap-2 text-sm text-academic-600 hover:text-primary mb-3">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                ← Chapter 1
+            </a>
+            <a href="chapter3.html" class="flex items-center gap-2 text-sm text-primary font-medium">
+                Chapter 3 →<br>下一章 →
+                <span class="text-xs text-academic-500 block">Prospects and Risks</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        <!-- Chapter Header -->
+        <header class="mb-12 text-center" id="2.0">
+            <div class="text-sm text-secondary font-semibold tracking-wider uppercase mb-2">Chapter 2 / 第二章</div>
+            <h1 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-4 leading-tight">
+                Financial Opportunities and Challenges for BRI Participants<br>
+                <span class="text-2xl md:text-3xl text-academic-700">"一带一路"参与国的金融机遇与挑战</span>
+            </h1>
+            <div class="h-1 w-24 bg-secondary mx-auto"></div>
+        </header>
+
+        <!-- Opening Section -->
+        <div class="highlight-box mb-10">
+            <div class="bilingual-block">
+                <div class="lang-en">
+                    <p class="text-lg leading-relaxed text-academic-700 font-serif">
+                        This chapter analyzes the financial opportunities and challenges facing BRI participant countries from a macro-level perspective. It first examines investment flows and financing accessibility under the BRI framework, then assesses the economic benefits and financial risks of infrastructure projects, and finally addresses the regulatory and institutional barriers encountered during implementation—with particular emphasis on the new regulations introduced by the European Union in recent years.
+                    </p>
+                </div>
+                <div class="lang-cn">
+                    <p class="text-lg leading-relaxed text-academic-700 font-serif">
+                        本章从宏观层面分析"一带一路"参与国面临的金融机遇与挑战。首先考察BRI框架下的投资流动与融资可及性，然后评估基础设施项目的经济效益与金融风险，最后探讨实施过程中遇到的监管与制度壁垒——特别强调欧盟近年来出台的新法规。
+                    </p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 2.1 -->
+        <section id="2.1">
+            <h2 class="section-header">
+                2.1 Analysis of Investment Flows and Access to Finance under the BRI<br>
+                <span class="text-xl text-academic-600">"一带一路"投资流动与融资可及性分析</span>
+            </h2>
+
+            <div id="2.1.1" class="mt-8">
+                <h3 class="subsubsection-header">
+                    2.1.1 Scale and Regional Distribution of BRI Investment<br>
+                    <span class="text-base text-academic-500 font-normal">BRI投资的规模与区域分布</span>
+                </h3>
+                
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="mb-4 leading-relaxed">
+                            By 2025, China had concluded Belt and Road cooperation agreements with approximately <strong>150 countries</strong>, with cumulative investment and construction volumes reaching <strong>$1.308 trillion</strong>. According to AidData statistics, between 2000 and 2021, Chinese development finance institutions globally provided <strong>13,427 development financing projects</strong> totaling approximately <strong>$843 billion</strong>.
+                        </p>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 leading-relaxed">
+                            截至2025年，中国已与约<strong>150个国家</strong>签署"一带一路"合作协议，累计投资与建设额达<strong>1.308万亿美元</strong>。根据AidData统计，2000年至2021年间，中国开发性金融机构在全球范围内提供了<strong>13,427个发展融资项目</strong>，总额约<strong>8,430亿美元</strong>。
+                        </p>
+                    </div>
+                </div>
+
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <h4 class="font-bold text-primary mb-3 text-sm">Regional Distribution:</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-sm">
+                            <li><strong>Asia (particularly Central, Southeast, and South Asia):</strong> Focusing on infrastructure and energy projects, such as the China-Laos Railway, Jakarta-Bandung High-Speed Railway, and the China-Pakistan Economic Corridor. Asia accounts for over <strong>60 percent</strong> of total overseas investment.</li>
+                            <li><strong>Africa:</strong> Transportation, energy, and digital infrastructure projects, such as the Mombasa-Nairobi Railway and the Addis Ababa-Djibouti Railway.</li>
+                            <li><strong>Central and Eastern Europe:</strong> Transportation connectivity projects, such as the Budapest-Belgrade Railway and the Port of Piraeus.</li>
+                            <li><strong>Latin America:</strong> Energy and mining projects, such as the Coca Codo Sinclair hydroelectric plant in Ecuador.</li>
+                        </ul>
+                    </div>
+                    <div class="lang-cn">
+                        <h4 class="font-bold text-primary mb-3 text-sm">区域分布：</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-sm">
+                            <li><strong>亚洲（特别是中亚、东南亚和南亚）：</strong> 聚焦基础设施与能源项目，如中老铁路、雅加达-万隆高铁、中巴经济走廊。亚洲占海外投资总额的<strong>60%以上</strong>。</li>
+                            <li><strong>非洲：</strong> 交通、能源和数字基础设施项目，如蒙巴萨-内罗毕铁路、亚的斯亚贝巴-吉布提铁路。</li>
+                            <li><strong>中东欧：</strong> 交通互联互通项目，如布达佩斯-贝尔格莱德铁路、比雷埃夫斯港。</li>
+                            <li><strong>拉丁美洲：</strong> 能源与矿业项目，如厄瓜多尔科卡科多-辛克莱水电站。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="2.1.2" class="mt-10">
+                <h3 class="subsubsection-header">
+                    2.1.2 Diversification of Financing Channels<br>
+                    <span class="text-base text-academic-500 font-normal">融资渠道多样化</span>
+                </h3>
+                
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="mb-4 leading-relaxed">
+                            Under the BRI framework, participants have access to increasingly diversified financing channels, evolving from early reliance on policy-based lending to a diversified matrix incorporating equity funds, multilateral co-financing, and market-based instruments.
+                        </p>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 leading-relaxed">
+                            在BRI框架下，参与国可获得日益多样化的融资渠道，从早期依赖政策性贷款发展为包含股权基金、多边联合融资和市场工具的多元化矩阵。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Financing Channels Table -->
+                <div class="bilingual-table-container mb-6">
+                    <div class="lang-en">
+                        <h4 class="font-bold text-sm mb-3 text-primary">Five Financing Channels</h4>
+                    </div>
+                    <div class="lang-cn">
+                        <h4 class="font-bold text-sm mb-3 text-primary">五大融资渠道</h4>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="academic-table">
+                        <thead>
+                            <tr>
+                                <th>Channel / 渠道</th>
+                                <th>Providers / 提供方</th>
+                                <th>Characteristics / 特征</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Policy Bank Lending</strong><br>
+                                    <span class="text-sm text-academic-600">政策性银行贷款</span>
+                                </td>
+                                <td>
+                                    China Development Bank (CDB)<br>Export-Import Bank of China<br>
+                                    <span class="text-sm text-academic-600">国家开发银行、进出口银行</span>
+                                </td>
+                                <td>
+                                    Extended maturities (15-20 years), concessional pricing, project-linked conditionality<br>
+                                    <span class="text-sm text-academic-600">延长期限（15-20年）、优惠定价、项目关联条件性</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Equity Investment Funds</strong><br>
+                                    <span class="text-sm text-academic-600">股权投资基金</span>
+                                </td>
+                                <td>
+                                    Silk Road Fund, bilateral capacity cooperation funds<br>
+                                    <span class="text-sm text-academic-600">丝路基金、双边产能合作基金</span>
+                                </td>
+                                <td>
+                                    Market-oriented governance, risk-sharing, commercial sustainability<br>
+                                    <span class="text-sm text-academic-600">市场化治理、风险分担、商业可持续性</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Multilateral Financing</strong><br>
+                                    <span class="text-sm text-academic-600">多边融资</span>
+                                </td>
+                                <td>
+                                    AIIB, NDB<br>
+                                    <span class="text-sm text-academic-600">亚投行、金砖银行</span>
+                                </td>
+                                <td>
+                                    High standards, transparency, international legitimacy<br>
+                                    <span class="text-sm text-academic-600">高标准、透明度、国际合法性</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Bond Financing</strong><br>
+                                    <span class="text-sm text-academic-600">债券融资</span>
+                                </td>
+                                <td>
+                                    Chinese capital markets (Panda bonds)<br>
+                                    <span class="text-sm text-academic-600">中国资本市场（熊猫债）</span>
+                                </td>
+                                <td>
+                                    Renminbi-denominated, FX risk mitigation<br>
+                                    <span class="text-sm text-academic-600">人民币计价、外汇风险对冲</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Local-Currency Settlement</strong><br>
+                                    <span class="text-sm text-academic-600">本币结算</span>
+                                </td>
+                                <td>
+                                    Cross-Border Inter-Bank Payments System (CIPS)<br>
+                                    <span class="text-sm text-academic-600">人民币跨境支付系统</span>
+                                </td>
+                                <td>
+                                    Reduced dollar dependency, FX hedging<br>
+                                    <span class="text-sm text-academic-600">降低美元依赖、外汇对冲</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="2.1.3" class="mt-10">
+                <h3 class="subsubsection-header">
+                    2.1.3 Cross-National Variation in Financing Accessibility<br>
+                    <span class="text-base text-academic-500 font-normal">融资可及性的跨国差异</span>
+                </h3>
+                
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="mb-4 leading-relaxed">
+                            Access to BRI financing exhibits significant cross-national variation, influenced by three key factors:
+                        </p>
+                        <ol class="list-decimal pl-5 space-y-3 text-sm">
+                            <li><strong>Country size and strategic position:</strong> Kazakhstan, as the largest Central Asian state and a focal point for alignment between the Nurly Zhol strategy and the BRI, has secured substantial Chinese investment. The Port of Piraeus, as the starting point of the China-Europe Land-Sea Express Line, has similarly become a flagship European project.</li>
+                            <li><strong>Institutional quality and governance capacity:</strong> World Bank research identifies regulatory challenges including permitting requirements, foreign investment access regulations, land and credit access, corruption and state capture, tax regime predictability, and dispute resolution mechanisms.</li>
+                            <li><strong>Relationship with the European Union:</strong> For EU member states or candidate countries, projects must satisfy both Chinese financing requirements and EU regulatory standards, increasing financing complexity.</li>
+                        </ol>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 leading-relaxed">
+                            BRI融资可及性表现出显著的跨国差异，受三个关键因素影响：
+                        </p>
+                        <ol class="list-decimal pl-5 space-y-3 text-sm">
+                            <li><strong>国家规模与战略位置：</strong> 哈萨克斯坦作为中亚最大国家和"光明之路"战略与BRI对接的焦点，获得了大量中国投资。比雷埃夫斯港作为中欧陆海快线的起点，同样成为欧洲的旗舰项目。</li>
+                            <li><strong>制度质量与治理能力：</strong> 世界银行研究识别的监管挑战包括许可要求、外资准入法规、土地和信贷获取、腐败与国家俘获、税制可预测性以及争端解决机制。</li>
+                            <li><strong>与欧盟的关系：</strong> 对于欧盟成员国或候选国，项目必须同时满足中国融资要求和欧盟监管标准，增加了融资复杂性。</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2.2 -->
+        <section id="2.2">
+            <h2 class="section-header">
+                2.2 BRI Infrastructure Projects: Economic Benefits and Financial Risks<br>
+                <span class="text-xl text-academic-600">BRI基础设施项目：经济效益与金融风险</span>
+            </h2>
+
+            <div id="2.2.1" class="mt-8">
+                <h3 class="subsubsection-header">
+                    2.2.1 Economic Benefits of Typical Cases<br>
+                    <span class="text-base text-academic-500 font-normal">典型案例的经济效益</span>
+                </h3>
+
+                <!-- Case I -->
+                <div class="case-box">
+                    <div class="bilingual-block">
+                        <div class="lang-en">
+                            <div class="case-title">Case I: The China-Laos Railway</div>
+                            <p class="text-sm leading-relaxed mb-3">
+                                The China-Laos Railway stands as the flagship BRI project in Southeast Asia. Spanning 1,035 kilometers, the railway commenced operations in December 2021. World Bank research demonstrates that the railway has transformed Laos from a "landlocked" to a "land-linked" country, <strong>reducing freight costs by over 40 percent</strong> and cutting transportation time from 2-3 days by road to 3-4 hours.
+                            </p>
+                            <p class="text-sm text-academic-600">
+                                The railway has stimulated development in tourism, agriculture, and mining along its corridor, with projections indicating a <strong>21 percent increase</strong> in Lao national income.
+                            </p>
+                        </div>
+                        <div class="lang-cn">
+                            <div class="case-title">案例一：中老铁路</div>
+                            <p class="text-sm leading-relaxed mb-3">
+                                中老铁路是东南亚BRI旗舰项目。全长1,035公里，于2021年12月通车运营。世界银行研究表明，该铁路已将老挝从"陆锁国"转变为"陆联国"，<strong>货运成本降低40%以上</strong>，运输时间从公路的2-3天缩短至3-4小时。
+                            </p>
+                            <p class="text-sm text-academic-600">
+                                该铁路带动了沿线旅游、农业和矿业发展，预计将使老挝国民收入<strong>增长21%</strong>。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case II -->
+                <div class="case-box">
+                    <div class="bilingual-block">
+                        <div class="lang-en">
+                            <div class="case-title">Case II: The Port of Piraeus</div>
+                            <p class="text-sm leading-relaxed mb-3">
+                                COSCO Shipping acquired the concession rights for Piers II and III of the Port of Piraeus in 2008, and purchased a majority stake in the Piraeus Port Authority (PPA) in 2016. Container throughput increased from <strong>880,000 TEU in 2010 to 6.5 million TEU in 2024</strong>, establishing Piraeus as the Mediterranean's largest port.
+                            </p>
+                            <p class="text-sm text-academic-600">
+                                The project has created over <strong>3,000 direct jobs</strong> and indirectly supported tens of thousands of employment positions, serving as a critical engine for Greek economic recovery.
+                            </p>
+                        </div>
+                        <div class="lang-cn">
+                            <div class="case-title">案例二：比雷埃夫斯港</div>
+                            <p class="text-sm leading-relaxed mb-3">
+                                中远海运于2008年获得比雷埃夫斯港II、III号码头特许经营权，2016年收购比雷埃夫斯港务局(PPA)多数股权。集装箱吞吐量从<strong>2010年的88万TEU增长至2024年的650万TEU</strong>，使比雷埃夫斯成为地中海最大港口。
+                            </p>
+                            <p class="text-sm text-academic-600">
+                                该项目创造了<strong>3,000多个直接就业岗位</strong>，间接支持数万就业，成为希腊经济复苏的关键引擎。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Case III -->
+                <div class="case-box">
+                    <div class="bilingual-block">
+                        <div class="lang-en">
+                            <div class="case-title">Case III: The Jakarta-Bandung High-Speed Railway</div>
+                            <p class="text-sm leading-relaxed">
+                                The Jakarta-Bandung High-Speed Railway represents Southeast Asia's first high-speed rail line. The 142-kilometer corridor, utilizing Chinese technical standards and financing models, commenced operations in October 2023, driving technological upgrading and local industrial chain development in Indonesia.
+                            </p>
+                        </div>
+                        <div class="lang-cn">
+                            <div class="case-title">案例三：雅加达-万隆高铁</div>
+                            <p class="text-sm leading-relaxed">
+                                雅加达-万隆高铁是东南亚首条高速铁路。全长142公里，采用中国技术标准和融资模式，于2023年10月通车运营，推动印尼技术升级和本地产业链发展。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="2.2.2" class="mt-10">
+                <h3 class="subsubsection-header">
+                    2.2.2 Pervasive Financial Risks<br>
+                    <span class="text-base text-academic-500 font-normal">普遍的金融风险</span>
+                </h3>
+
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="mb-4 leading-relaxed">
+                            Despite significant economic benefits, BRI projects face multiple financial risks that require careful management:
+                        </p>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 leading-relaxed">
+                            尽管产生了显著的经济效益，BRI项目面临多种需要谨慎管理的金融风险：
+                        </p>
+                    </div>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <div class="border border-red-200 bg-red-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="risk-tag risk-high">High Risk</span>
+                            <span class="risk-tag risk-high">高风险</span>
+                        </div>
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-red-900 text-sm mb-2">Cost Overrun Risk</h4>
+                                <p class="text-xs text-red-800 leading-relaxed">
+                                    Flyvbjerg et al. found that <strong>90 percent</strong> of global transportation infrastructure projects experienced cost overruns, averaging <strong>28 percent</strong> above initial budgets. BRI projects similarly face this challenge.
+                                </p>
+                            </div>
+                            <div class="lang-cn mt-2">
+                                <h4 class="font-bold text-red-900 text-sm mb-2">成本超支风险</h4>
+                                <p class="text-xs text-red-800 leading-relaxed">
+                                    Flyvbjerg等人发现，<strong>90%</strong>的全球交通基础设施项目经历成本超支，平均比初始预算高出<strong>28%</strong>。BRI项目同样面临这一挑战。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-orange-200 bg-orange-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="risk-tag risk-medium">Medium Risk</span>
+                            <span class="risk-tag risk-medium">中等风险</span>
+                        </div>
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-orange-900 text-sm mb-2">Revenue Underperformance</h4>
+                                <p class="text-xs text-orange-800 leading-relaxed">
+                                    Feasibility studies frequently exhibit excessive optimism regarding traffic volumes and electricity demand, resulting in actual revenues below projections.
+                                </p>
+                            </div>
+                            <div class="lang-cn mt-2">
+                                <h4 class="font-bold text-orange-900 text-sm mb-2">收入表现不佳</h4>
+                                <p class="text-xs text-orange-800 leading-relaxed">
+                                    可行性研究经常对交通量和电力需求表现出过度乐观，导致实际收入低于预测。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-orange-200 bg-orange-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="risk-tag risk-medium">Medium Risk</span>
+                            <span class="risk-tag risk-medium">中等风险</span>
+                        </div>
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-orange-900 text-sm mb-2">Foreign Exchange Risk</h4>
+                                <p class="text-xs text-orange-800 leading-relaxed">
+                                    The majority of BRI projects are denominated in U.S. dollars, while revenues are frequently generated in local currencies. When host-country currencies depreciate, debt burdens increase significantly.
+                                </p>
+                            </div>
+                            <div class="lang-cn mt-2">
+                                <h4 class="font-bold text-orange-900 text-sm mb-2">外汇风险</h4>
+                                <p class="text-xs text-orange-800 leading-relaxed">
+                                    大多数BRI项目以美元计价，而收入常以本币产生。当东道国货币贬值时，债务负担显著增加。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="border border-red-200 bg-red-50 p-4 rounded-lg">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span class="risk-tag risk-high">High Risk</span>
+                            <span class="risk-tag risk-high">高风险</span>
+                        </div>
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-red-900 text-sm mb-2">Sovereign Credit Risk</h4>
+                                <p class="text-xs text-red-800 leading-relaxed">
+                                    Certain participating countries maintain high existing debt levels, with additional BRI loans potentially aggravating debt sustainability concerns. IMF has issued early warnings regarding debt risks in Pakistan, Djibouti, and other states.
+                                </p>
+                            </div>
+                            <div class="lang-cn mt-2">
+                                <h4 class="font-bold text-red-900 text-sm mb-2">主权信用风险</h4>
+                                <p class="text-xs text-red-800 leading-relaxed">
+                                    某些参与国已有债务水平较高，额外的BRI贷款可能加剧债务可持续性担忧。国际货币基金组织已对巴基斯坦、吉布提等国的债务风险发出早期预警。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="2.2.3" class="mt-10">
+                <h3 class="subsubsection-header">
+                    2.2.3 Risk Mitigation Mechanisms<br>
+                    <span class="text-base text-academic-500 font-normal">风险缓解机制</span>
+                </h3>
+
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="mb-4 leading-relaxed">
+                            To address these risks, the BRI framework has progressively established risk mitigation mechanisms:
+                        </p>
+                        <ul class="list-disc pl-5 space-y-3 text-sm">
+                            <li><strong>Political risk insurance:</strong> The China Export and Credit Insurance Corporation (Sinosure) provides political and commercial risk insurance for BRI projects, covering expropriation, war, currency inconvertibility, and other risks.</li>
+                            <li><strong>Inter-governmental agreement backing:</strong> The majority of BRI projects operate under inter-governmental cooperation agreements, embedding projects within bilateral cooperation frameworks to reduce political risk.</li>
+                            <li><strong>Financing diversification:</strong> Introducing multilateral and bilateral institutions such as AIIB and the Silk Road Fund for co-financing disperses risk exposure across multiple institutions.</li>
+                            <li><strong>Market-oriented innovation:</strong> Recent explorations include African Currency Linked Bond (ACLB) guarantees for exchange rate risk hedging, political risk insurance, and construction-period insurance.</li>
+                        </ul>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 leading-relaxed">
+                            为应对这些风险，BRI框架已逐步建立风险缓解机制：
+                        </p>
+                        <ul class="list-disc pl-5 space-y-3 text-sm">
+                            <li><strong>政治风险保险：</strong> 中国出口信用保险公司（中信保）为BRI项目提供政治和商业风险保险，涵盖征收、战争、货币不可兑换等风险。</li>
+                            <li><strong>政府间协议支持：</strong> 大多数BRI项目在双边合作协议下运作，将项目嵌入双边合作框架以降低政治风险。</li>
+                            <li><strong>融资多元化：</strong> 引入亚投行、丝路基金等多边和双边机构进行联合融资，将风险敞口分散到多个机构。</li>
+                            <li><strong>市场化创新：</strong> 近期探索包括非洲本币挂钩债券(ACLB)担保用于外汇风险对冲、政治风险保险和建设期保险。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Section 2.3 -->
+        <section id="2.3">
+            <h2 class="section-header">
+                2.3 Regulatory and Institutional Barriers in BRI Implementation<br>
+                <span class="text-xl text-academic-600">BRI实施中的监管与制度壁垒</span>
+            </h2>
+
+            <div class="highlight-box mb-6">
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="text-sm leading-relaxed">
+                            This section systematically reviews the regulatory and institutional barriers facing BRI project implementation, with particular focus on the new regulations introduced by the European Union in recent years. These rules constitute the "rule costs" that participating countries (particularly European states) must confront when accessing BRI financing.
+                        </p>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="text-sm leading-relaxed">
+                            本节系统梳理BRI项目实施面临的监管与制度壁垒，特别关注欧盟近年来出台的新法规。这些规则构成了参与国（特别是欧洲国家）获取BRI融资时必须面对的"规则成本"。
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="2.3.1" class="mt-8">
+                <h3 class="subsubsection-header">
+                    2.3.1 The Transformation of EU External Economic Law<br>
+                    <span class="text-base text-academic-500 font-normal">欧盟对外经济法的转型</span>
+                </h3>
+
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="mb-4 leading-relaxed">
+                            In recent years, adapting to shifts in the international geopolitical landscape, the European Union has enacted a series of external economic laws, forming a new system encompassing investment screening, international public procurement, supply chain due diligence, and trade defense measures. These new regulations extend far beyond WTO trade rules, marking a fundamental transformation of EU external economic law.
+                        </p>
+                        <h4 class="font-bold text-primary mb-3 text-sm">Core Characteristics of This Transformation:</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-sm">
+                            <li><strong>Shift in legislative objectives:</strong> From pure "free and fair trade" toward integration of economic security, industrial policy, competition policy, human rights, and environmental considerations.</li>
+                            <li><strong>Innovation in regulatory instruments:</strong> Beyond classical trade instruments, introducing new tools including foreign direct investment screening, Foreign Subsidies Regulation, International Procurement Instrument, and Anti-Coercion Instrument.</li>
+                            <li><strong>Adjustment in law-making pathways:</strong> From reliance on multilateral mechanisms toward unilateral rules to achieve policy objectives, attempting to exert influence through "extraterritorial effects."</li>
+                            <li><strong>Reshaping of legislative philosophy:</strong> From the "market opening" of the Maastricht Treaty toward the "reciprocal opening" and "selective opening" since the Lisbon Treaty.</li>
+                        </ul>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 leading-relaxed">
+                            近年来，为适应国际地缘政治格局的变化，欧盟颁布了一系列对外经济法律，形成了涵盖投资审查、国际公共采购、供应链尽职调查和贸易防御措施的新体系。这些新法规远远超出WTO贸易规则范畴，标志着欧盟对外经济法的根本性转型。
+                        </p>
+                        <h4 class="font-bold text-primary mb-3 text-sm">这一转型的核心特征：</h4>
+                        <ul class="list-disc pl-5 space-y-2 text-sm">
+                            <li><strong>立法目标转变：</strong> 从纯粹的"自由和公平贸易"转向整合经济安全、产业政策、竞争政策、人权和环境考量。</li>
+                            <li><strong>监管工具创新：</strong> 超越传统贸易工具，引入新的工具，包括外国直接投资审查、外国补贴条例、国际采购工具和反胁迫工具。</li>
+                            <li><strong>立法路径调整：</strong> 从依赖多边机制转向通过单边规则实现政策目标，试图通过"域外效应"施加影响。</li>
+                            <li><strong>立法理念重塑：</strong> 从《马斯特里赫特条约》的"市场开放"转向《里斯本条约》以来的"对等开放"和"选择性开放"。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="2.3.2" class="mt-10">
+                <h3 class="subsubsection-header">
+                    2.3.2 Primary Regulatory Instruments at the EU Level<br>
+                    <span class="text-base text-academic-500 font-normal">欧盟层面的主要监管工具</span>
+                </h3>
+
+                <div class="space-y-6">
+                    <!-- FDI Screening -->
+                    <div class="border border-academic-200 rounded-lg p-4 bg-white">
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-primary mb-2">(I) Foreign Direct Investment Screening</h4>
+                                <p class="text-sm leading-relaxed mb-2">
+                                    The EU FDI Screening Regulation entered into force in April 2019, encouraging EU member states to establish investment screening mechanisms and requiring cooperation mechanisms between member states and the European Commission.
+                                </p>
+                                <p class="text-xs text-academic-600 bg-academic-50 p-2 rounded">
+                                    <strong>2024 Update:</strong> A draft revision requires member states to establish broader screening mechanisms and explicitly includes greenfield investments within screening scope. At least six EU member states have already established greenfield investment screening systems.
+                                </p>
+                            </div>
+                            <div class="lang-cn">
+                                <h4 class="font-bold text-primary mb-2">（一）外国直接投资审查</h4>
+                                <p class="text-sm leading-relaxed mb-2">
+                                    欧盟FDI审查条例于2019年4月生效，鼓励欧盟成员国建立投资审查机制，并要求成员国与欧盟委员会之间建立合作机制。
+                                </p>
+                                <p class="text-xs text-academic-600 bg-academic-50 p-2 rounded">
+                                    <strong>2024年更新：</strong> 修订草案要求成员国建立更广泛的审查机制，并明确将绿地投资纳入审查范围。至少六个欧盟成员国已建立绿地投资审查系统。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- FSR -->
+                    <div class="border border-academic-200 rounded-lg p-4 bg-white">
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-primary mb-2">(II) Foreign Subsidies Regulation (FSR)</h4>
+                                <p class="text-sm leading-relaxed mb-2">
+                                    Operational since 2023, the FSR enables the European Commission to review acquisitions, project acquisitions, and public procurement activities by foreign-subsidized enterprises in the EU.
+                                </p>
+                                <p class="text-xs text-red-700 bg-red-50 p-2 rounded font-semibold">
+                                    By June 2024, the Commission had initiated five investigations under the FSR targeting Chinese enterprises, including three "in-depth investigations" under the public procurement review mechanism.
+                                </p>
+                            </div>
+                            <div class="lang-cn">
+                                <h4 class="font-bold text-primary mb-2">（二）外国补贴条例(FSR)</h4>
+                                <p class="text-sm leading-relaxed mb-2">
+                                    FSR于2023年生效并实施，使欧盟委员会能够审查外国补贴企业在欧盟进行的收购、项目收购和公共采购活动。
+                                </p>
+                                <p class="text-xs text-red-700 bg-red-50 p-2 rounded font-semibold">
+                                    截至2024年6月，欧盟委员会已根据FSR启动五起针对中国企业的调查，其中三起是根据公共采购审查机制进行的"深入调查"。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- IPI -->
+                    <div class="border border-academic-200 rounded-lg p-4 bg-white">
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-primary mb-2">(III) International Procurement Instrument (IPI)</h4>
+                                <p class="text-sm leading-relaxed">
+                                    Legislated in 2022, the IPI authorizes the Commission to initiate investigations into restrictive measures in non-EU procurement markets and, when necessary, limit access for relevant enterprises, goods, and services to EU public procurement procedures.
+                                </p>
+                            </div>
+                            <div class="lang-cn">
+                                <h4 class="font-bold text-primary mb-2">（三）国际采购工具(IPI)</h4>
+                                <p class="text-sm leading-relaxed">
+                                    IPI于2022年立法，授权委员会调查非欧盟采购市场的限制性措施，并在必要时限制相关企业、商品和服务进入欧盟公共采购程序。
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Net-Zero Industry Act -->
+                    <div class="border border-academic-200 rounded-lg p-4 bg-white">
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-primary mb-2">(IV) Net-Zero Industry Act and Non-Price Criteria</h4>
+                                <p class="text-sm leading-relaxed mb-2">
+                                    Issued May 2025, the core implementing regulation introduces "non-price criteria" in renewable energy project auctions, comprehensively evaluating bidders from multiple dimensions including supply chain resilience, cybersecurity, and environmental sustainability.
+                                </p>
+                                <div class="text-xs text-academic-700 bg-academic-50 p-2 rounded space-y-1">
+                                    <p><strong>Article 7(3) - China-specific provisions:</strong> For onshore wind, offshore wind, and electrolyzers, at least 75% of final products must meet "non-Chinese origin" requirements.</p>
+                                    <p><strong>Supply chain resilience:</strong> If third-country product market share exceeds 50%, or grows by over 10% annually for two consecutive years reaching 40% share, mandatory supply chain resilience assessment is triggered.</p>
+                                </div>
+                            </div>
+                            <div class="lang-cn">
+                                <h4 class="font-bold text-primary mb-2">（四）《净零工业法案》与非物质标准</h4>
+                                <p class="text-sm leading-relaxed mb-2">
+                                    2025年5月发布的核心实施条例在可再生能源项目招标中引入"非物质标准"，从供应链韧性、网络安全和环境可持续性等多维度综合评估投标方。
+                                </p>
+                                <div class="text-xs text-academic-700 bg-academic-50 p-2 rounded space-y-1">
+                                    <p><strong>第7(3)条 - 中国特定条款：</strong> 对于陆上风电、海上风电和电解槽，至少75%的最终产品必须满足"非中国原产地"要求。</p>
+                                    <p><strong>供应链韧性：</strong> 如果第三国产品市场份额超过50%，或连续两年每年增长超过10%达到40%份额，则触发强制性供应链韧性评估。</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Economic Security -->
+                    <div class="border border-academic-200 rounded-lg p-4 bg-white">
+                        <div class="bilingual-block">
+                            <div class="lang-en">
+                                <h4 class="font-bold text-primary mb-2">(V) Economic Security Strategy Upgrade (December 2025)</h4>
+                                <p class="text-sm leading-relaxed mb-2">
+                                    The new Framework for Strengthening EU Economic Security proposes six high-risk areas and six "de-risking" policy instruments, marking a distinct paradigm shift—Europe moving from passive to more active "de-risking" posture.
+                                </p>
+                                <ul class="text-xs list-disc pl-4 mt-2">
+                                    <li><strong>Self-protection policies:</strong> Strengthening FSR, FDI screening, IPI</li>
+                                    <li><strong>Capacity-enhancement policies:</strong> Net-Zero Industry Act local production requirements</li>
+                                </ul>
+                            </div>
+                            <div class="lang-cn">
+                                <h4 class="font-bold text-primary mb-2">（五）经济安全战略升级（2025年12月）</h4>
+                                <p class="text-sm leading-relaxed mb-2">
+                                    《加强欧盟经济安全新框架》提出六个高风险领域和六项"去风险"政策工具，标志着明显的范式转变——欧洲从被动转向更积极的"去风险"姿态。
+                                </p>
+                                <ul class="text-xs list-disc pl-4 mt-2">
+                                    <li><strong>自我保护政策：</strong> 加强FSR、FDI审查、IPI</li>
+                                    <li><strong>能力提升政策：</strong> 《净零工业法案》本地生产要求</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="2.3.3" class="mt-10">
+                <h3 class="subsubsection-header">
+                    2.3.3 Institutional Barriers at the Member State Level<br>
+                    <span class="text-base text-academic-500 font-normal">成员国层面的制度壁垒</span>
+                </h3>
+
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="mb-4 text-sm">Beyond EU-level legislation, institutional variation at the member state level also constitutes regulatory barriers for BRI projects:</p>
+                        <ul class="list-disc pl-5 space-y-2 text-sm">
+                            <li><strong>Procurement procedure variation:</strong> Certain member states retain local enterprise preferences or local content requirements in government procurement.</li>
+                            <li><strong>Environmental standard variation:</strong> While the EU has unified environmental directives, member states differ in specific implementation and enforcement scales.</li>
+                            <li><strong>Labor standard variation:</strong> Member state differences in labor law, union rights, and social security affect project staffing arrangements and costs.</li>
+                            <li><strong>Tax system variation:</strong> Differences in corporate income tax rates, tax incentives, and double taxation treaties across member states affect project investment returns.</li>
+                        </ul>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 text-sm">除欧盟层面立法外，成员国层面的制度差异也构成BRI项目的监管壁垒：</p>
+                        <ul class="list-disc pl-5 space-y-2 text-sm">
+                            <li><strong>采购程序差异：</strong> 某些成员国在政府采购中保留本地企业优先或本地含量要求。</li>
+                            <li><strong>环境标准差异：</strong> 虽然欧盟有统一的环境指令，但成员国在具体实施和执行尺度上存在差异。</li>
+                            <li><strong>劳工标准差异：</strong> 成员国在劳动法、工会权利和社会保障方面的差异影响项目人员配置安排和成本。</li>
+                            <li><strong>税制差异：</strong> 成员国在企业所得税率、税收激励和双重征税条约方面的差异影响项目投资回报。</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="2.3.4" class="mt-10">
+                <h3 class="subsubsection-header">
+                    2.3.4 Impacts of Institutional Barriers on BRI Projects<br>
+                    <span class="text-base text-academic-500 font-normal">制度壁垒对BRI项目的影响</span>
+                </h3>
+
+                <div class="bilingual-block">
+                    <div class="lang-en">
+                        <p class="mb-4 text-sm">The aforementioned regulatory instruments and institutional barriers generate multiple impacts on BRI projects:</p>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 text-sm">上述监管工具和制度壁垒对BRI项目产生多重影响：</p>
+                    </div>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="academic-table">
+                        <thead>
+                            <tr>
+                                <th>Impact Type / 影响类型</th>
+                                <th>Description / 描述</th>
+                                <th>Case Evidence / 案例证据</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <strong>Increased Compliance Costs</strong><br>
+                                    <span class="text-sm text-academic-600">合规成本增加</span>
+                                </td>
+                                <td>
+                                    FDI screening, FSR notification, and non-price criteria compliance significantly increase project preparation time and financial costs.<br>
+                                    <span class="text-sm text-academic-600">FDI审查、FSR申报和非物质标准合规要求显著增加项目准备时间和财务成本。</span>
+                                </td>
+                                <td>
+                                    Chinese enterprises must prepare extensive documentation demonstrating absence of "distortive foreign subsidies."<br>
+                                    <span class="text-sm text-academic-600">中国企业必须准备大量文件证明不存在"扭曲性外国补贴"。</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Extended Project Cycles</strong><br>
+                                    <span class="text-sm text-academic-600">项目周期延长</span>
+                                </td>
+                                <td>
+                                    Multi-layered review procedures lead to prolonged project decision-making and implementation cycles.<br>
+                                    <span class="text-sm text-academic-600">多层审查程序导致项目决策和实施周期延长。</span>
+                                </td>
+                                <td>
+                                    Budapest-Belgrade Railway delays partially stem from simultaneously satisfying Chinese financier requirements and EU fund rules.<br>
+                                    <span class="text-sm text-academic-600">布达佩斯-贝尔格莱德铁路的延误部分源于需同时满足中方融资方要求和欧盟基金规则。</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Restricted Market Access</strong><br>
+                                    <span class="text-sm text-academic-600">市场准入受限</span>
+                                </td>
+                                <td>
+                                    Non-price criteria establish high entry barriers for Chinese products in EU renewable energy auctions.<br>
+                                    <span class="text-sm text-academic-600">非物质标准为中方产品在欧盟可再生能源招标中设立高进入壁垒。</span>
+                                </td>
+                                <td>
+                                    Art. 7(3) requires 75% non-Chinese origin for wind and electrolyzer products.<br>
+                                    <span class="text-sm text-academic-600">第7(3)条要求风电和电解槽产品75%非中国原产地。</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Increased Policy Uncertainty</strong><br>
+                                    <span class="text-sm text-academic-600">政策不确定性增加</span>
+                                </td>
+                                <td>
+                                    Rapid evolution of EU external economic law makes it difficult for Chinese enterprises to form stable policy expectations.<br>
+                                    <span class="text-sm text-academic-600">欧盟对外经济法的快速演变使中国企业难以形成稳定的政策预期。</span>
+                                </td>
+                                <td>
+                                    FSR progressed from proposal to implementation in only two years.<br>
+                                    <span class="text-sm text-academic-600">FSR从提案到实施仅用两年。</span>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <strong>Reshaping Competitive Landscape</strong><br>
+                                    <span class="text-sm text-academic-600">竞争格局重塑</span>
+                                </td>
+                                <td>
+                                    Under the "Europe First" trend, resilience rules objectively promote "European content" increases.<br>
+                                    <span class="text-sm text-academic-600">在"欧洲优先"趋势下，韧性规则客观上促进"欧洲含量"增加。</span>
+                                </td>
+                                <td>
+                                    May prompt Chinese enterprises to shift from pure export orientation toward more integrated local operations.<br>
+                                    <span class="text-sm text-academic-600">可能促使中国企业从纯出口导向转向更一体化的本地运营。</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="highlight-box mt-8">
+                    <div class="bilingual-block">
+                        <div class="lang-en">
+                            <p class="text-sm">
+                                <strong>Summary:</strong> These rules are not isolated regulations; they are the visible tip of a deeper institutional divergence. To understand how this divergence plays out on the ground—how a Chinese contractor navigates EU procurement rules, how a host government balances Beijing's speed against Brussels' standards—we need to move from listing rules to comparing them. Chapter 3 does exactly that.
+                            </p>
+                        </div>
+                        <div class="lang-cn">
+                            <p class="text-sm">
+                                <strong>小结：</strong>这些规则并非孤立的法规；它们是更深层次制度分歧的可见冰山一角。要理解这种分歧如何在现实中展现——中国承包商如何驾驭欧盟采购规则、东道国政府如何平衡北京的速度与布鲁塞尔的标准——我们需要从罗列规则转向比较规则。第三章正是这样做的。
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Chapter Pagination -->
+        <div class="pagination">
+            <a href="chapter1.html" class="page-btn">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <span class="mr-2">← Chapter 1 / 第一章</span>
+            </a>
+            <a href="chapter3.html" class="page-btn">
+                <span class="mr-2">Chapter 3 / 第三章 →</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-academic-200 text-center text-sm text-academic-500">
+            <p>Chapter 2: Financial Opportunities and Challenges | 金融机遇与挑战 | ZHAO JIE | Almaty 2026</p>
+        </footer>
+    </main>
+
+    <script>
+        // Language Management - Default to bilingual for this chapter
+        function setLang(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('dissertation-lang', lang);
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if(btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('bg-primary', 'text-white');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-white');
+                }
+            });
+        }
+
+        // Navigation
+        function toggleNav() {
+            document.getElementById('chapterNav').classList.toggle('open');
+            document.querySelector('.nav-overlay').classList.toggle('open');
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                toggleNav();
+            }
+        }
+
+        // Initialize with bilingual mode as default for this chapter
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('dissertation-lang') || 'both';
+            setLang(savedLang);
+        });
+    </script>
+</body>
+</html>
