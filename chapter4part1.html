@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Chapter 4 Part 1: Research Framework & EU Strategy | BRI Dissertation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Crimson Text', 'Noto Serif SC', 'serif'],
+                        'sans': ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        'academic': {
+                            50: '#f8f9fa', 100: '#e9ecef', 200: '#dee2e6',
+                            300: '#ced4da', 400: '#adb5bd', 500: '#6c757d',
+                            600: '#495057', 700: '#343a40', 800: '#212529', 900: '#121416',
+                        },
+                        'primary': '#1a365d', 'secondary': '#c9a227', 'accent': '#2c5282',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .lang-en, .lang-cn, .lang-both { display: none; }
+        body[data-lang="en"] .lang-en, body[data-lang="cn"] .lang-cn { display: block; }
+        body[data-lang="both"] .lang-en, body[data-lang="both"] .lang-cn { display: block; }
+        body[data-lang="both"] .bilingual-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+        }
+        body[data-lang="both"] .bilingual-grid > div:first-child {
+            border-right: 1px solid #e5e7eb; padding-right: 1rem;
+        }
+        .chapter-nav {
+            position: fixed; left: 0; top: 0; height: 100vh; width: 280px;
+            background: white; border-right: 1px solid #e9ecef;
+            overflow-y: auto; z-index: 40; padding: 2rem;
+            transform: translateX(-100%); transition: transform 0.3s;
+        }
+        .chapter-nav.open { transform: translateX(0); }
+        .nav-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 35; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .nav-overlay.open { opacity: 1; pointer-events: auto; }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+        @media (min-width: 1024px) {
+            .content-wrapper { margin-left: 300px; margin-right: auto; padding: 3rem 2rem; }
+            .chapter-nav { transform: translateX(0); }
+            .menu-toggle { display: none; }
+        }
+        .toc-item {
+            display: block; padding: 0.5rem 0; color: #6c757d;
+            font-size: 0.875rem; border-left: 2px solid transparent;
+            padding-left: 1rem; margin-left: -1rem; transition: all 0.2s;
+        }
+        .toc-item:hover, .toc-item.active {
+            color: #1a365d; border-left-color: #c9a227;
+        }
+        .toc-item.sub { padding-left: 1.5rem; font-size: 0.8rem; }
+        .section-header {
+            font-size: 1.875rem; font-weight: 700; color: #1a365d;
+            margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+            border-bottom: 2px solid #c9a227; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+        }
+        .subsection-header {
+            font-size: 1.5rem; font-weight: 600; color: #2c5282;
+            margin-top: 2rem; margin-bottom: 1rem; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+        }
+        .subsubsection-header {
+            font-size: 1.25rem; font-weight: 600; color: #495057;
+            margin-top: 1.5rem; margin-bottom: 0.75rem;
+        }
+        .academic-table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            font-size: 0.9rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .academic-table th {
+            background: #1a365d; color: white; padding: 0.75rem;
+            text-align: left; font-weight: 600;
+        }
+        .academic-table td {
+            padding: 0.75rem; border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        .academic-table tr:nth-child(even) { background: #f8f9fa; }
+        .academic-table tr:hover { background: #e9ecef; }
+        .highlight-box {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            border-left: 4px solid #c9a227; padding: 1.5rem;
+            margin: 2rem 0; border-radius: 0 8px 8px 0;
+        }
+        .methodology-card {
+            background: white; border: 1px solid #e9ecef; border-radius: 8px;
+            padding: 1.5rem; margin: 1rem 0; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .pagination {
+            display: flex; justify-content: space-between; margin-top: 4rem;
+            padding-top: 2rem; border-top: 1px solid #dee2e6;
+        }
+        .page-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.5rem; background: #1a365d; color: white;
+            border-radius: 6px; text-decoration: none; transition: all 0.3s;
+        }
+        .page-btn:hover { background: #2c5282; transform: translateY(-2px); }
+        .page-btn.secondary {
+            background: white; color: #1a365d; border: 1px solid #1a365d;
+        }
+        .evidence-tag {
+            display: inline-block; padding: 0.25rem 0.75rem;
+            background: #e9ecef; color: #495057; font-size: 0.75rem;
+            border-radius: 4px; font-weight: 600; margin-right: 0.5rem;
+        }
+        .evidence-tag.smoking-gun { background: #d4edda; color: #155724; }
+        .evidence-tag.hoop { background: #fff3cd; color: #856404; }
+        .case-comparison {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
+            margin: 1.5rem 0;
+        }
+        @media (max-width: 768px) {
+            .case-comparison { grid-template-columns: 1fr; }
+            body[data-lang="both"] .bilingual-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-academic-50 text-academic-800 font-sans antialiased" data-lang="en">
+
+    <!-- Language Switcher -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2 bg-white/90 backdrop-blur rounded-full shadow-lg border border-academic-200 p-1">
+        <button onclick="setLang('en')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="en">EN</button>
+        <button onclick="setLang('cn')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="cn">CN</button>
+        <button onclick="setLang('both')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="both">EN/CN</button>
+    </div>
+
+    <!-- Mobile Menu Toggle -->
+    <button onclick="toggleNav()" class="menu-toggle fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-md border border-academic-200">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+
+    <!-- Navigation Overlay -->
+    <div class="nav-overlay" onclick="toggleNav()"></div>
+
+    <!-- Chapter Navigation Sidebar -->
+    <nav class="chapter-nav" id="chapterNav">
+        <div class="mb-6">
+            <div class="text-xs text-secondary font-bold uppercase tracking-wider mb-1">Chapter 4 - Part 1</div>
+            <h2 class="text-lg font-bold text-primary leading-tight">
+                <span class="lang-en">Research Framework & EU Strategy</span>
+                <span class="lang-cn">研究框架与欧盟战略</span>
+                <span class="lang-both">Research Framework<br>研究框架</span>
+            </h2>
+        </div>
+        
+        <div class="space-y-1 mb-6 text-sm">
+            <a href="#4.0" class="toc-item" onclick="scrollToSection('4.0')">4.0 Case Selection & Methods</a>
+            <a href="#4.0.1" class="toc-item sub" onclick="scrollToSection('4.0.1')">4.0.1 Selection Logic</a>
+            <a href="#4.0.2" class="toc-item sub" onclick="scrollToSection('4.0.2')">4.0.2 Process Tracing</a>
+            <a href="#4.0.3" class="toc-item sub" onclick="scrollToSection('4.0.3')">4.0.3 Data Sources</a>
+            
+            <div class="pt-2 border-t border-academic-200"></div>
+            
+            <a href="#4.1" class="toc-item" onclick="scrollToSection('4.1')">4.1 EU Connectivity Strategy</a>
+            
+            <div class="pt-2 border-t border-academic-200"></div>
+            
+            <a href="#4.2" class="toc-item" onclick="scrollToSection('4.2')">4.2 Strategic Objectives</a>
+            <a href="#4.2.1" class="toc-item sub" onclick="scrollToSection('4.2.1')">4.2.1 Digital</a>
+            <a href="#4.2.2" class="toc-item sub" onclick="scrollToSection('4.2.2')">4.2.2 Energy</a>
+            <a href="#4.2.3" class="toc-item sub" onclick="scrollToSection('4.2.3')">4.2.3 Transport</a>
+            <a href="#4.2.4" class="toc-item sub" onclick="scrollToSection('4.2.4')">4.2.4 Health</a>
+            <a href="#4.2.5" class="toc-item sub" onclick="scrollToSection('4.2.5')">4.2.5 Education</a>
+        </div>
+
+        <div class="pt-4 border-t border-academic-200 space-y-2">
+            <a href="main.html" class="flex items-center gap-2 text-sm text-academic-600 hover:text-primary">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span class="lang-en">Home</span><span class="lang-cn">首页</span>
+            </a>
+            <a href="chapter1.html" class="flex items-center gap-2 text-sm text-academic-600 hover:text-primary">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <span>Ch.1 Theory</span>
+            </a>
+            <a href="chapter4_part2.html" class="flex items-center gap-2 text-sm text-primary font-medium bg-academic-50 p-2 rounded-lg">
+                <span>Continue to Part 2 →</span>
+                <span class="text-xs text-academic-500 block">Case Study: Piraeus Port</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        <!-- Chapter Header -->
+        <header class="mb-12 text-center">
+            <div class="inline-flex items-center gap-2 px-4 py-2 bg-white rounded-full border border-academic-200 shadow-sm mb-4">
+                <span class="text-xs font-bold text-secondary uppercase tracking-wider">Chapter 4 • Part 1 of 3</span>
+            </div>
+            <h1 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-4 leading-tight">
+                <span class="lang-en">EU's Connectivity Strategy and Its Interaction with the BRI</span>
+                <span class="lang-cn">欧盟联通战略及其与"一带一路"的互动</span>
+                <span class="lang-both">EU's Connectivity Strategy and Its Interaction with the BRI<br>欧盟联通战略及其与"一带一路"的互动</span>
+            </h1>
+            <div class="h-1 w-24 bg-secondary mx-auto"></div>
+            <p class="mt-4 text-academic-600 max-w-2xl mx-auto">
+                <span class="lang-en">Research Framework, Methodology, and Strategic Context</span>
+                <span class="lang-cn">研究框架、方法论与战略背景</span>
+                <span class="lang-both">Research Framework, Methodology, and Strategic Context / 研究框架、方法论与战略背景</span>
+            </p>
+        </header>
+
+        <!-- Opening Statement -->
+        <div class="highlight-box">
+            <p class="text-lg leading-relaxed text-academic-700">
+                <span class="lang-en">Theory, in the end, is only as good as its encounter with reality. Chapter 3 laid out a framework; this chapter puts it to the test. Two cases, two outcomes—one success, one failure—each chosen not randomly but with purpose.</span>
+                <span class="lang-cn">理论最终只有在其与现实相遇时才能显现其价值。第三章构建了框架；本章将其付诸检验。两个案例，两种结果——一个成功，一个失败——每个都不是随机选择，而是 purposeful selection。</span>
+                <span class="lang-both">Theory, in the end, is only as good as its encounter with reality. Chapter 3 laid out a framework; this chapter puts it to the test. Two cases, two outcomes—one success, one failure—each chosen not randomly but with purpose.<br>理论最终只有在其与现实相遇时才能显现其价值。第三章构建了框架；本章将其付诸检验。两个案例，两种结果——一个成功，一个失败——每个都不是随机选择，而是有意为之。</span>
+            </p>
+        </div>
+
+        <!-- 4.0 Section -->
+        <section id="4.0">
+            <h2 class="section-header">
+                <span class="lang-en">4.0 Case Selection and Research Methods</span>
+                <span class="lang-cn">4.0 案例选择与研究方法</span>
+                <span class="lang-both">4.0 Case Selection and Research Methods<br>案例选择与研究方法</span>
+            </h2>
+
+            <p class="mb-6 leading-relaxed">
+                <span class="lang-en">Before we step into Piraeus and onto the Budapest–Belgrade line, a word on how and why they were selected. This section employs a case selection strategy combining <strong>Most Similar Systems Design (MSSD)</strong> with <strong>Most Different Outcomes</strong>.</span>
+                <span class="lang-cn">在我们步入比雷埃夫斯和布达佩斯-贝尔格莱德线之前，先说明它们是如何以及为何被选择的。本节采用结合<strong>最相似系统设计(MSSD)</strong>与<strong>最不同结果</strong>的案例选择策略。</span>
+            </p>
+
+            <div id="4.0.1" class="mt-8">
+                <h3 class="subsubsection-header">4.0.1 The Logic of "Most Similar" and "Most Different" Case Selection</h3>
+                
+                <div class="methodology-card">
+                    <h4 class="font-bold text-primary mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                        <span class="lang-en">Maximum Similarity Control</span>
+                        <span class="lang-cn">最大相似性控制</span>
+                    </h4>
+                    <p class="text-sm text-academic-700 mb-3">
+                        <span class="lang-en">The two cases share high consistency in key background conditions, isolating the effect of the core explanatory variable—rule interaction morphology.</span>
+                        <span class="lang-cn">两个案例在关键背景条件上具有高度一致性，从而分离出核心解释变量——规则互动形态的影响。</span>
+                    </p>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="academic-table text-sm">
+                            <thead>
+                                <tr>
+                                    <th>Control Variable</th>
+                                    <th>Port of Piraeus</th>
+                                    <th>Budapest–Belgrade Railway</th>
+                                    <th>Score (1-5)</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Project type (transport infrastructure)</td>
+                                    <td>Port</td>
+                                    <td>Railway</td>
+                                    <td>5/5</td>
+                                </tr>
+                                <tr>
+                                    <td>Strategic positioning (flagship project)</td>
+                                    <td>COSCO acquisition</td>
+                                    <td>Leaders' initiative</td>
+                                    <td>5/5</td>
+                                </tr>
+                                <tr>
+                                    <td>Geographic location</td>
+                                    <td>Greece (EU member)</td>
+                                    <td>Hungary (EU) + Serbia (candidate)</td>
+                                    <td>4/5</td>
+                                </tr>
+                                <tr>
+                                    <td>Investor (Chinese SOE)</td>
+                                    <td>COSCO Shipping</td>
+                                    <td>China Railway/Construction</td>
+                                    <td>5/5</td>
+                                </tr>
+                                <tr>
+                                    <td>Initiation window</td>
+                                    <td>2016</td>
+                                    <td>2014–2015</td>
+                                    <td>5/5</td>
+                                </tr>
+                                <tr class="bg-secondary/10 font-bold">
+                                    <td colspan="3">Background Similarity Composite Score</td>
+                                    <td>4.8/5</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="methodology-card mt-4">
+                    <h4 class="font-bold text-primary mb-3 flex items-center gap-2">
+                        <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                        <span class="lang-en">Maximum Difference in Outcomes</span>
+                        <span class="lang-cn">最大差异性结果</span>
+                    </h4>
+                    
+                    <div class="case-comparison">
+                        <div class="bg-green-50 p-4 rounded-lg border border-green-200">
+                            <h5 class="font-bold text-green-800 mb-2">Port of Piraeus</h5>
+                            <ul class="text-sm text-green-700 space-y-1">
+                                <li>• Harmonious coordination</li>
+                                <li>• Ahead/exceeded targets</li>
+                                <li>• Simple financing</li>
+                                <li>• Proactive adaptation</li>
+                                <li>• Economic success</li>
+                            </ul>
+                        </div>
+                        <div class="bg-red-50 p-4 rounded-lg border border-red-200">
+                            <h5 class="font-bold text-red-800 mb-2">Budapest–Belgrade Railway</h5>
+                            <ul class="text-sm text-red-700 space-y-1">
+                                <li>• Conflictual confrontation</li>
+                                <li>• 8-9 years delay</li>
+                                <li>• Complex multi-source</li>
+                                <li>• Failed coordination</li>
+                                <li>• No assessable effects</li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <p class="text-sm text-academic-600 mt-3 italic">
+                        <span class="lang-en">Core message: Under highly similar backgrounds, the two projects exhibit diametrically opposite outcomes—providing a strong starting point for causal inference.</span>
+                        <span class="lang-cn">核心信息：在高度相似的背景下，两个项目呈现出截然相反的结果——为因果推断提供了强有力的起点。</span>
+                    </p>
+                </div>
+
+                <div class="bg-blue-50 p-4 rounded-lg border border-blue-200 mt-4">
+                    <h5 class="font-bold text-blue-900 mb-2 text-sm">Extreme Case Value</h5>
+                    <p class="text-sm text-blue-800">
+                        <span class="lang-en">The two cases represent "most-likely" and "least-likely" scenarios. Piraeus, as a privatization project with clear commercial logic, had high success expectations; the Budapest-Belgrade Railway, as a cross-border public project involving multi-state coordination and EU review, faced greater difficulty. The contrast tests the explanatory boundaries of the theoretical framework.</span>
+                        <span class="lang-cn">这两个案例代表了"最可能"和"最不可能"的情景。比雷埃夫斯作为具有明确商业逻辑的私有化项目，成功预期较高；布达佩斯-贝尔格莱德铁路作为涉及多国协调和欧盟审查的跨境公共项目，面临更大困难。这种对比检验了理论框架的解释边界。</span>
+                    </p>
+                </div>
+            </div>
+
+            <div id="4.0.2" class="mt-10">
+                <h3 class="subsubsection-header">4.0.2 Analytical Technique: Theory-Guided Process Tracing</h3>
+                
+                <p class="leading-relaxed mb-4">
+                    <span class="lang-en">This chapter employs <strong>theory-guided process tracing</strong>. The core characteristics of this method include: (a) prior theoretical expectations based on the "three ideal types" from Chapter 3; (b) identification of critical decision nodes in project timelines; (c) evidence testing through process evidence.</span>
+                    <span class="lang-cn">本章采用<strong>理论指导的过程追踪法</strong>。该方法的核心特征包括：(a)基于第三章"三种理想类型"的先验理论预期；(b)识别项目时间线中的关键决策节点；(c)通过过程证据进行证据检验。</span>
+                </p>
+
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div class="bg-white p-4 rounded-lg border border-academic-200">
+                        <h4 class="font-bold text-primary mb-3 text-sm">Process Tracing Evidence Standards</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex items-start gap-2">
+                                <span class="evidence-tag smoking-gun">Smoking-gun</span>
+                                <span class="text-academic-700">Highly specific evidence strongly supporting particular theories</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="evidence-tag hoop">Hoop</span>
+                                <span class="text-academic-700">Basic tests that theory must pass; requires cross-validation</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="evidence-tag">Straw-in-wind</span>
+                                <span class="text-academic-700">Supports expectation but could be explained by other theories</span>
+                            </div>
+                            <div class="flex items-start gap-2">
+                                <span class="evidence-tag">Doubly-decisive</span>
+                                <span class="text-academic-700">Supports one theory while excluding alternatives (rare in social science)</span>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white p-4 rounded-lg border border-academic-200">
+                        <h4 class="font-bold text-primary mb-3 text-sm">Application in This Study</h4>
+                        <ul class="text-sm text-academic-700 space-y-2">
+                            <li>• Evidence labels appear in case analysis tables</li>
+                            <li>• Purpose: inviting readers to judge whether evidence supports inferences</li>
+                            <li>• Multi-source triangulation for reliability</li>
+                            <li>• Explicit acknowledgment of information gaps</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="highlight-box">
+                    <p class="text-sm">
+                        <span class="lang-en"><strong>Note on Evidence Presentation:</strong> The purpose of labeling is not to declare "I have found the smoking gun," but to open the analysis to reader scrutiny—inviting readers to judge whether the evidence presented is sufficient to support the inferences drawn.</span>
+                        <span class="lang-cn"><strong>关于证据呈现的说明：</strong>标记的目的不在于宣称"我找到了确凿证据"，而是向读者的审视开放分析——邀请读者判断所呈现的证据是否足以支持所做出的推断。</span>
+                    </p>
+                </div>
+            </div>
+
+            <div id="4.0.3" class="mt-10">
+                <h3 class="subsubsection-header">4.0.3 Data Sources and Limitations</h3>
+                
+                <div class="grid md:grid-cols-2 gap-4 mb-6">
+                    <div>
+                        <h4 class="font-bold text-primary mb-3 text-sm border-b border-academic-200 pb-2">Primary Data Sources</h4>
+                        <ul class="text-sm space-y-2 text-academic-700">
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-secondary mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                <span>Official documents (project cooperation agreements, EU Commission investigation reports)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-secondary mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/></svg>
+                                <span>Corporate annual reports (COSCO Shipping, Piraeus Port Authority)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-secondary mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
+                                <span>Media coverage (Financial Times, Reuters, Xinhua, local media)</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-secondary mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
+                                <span>Academic literature (published case studies and policy analysis)</span>
+                            </li>
+                        </ul>
+                    </div>
+                    
+                    <div>
+                        <h4 class="font-bold text-red-700 mb-3 text-sm border-b border-red-200 pb-2">Data Limitations</h4>
+                        <ul class="text-sm space-y-2 text-academic-700">
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-red-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"/></svg>
+                                <span>Lack of internal negotiation records and decision documents</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-red-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/></svg>
+                                <span>Some financial data (specific loan rates, insurance terms) remain undisclosed</span>
+                            </li>
+                            <li class="flex items-start gap-2">
+                                <svg class="w-4 h-4 text-red-500 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+                                <span>Budapest-Belgrade Railway remains ongoing, rendering some conclusions provisional</span>
+                            </li>
+                        </ul>
+                        <p class="text-xs text-academic-600 mt-3 italic">
+                            Response strategy: Multi-source triangulation and explicit acknowledgment of boundaries.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4.1 Section -->
+        <section id="4.1">
+            <h2 class="section-header">
+                <span class="lang-en">4.1 Introduction to the EU's Connectivity Strategy</span>
+                <span class="lang-cn">4.1 欧盟联通战略介绍</span>
+                <span class="lang-both">4.1 Introduction to the EU's Connectivity Strategy<br>欧盟联通战略介绍</span>
+            </h2>
+
+            <div class="highlight-box">
+                <p class="text-lg leading-relaxed">
+                    <span class="lang-en">The European Union's <strong>Global Gateway</strong> strategy was formally launched in <strong>December 2021</strong>, constituting the EU's strategic response to global infrastructure investment demands and, explicitly, to the Belt and Road Initiative.</span>
+                    <span class="lang-cn">欧盟的<strong>全球门户</strong>(Global Gateway)战略于<strong>2021年12月</strong>正式启动，构成了欧盟对全球基础设施投资需求的战略回应，并且明确针对"一带一路"倡议。</span>
+                </p>
+            </div>
+
+            <div class="grid md:grid-cols-3 gap-4 my-6">
+                <div class="bg-white p-4 rounded-lg border border-academic-200 text-center">
+                    <div class="text-3xl font-bold text-secondary mb-1">€300B</div>
+                    <div class="text-sm text-academic-600">Investment Target by 2027</div>
+                    <div class="text-xs text-academic-500 mt-1"> mobilization goal</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-academic-200 text-center">
+                    <div class="text-3xl font-bold text-primary mb-1">Team</div>
+                    <div class="text-sm text-academic-600">Europe Mechanism</div>
+                    <div class="text-xs text-academic-500 mt-1">EU institutions + Member states + DFIs</div>
+                </div>
+                <div class="bg-white p-4 rounded-lg border border-academic-200 text-center">
+                    <div class="text-3xl font-bold text-accent mb-1">Values</div>
+                    <div class="text-sm text-academic-600">Driven Approach</div>
+                    <div class="text-xs text-academic-500 mt-1">Democratic values, transparency, sustainability</div>
+                </div>
+            </div>
+
+            <p class="leading-relaxed mb-4">
+                <span class="lang-en">The strategy targets the mobilization of <strong>€300 billion</strong> in investment by 2027, integrating resources from EU institutions, member states, development finance institutions, the <strong>European Investment Bank (EIB)</strong>, and the <strong>European Bank for Reconstruction and Development (EBRD)</strong> through the "Team Europe" mechanism.</span>
+                <span class="lang-cn">该战略目标是到2027年动员<strong>3000亿欧元</strong>投资，通过"欧洲团队"(Team Europe)机制整合欧盟机构、成员国、开发性金融机构、<strong>欧洲投资银行(EIB)</strong>和<strong>欧洲复兴开发银行(EBRD)</strong>的资源。</span>
+            </p>
+
+            <p class="leading-relaxed mb-4">
+                <span class="lang-en">A defining feature of the Global Gateway is its <strong>values-driven investment philosophy</strong>. Unlike the BRI's emphasis on "no political strings attached," the Global Gateway binds investment to principles of democratic values, good governance, transparency, and environmental sustainability. Its six guiding principles comprise:</span>
+                <span class="lang-cn">全球门户的一个决定性特征是<strong>价值驱动的投资理念</strong>。与BRI强调"不附加政治条件"不同，全球门户将投资与民主价值观、良治、透明度和环境可持续性的原则绑定。其六项指导原则包括：</span>
+            </p>
+
+            <div class="bg-white p-5 rounded-lg border border-academic-200 mb-6">
+                <h4 class="font-bold text-primary mb-4">Six Guiding Principles of Global Gateway</h4>
+                <div class="grid md:grid-cols-2 gap-3 text-sm">
+                    <div class="flex items-start gap-3 p-2 bg-academic-50 rounded">
+                        <span class="font-bold text-secondary">1.</span>
+                        <span>Democratic values and high standards</span>
+                    </div>
+                    <div class="flex items-start gap-3 p-2 bg-academic-50 rounded">
+                        <span class="font-bold text-secondary">2.</span>
+                        <span>Good governance and transparency</span>
+                    </div>
+                    <div class="flex items-start gap-3 p-2 bg-academic-50 rounded">
+                        <span class="font-bold text-secondary">3.</span>
+                        <span>Equal partnership</span>
+                    </div>
+                    <div class="flex items-start gap-3 p-2 bg-academic-50 rounded">
+                        <span class="font-bold text-secondary">4.</span>
+                        <span>Green and clean development</span>
+                    </div>
+                    <div class="flex items-start gap-3 p-2 bg-academic-50 rounded">
+                        <span class="font-bold text-secondary">5.</span>
+                        <span>Security orientation</span>
+                    </div>
+                    <div class="flex items-start gap-3 p-2 bg-academic-50 rounded">
+                        <span class="font-bold text-secondary">6.</span>
+                        <span>Catalyzing private sector investment</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-amber-50 border-l-4 border-amber-400 p-4 my-6">
+                <p class="text-sm text-amber-800">
+                    <span class="lang-en"><strong>Implementation Reality:</strong> Five years in, the gap between promise and delivery is hard to ignore. Large-scale cross-border projects remain scarce; disbursements are cautious; attention has drifted toward energy transition at the expense of physical connectivity. The moniker sticks: "graveyard of hundreds of billions of euros."</span>
+                    <span class="lang-cn"><strong>实施现实：</strong>五年过去，承诺与交付之间的差距难以忽视。大规模跨境项目仍然稀缺；支出谨慎；注意力已从实体联通转向能源转型。这个绰号流传开来："数千亿欧元的墓地"。</span>
+                </p>
+            </div>
+
+            <p class="text-sm text-academic-500 italic">
+                <span class="lang-en">Source: European Commission (2021), "Global Gateway: Connecting Europe and Asia."</span>
+                <span class="lang-cn">来源：欧盟委员会(2021)，《全球门户：连接欧洲与亚洲》。</span>
+            </p>
+        </section>
+
+        <!-- 4.2 Section -->
+        <section id="4.2">
+            <h2 class="section-header">
+                <span class="lang-en">4.2 Objectives of the EU's Connectivity Strategy</span>
+                <span class="lang-cn">4.2 欧盟联通战略的目标</span>
+                <span class="lang-both">4.2 Objectives of the EU's Connectivity Strategy<br>欧盟联通战略的目标</span>
+            </h2>
+
+            <p class="mb-6 leading-relaxed">
+                <span class="lang-en">The Global Gateway strategy encompasses <strong>five investment domains</strong>, each with explicit policy objectives. Both initiatives talk about transport, energy, and digital infrastructure—the same words, but different meanings.</span>
+                <span class="lang-cn">全球门户战略涵盖<strong>五个投资领域</strong>，每个领域都有明确的政策目标。两个倡议都谈论交通、能源和数字基础设施——同样的词汇，但不同的含义。</span>
+            </p>
+
+            <div id="4.2.1" class="mb-8">
+                <h3 class="subsubsection-header">4.2.1 Digital Connectivity</h3>
+                <div class="methodology-card">
+                    <p class="text-sm leading-relaxed mb-3">
+                        <span class="lang-en">The digital domain targets support for developing countries in deploying secure, resilient digital infrastructure. The <strong>MEDUSA project</strong>, a flagship digital initiative, aims to reduce latency and enhance redundancy through open-access connections between North Africa and Europe.</span>
+                        <span class="lang-cn">数字领域旨在支持发展中国家部署安全、有弹性的数字基础设施。<strong>MEDUSA项目</strong>作为旗舰数字倡议，旨在通过北非与欧洲之间的开放接入连接减少延迟并增强冗余。</span>
+                    </p>
+                    <div class="flex gap-2 flex-wrap">
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Submarine cables</span>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Local data centers</span>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Cybersecurity capacity</span>
+                        <span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded">Digital skills training</span>
+                    </div>
+                </div>
+            </div>
+
+            <div id="4.2.2" class="mb-8">
+                <h3 class="subsubsection-header">4.2.2 Energy Connectivity</h3>
+                <div class="methodology-card">
+                    <p class="text-sm leading-relaxed mb-3">
+                        <span class="lang-en">The energy domain centers on driving the green transition. The <strong>EU-Namibia partnership</strong> serves as a paradigm case—integrating port and logistics upgrades, electrolyzer manufacturing capacity, industrial standards, and local training to achieve a "double dividend": securing European critical raw material supplies while advancing African local value chain development.</span>
+                        <span class="lang-cn">能源领域以推动绿色转型为中心。<strong>欧盟-纳米比亚伙伴关系</strong>是一个典范案例——整合港口和物流升级、电解槽制造能力、工业标准和当地培训，以实现"双重红利"：确保欧洲关键原材料供应，同时推进非洲本地价值链发展。</span>
+                    </p>
+                    <div class="text-xs text-academic-600 bg-academic-50 p-2 rounded">
+                        <strong>Priority areas:</strong> Solar, wind, green hydrogen projects | Alignment with Paris Agreement objectives
+                    </div>
+                </div>
+            </div>
+
+            <div id="4.2.3" class="mb-8">
+                <h3 class="subsubsection-header">4.2.3 Transport Connectivity</h3>
+                <div class="methodology-card">
+                    <p class="text-sm leading-relaxed mb-3">
+                        <span class="lang-en">The transport domain focuses on constructing cross-border transport corridors. The <strong>Lobito Corridor</strong> represents the Global Gateway's flagship transport project in Africa, connecting the copper-cobalt mining belt of the Democratic Republic of Congo and Zambia to the Atlantic port of Lobito in Angola.</span>
+                        <span class="lang-cn">交通领域专注于建设跨境交通走廊。<strong>洛比托走廊</strong>是全球门户在非洲的旗舰交通项目，连接刚果民主共和国和赞比亚的铜钴矿带至安哥拉大西洋港口洛比托。</span>
+                    </p>
+                    <div class="grid grid-cols-2 gap-2 text-xs">
+                        <div class="bg-white p-2 border border-academic-200 rounded">
+                            <strong>Lobito Corridor:</strong> Reducing transport time, minimizing losses, catalyzing processing industry
+                        </div>
+                        <div class="bg-white p-2 border border-academic-200 rounded">
+                            <strong>TEN-T Alignment:</strong> Supporting transport infrastructure upgrades in Western Balkans and Eastern partners
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="4.2.4" class="mb-8">
+                <h3 class="subsubsection-header">4.2.4 Health Connectivity</h3>
+                <p class="text-sm text-academic-700 leading-relaxed">
+                    <span class="lang-en">The Global Gateway incorporates health infrastructure into the connectivity framework, supporting local vaccine production, pharmaceutical regulatory system development, and medical supply chain resilience enhancement. This direction has gained prominence following the COVID-19 pandemic, reflecting the EU's strategic concerns regarding global health security.</span>
+                    <span class="lang-cn">全球门户将卫生基础设施纳入联通框架，支持本地疫苗生产、药品监管系统发展和医疗供应链韧性增强。这一方向在COVID-19大流行后获得突出地位，反映了欧盟对全球卫生安全的战略关切。</span>
+                </p>
+            </div>
+
+            <div id="4.2.5" class="mb-8">
+                <h3 class="subsubsection-header">4.2.5 Education and Research Connectivity</h3>
+                <p class="text-sm text-academic-700 leading-relaxed">
+                    <span class="lang-en">Through programs such as <strong>Erasmus+</strong>, the Global Gateway supports youth exchange, higher education cooperation, and research network development, aiming to cultivate local talent and promote knowledge sharing.</span>
+                    <span class="lang-cn">通过<strong>伊拉斯谟+</strong>(Erasmus+)等项目，全球门户支持青年交流、高等教育合作和研究网络发展，旨在培养本地人才并促进知识共享。</span>
+                </p>
+            </div>
+
+            <div class="highlight-box mt-8">
+                <p class="text-sm italic">
+                    <span class="lang-en">"From these objectives, a pattern emerges. The BRI speaks the language of hardware: roads, ports, railways, power stations. The Global Gateway speaks the language of software: standards, governance, transparency, local capacity building. One builds the machine; the other writes the manual. When these two approaches meet on the same project—as they do in the cases that follow—the result is not just divergence but drama."</span>
+                    <span class="lang-cn">"从这些目标中，一种模式浮现出来。BRI说着硬件的语言：道路、港口、铁路、电站。全球门户说着软件的语言：标准、治理、透明度、本地能力建设。一个建造机器；另一个编写手册。当这两种方法在同一个项目上相遇时——正如我们在后续案例中将看到的——结果不仅是分歧，而是戏剧性的冲突。"</span>
+                </p>
+            </div>
+        </section>
+
+        <!-- Chapter Summary & Navigation -->
+        <div class="bg-gradient-to-r from-primary to-accent text-white p-8 rounded-xl my-12 shadow-lg">
+            <h3 class="text-xl font-bold mb-4">Part 1 Summary / 第一部分小结</h3>
+            <div class="grid md:grid-cols-2 gap-6 text-sm">
+                <div>
+                    <h4 class="font-bold mb-2 text-secondary">Methodological Foundation</h4>
+                    <ul class="space-y-1 opacity-90">
+                        <li>• Most Similar/Most Different case selection</li>
+                        <li>• Theory-guided process tracing</li>
+                        <li>• Evidence typology (Smoking-gun/Hoop/Straw)</li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-bold mb-2 text-secondary">Strategic Context</h4>
+                    <ul class="space-y-1 opacity-90">
+                        <li>• Global Gateway: €300B, 2021 launch</li>
+                        <li>• Values-driven vs. project-driven</li>
+                        <li>• Five domains: Digital, Energy, Transport, Health, Education</li>
+                    </ul>
+                </div>
+            </div>
+            <p class="mt-6 text-sm opacity-80 italic">
+                Next: Part 2 enters the field with Case Study 1—the Port of Piraeus, where rules harmonized and the port thrived.
+            </p>
+        </div>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="chapter1.html" class="page-btn secondary">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <span>Chapter 1</span>
+            </a>
+            <div class="text-center text-sm text-academic-500">
+                <span class="lang-en">Chapter 4, Part 1 of 3</span>
+                <span class="lang-cn">第四章，第1部分（共3部分）</span>
+            </div>
+            <a href="chapter4_part2.html" class="page-btn">
+                <span class="lang-en">Continue to Part 2</span>
+                <span class="lang-cn">继续第二部分</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-academic-200 text-center text-sm text-academic-500">
+            <p>Chapter 4 Part 1: Research Framework & EU Strategy | ZHAO JIE | Almaty 2026</p>
+            <p class="mt-2 text-xs">
+                <span class="lang-en">Continue to Part 2 for the Port of Piraeus Case Study</span>
+                <span class="lang-cn">继续第二部分阅读比雷埃夫斯港案例研究</span>
+            </p>
+        </footer>
+    </main>
+
+    <script>
+        function setLang(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('dissertation-lang', lang);
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if(btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('bg-primary', 'text-white');
+                    btn.classList.remove('hover:bg-primary', 'hover:text-white');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-white');
+                    btn.classList.add('hover:bg-primary', 'hover:text-white');
+                }
+            });
+        }
+
+        function toggleNav() {
+            document.getElementById('chapterNav').classList.toggle('open');
+            document.querySelector('.nav-overlay').classList.toggle('open');
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                toggleNav();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('dissertation-lang') || 'en';
+            setLang(savedLang);
+
+            const sections = document.querySelectorAll('section[id], div[id]');
+            const tocItems = document.querySelectorAll('.toc-item');
+            
+            window.addEventListener('scroll', () => {
+                let current = '';
+                sections.forEach(section => {
+                    const sectionTop = section.offsetTop;
+                    if(pageYOffset >= sectionTop - 200) {
+                        current = section.getAttribute('id');
+                    }
+                });
+                
+                tocItems.forEach(item => {
+                    item.classList.remove('active');
+                    if(item.getAttribute('href') === '#' + current) {
+                        item.classList.add('active');
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+</html>
