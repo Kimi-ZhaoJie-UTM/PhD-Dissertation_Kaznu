@@ -3,385 +3,991 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Chapter 1: Theoretical Foundations | BRI Institutional Complexity</title>
+    <title>Chapter 1: Introduction and Theoretical Foundations | BRI Dissertation</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
     <script>
         tailwind.config = {
-            darkMode: 'class',
             theme: {
                 extend: {
                     fontFamily: {
-                        serif: ['Playfair Display', 'Noto Serif SC', 'serif'],
-                        sans: ['Source Sans Pro', 'Noto Sans SC', 'sans-serif'],
-                        mono: ['JetBrains Mono', 'monospace'],
+                        'serif': ['Crimson Text', 'Noto Serif SC', 'serif'],
+                        'sans': ['Inter', 'Noto Sans SC', 'sans-serif'],
                     },
                     colors: {
-                        bri: { red: '#C41E3A', dark: '#8B0000', light: '#FFE4E1' },
-                        eu: { blue: '#003399', light: '#E6F0FF', gold: '#D4AF37' },
-                        theory: { purple: '#6B46C1', teal: '#0D9488' }
+                        'academic': {
+                            50: '#f8f9fa', 100: '#e9ecef', 200: '#dee2e6',
+                            300: '#ced4da', 400: '#adb5bd', 500: '#6c757d',
+                            600: '#495057', 700: '#343a40', 800: '#212529', 900: '#121416',
+                        },
+                        'primary': '#1a365d', 'secondary': '#c9a227', 'accent': '#2c5282',
                     }
                 }
             }
         }
     </script>
-    
     <style>
-        .lang-en, .lang-cn { display: none; }
-        html[lang-mode="en"] .lang-en { display: block; }
-        html[lang-mode="cn"] .lang-cn { display: block; }
+        .lang-en, .lang-cn, .lang-both { display: none; }
+        body[data-lang="en"] .lang-en, body[data-lang="cn"] .lang-cn { display: block; }
+        body[data-lang="both"] .lang-en, body[data-lang="both"] .lang-cn { display: block; }
         
-        html[lang-mode="both"] .lang-en, html[lang-mode="both"] .lang-cn { 
-            display: block; font-size: 0.95em; line-height: 1.5; 
+        /* Bilingual specific layouts */
+        body[data-lang="both"] .bilingual-parallel {
+            display: grid; 
+            grid-template-columns: 1fr 1fr; 
+            gap: 2rem;
+            align-items: start;
         }
-        html[lang-mode="both"] .lang-cn {
-            color: #6B7280; font-family: 'Noto Sans SC', sans-serif;
-            border-left: 2px solid #E5E7EB; padding-left: 0.75rem; margin-left: 0.25rem;
+        
+        body[data-lang="both"] .bilingual-parallel > div,
+        body[data-lang="both"] .bilingual-parallel > p,
+        body[data-lang="both"] .bilingual-parallel > section {
+            border-right: 1px solid #e5e7eb; 
+            padding-right: 1rem;
         }
-        .dark html[lang-mode="both"] .lang-cn { color: #9CA3AF; border-left-color: #374151; }
         
-        .lang-switcher { display: flex; background: rgba(229, 231, 235, 0.5); border-radius: 9999px; padding: 0.25rem; gap: 0.25rem; }
-        .dark .lang-switcher { background: rgba(55, 65, 81, 0.5); }
-        .lang-btn { padding: 0.375rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; transition: all 0.2s; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; }
-        .lang-btn.active { background: white; color: '#C41E3A'; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        .dark .lang-btn.active { background: #1F2937; color: #60A5FA; }
+        body[data-lang="both"] .bilingual-parallel > div:last-child,
+        body[data-lang="both"] .bilingual-parallel > p:last-child,
+        body[data-lang="both"] .bilingual-parallel > section:last-child {
+            border-right: none; 
+            padding-right: 0;
+            padding-left: 1rem;
+        }
         
-        .concept-card { transition: all 0.3s ease; border: 2px solid transparent; }
-        .concept-card:hover { transform: translateY(-5px); border-color: #6B46C1; box-shadow: 0 20px 25px -5px rgba(107, 70, 193, 0.15); }
-        .timeline-node { position: relative; padding-left: 2rem; }
-        .timeline-node::before { content: ''; position: absolute; left: 0; top: 0.5rem; width: 12px; height: 12px; border-radius: 50%; background: #6B46C1; border: 3px solid white; box-shadow: 0 0 0 3px #6B46C1; }
-        .timeline-node::after { content: ''; position: absolute; left: 5px; top: 1.5rem; width: 2px; height: calc(100% - 1rem); background: #E5E7EB; }
-        .timeline-node:last-child::after { display: none; }
+        /* For tables in bilingual mode */
+        body[data-lang="both"] .bilingual-table tbody tr {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
         
-        .phase-tabs { display: flex; gap: 0.5rem; margin-bottom: 2rem; }
-        .phase-tab { padding: 0.75rem 1.5rem; border-radius: 0.5rem; font-weight: 600; cursor: pointer; transition: all 0.3s; background: #F3F4F6; color: #6B7280; }
-        .phase-tab.active { background: #6B46C1; color: white; }
-        .phase-content { display: none; }
-        .phase-content.active { display: block; animation: fadeIn 0.5s; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+        body[data-lang="both"] .bilingual-table td,
+        body[data-lang="both"] .bilingual-table th {
+            display: block;
+            border: none;
+        }
+        
+        body[data-lang="both"] .bilingual-table tr td:first-child,
+        body[data-lang="both"] .bilingual-table tr th:first-child {
+            border-right: 1px solid #e9ecef;
+            padding-right: 1rem;
+        }
+        
+        body[data-lang="both"] .bilingual-table tr td:last-child,
+        body[data-lang="both"] .bilingual-table tr th:last-child {
+            padding-left: 1rem;
+        }
+        
+        /* Hide table headers in bilingual mode to avoid duplication confusion */
+        body[data-lang="both"] .bilingual-table thead {
+            display: none;
+        }
+        
+        .chapter-nav {
+            position: fixed; left: 0; top: 0; height: 100vh; width: 280px;
+            background: white; border-right: 1px solid #e9ecef;
+            overflow-y: auto; z-index: 40; padding: 2rem;
+            transform: translateX(-100%); transition: transform 0.3s;
+        }
+        .chapter-nav.open { transform: translateX(0); }
+        .nav-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 35; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .nav-overlay.open { opacity: 1; pointer-events: auto; }
+        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
+        @media (min-width: 1024px) {
+            .content-wrapper { margin-left: 300px; margin-right: auto; padding: 3rem 2rem; }
+            .chapter-nav { transform: translateX(0); }
+            .menu-toggle { display: none; }
+        }
+        
+        /* When in bilingual mode, expand content width */
+        body[data-lang="both"] .content-wrapper {
+            max-width: 1200px;
+        }
+        
+        .toc-item {
+            display: block; padding: 0.5rem 0; color: #6c757d;
+            font-size: 0.875rem; border-left: 2px solid transparent;
+            padding-left: 1rem; margin-left: -1rem; transition: all 0.2s;
+            cursor: pointer;
+        }
+        .toc-item:hover, .toc-item.active {
+            color: #1a365d; border-left-color: #c9a227;
+        }
+        .toc-item.sub { padding-left: 1.5rem; font-size: 0.8rem; }
+        
+        .section-header {
+            font-size: 1.875rem; font-weight: 700; color: #1a365d;
+            margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+            border-bottom: 2px solid #c9a227; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+        }
+        
+        .subsection-header {
+            font-size: 1.5rem; font-weight: 600; color: #2c5282;
+            margin-top: 2rem; margin-bottom: 1rem; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+        }
+        
+        .subsubsection-header {
+            font-size: 1.25rem; font-weight: 600; color: #495057;
+            margin-top: 1.5rem; margin-bottom: 0.75rem;
+        }
+        
+        .academic-table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            font-size: 0.9rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .academic-table th {
+            background: #1a365d; color: white; padding: 0.75rem;
+            text-align: left; font-weight: 600;
+        }
+        .academic-table td {
+            padding: 0.75rem; border-bottom: 1px solid #e9ecef;
+            vertical-align: top;
+        }
+        .academic-table tr:nth-child(even) { background: #f8f9fa; }
+        .academic-table tr:hover { background: #e9ecef; }
+        
+        .highlight-box {
+            background: linear-gradient(to right, #f8f9fa, #e9ecef);
+            border-left: 4px solid #c9a227; padding: 1.5rem;
+            margin: 2rem 0; border-radius: 0 8px 8px 0;
+        }
+        
+        .quote-block {
+            font-style: italic; color: #495057; border-left: 3px solid #adb5bd;
+            padding-left: 1rem; margin: 1.5rem 0;
+        }
+        
+        .pagination {
+            display: flex; justify-content: space-between; margin-top: 4rem;
+            padding-top: 2rem; border-top: 1px solid #dee2e6;
+        }
+        .page-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.5rem; background: #1a365d; color: white;
+            border-radius: 6px; text-decoration: none; transition: all 0.3s;
+        }
+        .page-btn:hover { background: #2c5282; transform: translateY(-2px); }
+        
+        /* Card grids */
+        .info-card {
+            background: white; border: 1px solid #e9ecef; 
+            border-radius: 0.5rem; padding: 1rem;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
+        
+        .phase-card {
+            background: white; border-radius: 0.5rem; 
+            border: 1px solid #e9ecef; padding: 1rem;
+        }
     </style>
+<base target="_blank">
 </head>
-<body class="bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white font-sans antialiased">
+<body class="bg-academic-50 text-academic-800 font-sans antialiased" data-lang="en">
+    <!-- Language Switcher -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2 bg-white/90 backdrop-blur rounded-full shadow-lg border border-academic-200 p-1">
+        <button onclick="setLang('en')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="en">EN</button>
+        <button onclick="setLang('cn')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="cn">CN</button>
+        <button onclick="setLang('both')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="both">EN/CN</button>
+    </div>
 
-    <!-- Navigation -->
-    <nav class="fixed w-full z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-200 dark:border-slate-700">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <div class="flex items-center gap-4">
-                    <a href="main.html" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
-                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
-                    </a>
-                    <span class="font-serif text-lg font-bold">Chapter 01</span>
-                </div>
-                
-                <div class="flex items-center gap-4">
-                    <div class="lang-switcher">
-                        <button onclick="setLanguage('en')" class="lang-btn" id="btn-en">EN</button>
-                        <button onclick="setLanguage('cn')" class="lang-btn" id="btn-cn">CN</button>
-                        <button onclick="setLanguage('both')" class="lang-btn" id="btn-both">EN/CN</button>
-                    </div>
-                    <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800">
-                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
-                        <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
-                    </button>
-                </div>
+    <!-- Mobile Menu -->
+    <button onclick="toggleNav()" class="menu-toggle fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-md border border-academic-200">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <div class="nav-overlay" onclick="toggleNav()"></div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="chapter-nav" id="chapterNav">
+        <div class="mb-8">
+            <h2 class="text-lg font-bold text-primary mb-1">Chapter 1</h2>
+            <p class="text-xs text-academic-500">
+                <span class="lang-en">Introduction & Theoretical Foundations</span>
+                <span class="lang-cn">引言与理论基础</span>
+            </p>
+        </div>
+        <div class="space-y-1 mb-8">
+            <div class="toc-item" onclick="scrollTo('1.1')">
+                <span class="lang-en">1.1 Strategic Objectives</span>
+                <span class="lang-cn">1.1 战略目标</span>
             </div>
+            <div class="toc-item" onclick="scrollTo('1.2')">
+                <span class="lang-en">1.2 Financial Mechanisms</span>
+                <span class="lang-cn">1.2 金融机制</span>
+            </div>
+            <div class="toc-item sub" onclick="scrollTo('1.2.1')">1.2.1 <span class="lang-en">Policy Lending</span><span class="lang-cn">政策性贷款</span></div>
+            <div class="toc-item sub" onclick="scrollTo('1.2.2')">1.2.2 <span class="lang-en">Equity Funds</span><span class="lang-cn">股权基金</span></div>
+            <div class="toc-item sub" onclick="scrollTo('1.2.3')">1.2.3 <span class="lang-en">Multilateral Institutions</span><span class="lang-cn">多边机构</span></div>
+            <div class="toc-item sub" onclick="scrollTo('1.2.4')">1.2.4 <span class="lang-en">Bond Financing</span><span class="lang-cn">债券融资</span></div>
+            <div class="toc-item" onclick="scrollTo('1.3')">
+                <span class="lang-en">1.3 Theoretical Framework</span>
+                <span class="lang-cn">1.3 理论框架</span>
+            </div>
+            <div class="toc-item sub" onclick="scrollTo('1.3.1')">1.3.1 <span class="lang-en">Institutional Complexity</span><span class="lang-cn">制度复杂性</span></div>
+            <div class="toc-item sub" onclick="scrollTo('1.3.2')">1.3.2 <span class="lang-en">Coopetition</span><span class="lang-cn">竞合概念</span></div>
+            <div class="toc-item sub" onclick="scrollTo('1.3.4')">1.3.4 <span class="lang-en">Rule Interaction Types</span><span class="lang-cn">规则互动类型</span></div>
+            <div class="toc-item" onclick="scrollTo('1.4')">
+                <span class="lang-en">1.4 Economic Impact</span>
+                <span class="lang-cn">1.4 经济影响</span>
+            </div>
+            <div class="toc-item" onclick="scrollTo('1.5')">
+                <span class="lang-en">1.5 Research Design</span>
+                <span class="lang-cn">1.5 研究设计</span>
+            </div>
+        </div>
+        <div class="pt-4 border-t border-academic-200">
+            <a href="main.html" class="block py-2 text-sm text-academic-600 hover:text-primary">← <span class="lang-en">Home</span><span class="lang-cn">首页</span></a>
+            <a href="chapter2.html" class="block py-2 text-sm text-primary font-medium mt-2">
+                <span class="lang-en">Next: Chapter 2 →</span>
+                <span class="lang-cn">下一章：第二章 →</span>
+            </a>
         </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="pt-32 pb-16 bg-gradient-to-br from-theory-purple/5 to-theory-teal/5 dark:from-theory-purple/10 dark:to-theory-teal/10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="max-w-4xl">
-                <div class="flex items-center gap-3 mb-6">
-                    <span class="px-3 py-1 bg-theory-purple/20 text-theory-purple text-xs font-bold rounded uppercase">01</span>
-                    <span class="text-sm text-gray-500 dark:text-gray-400 font-mono">Introduction & Theoretical Foundations</span>
-                </div>
-                
-                <h1 class="font-serif text-4xl md:text-5xl font-bold mb-6 lang-both-container">
-                    <span class="lang-en block">Introduction and Theoretical Foundations</span>
-                    <span class="lang-cn block text-3xl md:text-4xl mt-2 text-gray-700 dark:text-gray-300">引言与理论基础</span>
-                </h1>
-                
-                <p class="text-xl text-gray-600 dark:text-gray-300 leading-relaxed lang-both-container">
-                    <span class="lang-en">Conceptualizing the BRI–Global Gateway nexus as <strong class="text-theory-purple">institutional coopetition</strong>—a space where competition and complementarity coexist within complex governance regimes.</span>
-                    <span class="lang-cn block mt-2 text-lg">将一带一路与全球门户的关系概念化为<strong class="text-theory-purple">制度竞合</strong>——一个在复杂治理制度中竞争与互补共存的领域。</span>
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        <!-- Chapter Header -->
+        <header class="mb-12 text-center">
+            <div class="text-sm text-secondary font-semibold tracking-wider uppercase mb-2">Chapter 1 / 第一章</div>
+            <h1 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-4 leading-tight">
+                <span class="lang-en">Introduction and Theoretical Foundations</span>
+                <span class="lang-cn">引言与理论基础</span>
+                <span class="lang-both">Introduction and Theoretical Foundations<br>引言与理论基础</span>
+            </h1>
+            <div class="h-1 w-24 bg-secondary mx-auto"></div>
+        </header>
+
+        <!-- Opening -->
+        <div class="highlight-box mb-8">
+            <div class="bilingual-parallel">
+                <p class="lang-en text-lg leading-relaxed text-academic-700">
+                    This chapter establishes the theoretical scaffolding upon which subsequent empirical analysis rests. Rather than treating the Belt and Road Initiative (BRI) as a monolithic geopolitical project or merely a financing mechanism, I conceptualize it as an <strong>emergent governance regime</strong> operating within an increasingly complex institutional environment.
+                </p>
+                <p class="lang-cn text-lg leading-relaxed text-academic-700">
+                    本章为后续实证分析奠定理论基础。不同于将"一带一路"倡议(BRI)视为单一的地缘政治项目或单纯的融资机制，我将其概念化为一个在日益复杂的制度环境中运作的<strong>新兴治理制度</strong>。
                 </p>
             </div>
         </div>
-    </section>
 
-    <!-- BRI Evolution Timeline -->
-    <section class="py-16 bg-white dark:bg-slate-800">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="font-serif text-3xl font-bold mb-12 text-center lang-both-container">
-                <span class="lang-en">BRI Strategic Evolution (2013-2025)</span>
-                <span class="lang-cn block text-2xl mt-2 text-gray-600">一带一路战略演进（2013-2025）</span>
+        <!-- 1.1 Section -->
+        <section id="1.1">
+            <h2 class="section-header">
+                <span class="lang-en">1.1 Assessment of the Strategic Objectives of the Belt and Road Initiative</span>
+                <span class="lang-cn">1.1 "一带一路"倡议战略目标评估</span>
+                <span class="lang-both">1.1 Assessment of Strategic Objectives / 战略目标评估</span>
             </h2>
             
-            <div class="grid md:grid-cols-3 gap-8">
-                <!-- Phase I -->
-                <div class="concept-card bg-gradient-to-br from-blue-50 to-white dark:from-slate-700 dark:to-slate-800 p-6 rounded-xl border border-gray-200 dark:border-slate-600">
-                    <div class="text-4xl font-bold text-blue-600 dark:text-blue-400 mb-4">01</div>
-                    <div class="lang-both-container mb-3">
-                        <h3 class="text-xl font-bold lang-en">Macro-Framework Construction</h3>
-                        <h3 class="text-xl font-bold lang-cn text-gray-600">宏观框架构建期</h3>
-                    </div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">2013—2017</div>
-                    <div class="lang-both-container text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                        <p class="lang-en">• Vision and Actions publication (2015)</p>
-                        <p class="lang-cn">• 《愿景与行动》发布（2015）</p>
-                        <p class="lang-en">• First Belt and Road Forum (2017)</p>
-                        <p class="lang-cn">• 首届"一带一路"国际合作高峰论坛（2017）</p>
-                        <p class="lang-en">• 100+ countries signed cooperation agreements</p>
-                        <p class="lang-cn">• 100+国家签署合作协议</p>
-                    </div>
+            <div class="bilingual-parallel mb-6">
+                <div class="lang-en">
+                    <p class="mb-4 leading-relaxed">Before proceeding, a threshold question must be addressed: are the BRI and Global Gateway genuinely comparable? Skeptics might object that we are comparing apples and oranges—one is a decade-old, project-driven initiative involving over 150 countries; the other is a fledgling, strategy-driven framework still finding its operational feet. The objection is fair but misses the point.</p>
+                    <p class="mb-4 leading-relaxed">What makes the two regimes comparable is not their scale or maturity, but their <strong>functional equivalence</strong>: both are transnational infrastructure initiatives that offer financing to third countries, both operate in the same geographic spaces (Eurasia, Africa), and both seek to shape the rules of the game in development finance.</p>
                 </div>
-
-                <!-- Phase II -->
-                <div class="concept-card bg-gradient-to-br from-yellow-50 to-white dark:from-slate-700 dark:to-slate-800 p-6 rounded-xl border border-gray-200 dark:border-slate-600">
-                    <div class="text-4xl font-bold text-yellow-600 dark:text-yellow-400 mb-4">02</div>
-                    <div class="lang-both-container mb-3">
-                        <h3 class="text-xl font-bold lang-en">Project Implementation & Risk Recognition</h3>
-                        <h3 class="lang-cn text-xl font-bold text-gray-600">项目实施与风险认知期</h3>
-                    </div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">2018—2020</div>
-                    <div class="lang-both-container text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                        <p class="lang-en">• Flagship projects: China-Laos Railway, Budapest-Belgrade</p>
-                        <p class="lang-cn">• 旗舰项目：中老铁路、匈塞铁路</p>
-                        <p class="lang-en">• Debt Sustainability Framework (2019)</p>
-                        <p class="lang-cn">• 债务可持续性框架（2019）</p>
-                        <p class="lang-en">• International scrutiny intensifies</p>
-                        <p class="lang-cn">• 国际审查加剧</p>
-                    </div>
-                </div>
-
-                <!-- Phase III -->
-                <div class="concept-card bg-gradient-to-br from-green-50 to-white dark:from-slate-700 dark:to-slate-800 p-6 rounded-xl border border-gray-200 dark:border-slate-600">
-                    <div class="text-4xl font-bold text-green-600 dark:text-green-400 mb-4">03</div>
-                    <div class="lang-both-container mb-3">
-                        <h3 class="text-xl font-bold lang-en">High-Quality Development</h3>
-                        <h3 class="lang-cn text-xl font-bold text-gray-600">高质量发展期</h3>
-                    </div>
-                    <div class="text-sm text-gray-500 dark:text-gray-400 mb-4 font-mono">2021—Present</div>
-                    <div class="lang-both-container text-sm text-gray-600 dark:text-gray-300 space-y-2">
-                        <p class="lang-en">• "Small yet beautiful" (xiao er mei) projects</p>
-                        <p class="lang-cn">• "小而美"项目</p>
-                        <p class="lang-en">• Green Silk Road & Digital Silk Road</p>
-                        <p class="lang-cn">• 绿色丝绸之路与数字丝绸之路</p>
-                        <p class="lang-en">• Cumulative investment: $1.308 trillion</p>
-                        <p class="lang-cn">• 累计投资1.308万亿美元</p>
-                    </div>
+                <div class="lang-cn">
+                    <p class="mb-4 leading-relaxed">在继续之前，必须解决一个根本问题：BRI与全球门户(Global Gateway)是否真的具有可比性？怀疑者可能会反对，认为我们在比较苹果和橘子——一个是拥有150多个国家参与的、以项目为导向的十年老倡议；另一个是仍在寻找操作立足点的、以战略为导向的新生框架。这种反对是公平的，但错过了要点。</p>
+                    <p class="mb-4 leading-relaxed">使这两个制度可比的并非其规模或成熟度，而是其<strong>功能等价性</strong>：两者都是向第三国提供融资的跨国基础设施倡议，都在相同的地理空间（欧亚、非洲）运作，都寻求在发展融资领域塑造游戏规则。</p>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Theoretical Framework Visualization -->
-    <section class="py-16 bg-gray-50 dark:bg-slate-900">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <h2 class="font-serif text-3xl font-bold mb-12 text-center lang-both-container">
-                <span class="lang-en">Theoretical Framework: Three Ideal Types of Rule Interaction</span>
-                <span class="lang-cn block text-2xl mt-2 text-gray-600">理论框架：规则交互的三种理想类型</span>
+            <div class="quote-block bilingual-parallel">
+                <p class="lang-en">The "Belt and Road" initiative was proposed by China in 2013. It is a cross-border initiative aimed at promoting connectivity and common development among the countries along the routes. Its core concept is the "five connectivity"—policy coordination, infrastructure connection, unimpeded trade, financial communication, and people-to-people connection.</p>
+                <p class="lang-cn">"一带一路"倡议由中国于2013年提出。这是一个旨在促进沿线国家互联互通与共同发展的跨境倡议。其核心概念是"五通"——政策沟通、设施联通、贸易畅通、资金融通和民心相通。</p>
+            </div>
+
+            <h3 class="subsubsection-header mt-8 mb-4">
+                <span class="lang-en">Three Developmental Phases / 三个发展阶段</span>
+                <span class="lang-cn">三个发展阶段</span>
+            </h3>
+            
+            <div class="grid md:grid-cols-3 gap-4 my-6">
+                <div class="phase-card">
+                    <div class="text-secondary font-bold text-sm mb-2">Phase I (2013–2017) / 第一阶段</div>
+                    <h4 class="font-bold text-primary mb-2 text-sm lang-en">Macro-Framework Construction</h4>
+                    <h4 class="font-bold text-primary mb-2 text-sm lang-cn">宏观框架构建</h4>
+                    <p class="text-xs text-academic-600 leading-relaxed lang-en">Establishing foundational principles and cooperative architecture. The 2015 publication of Vision and Actions systematically articulated the BRI's top-level design.</p>
+                    <p class="text-xs text-academic-600 leading-relaxed lang-cn">建立基础原则与合作架构。2015年《愿景与行动》的发布系统阐述了BRI的顶层设计。</p>
+                </div>
+                <div class="phase-card">
+                    <div class="text-secondary font-bold text-sm mb-2">Phase II (2018–2020) / 第二阶段</div>
+                    <h4 class="font-bold text-primary mb-2 text-sm lang-en">Project Implementation & Risk Recognition</h4>
+                    <h4 class="font-bold text-primary mb-2 text-sm lang-cn">项目实施与风险认知</h4>
+                    <p class="text-xs text-academic-600 leading-relaxed lang-en">Flagship projects progressed from planning to execution. International scrutiny intensified regarding debt sustainability, transparency, and environmental compliance.</p>
+                    <p class="text-xs text-academic-600 leading-relaxed lang-cn">旗舰项目从规划进入执行。国际社会对债务可持续性、透明度和环境合规性的审查加剧。</p>
+                </div>
+                <div class="phase-card">
+                    <div class="text-secondary font-bold text-sm mb-2">Phase III (2021–Present) / 第三阶段</div>
+                    <h4 class="font-bold text-primary mb-2 text-sm lang-en">High-Quality Development</h4>
+                    <h4 class="font-bold text-primary mb-2 text-sm lang-cn">高质量发展</h4>
+                    <p class="text-xs text-academic-600 leading-relaxed lang-en">Strategic pivot toward "high-quality development". By 2025, cooperation agreements with ~150 countries, cumulative investment reaching $1.308 trillion.</p>
+                    <p class="text-xs text-academic-600 leading-relaxed lang-cn">战略转向"高质量发展"。截至2025年，与约150个国家签署合作协议，累计投资达1.308万亿美元。</p>
+                </div>
+            </div>
+
+            <p class="text-sm text-academic-500 italic mt-4 text-center">
+                <span class="lang-en">Source: Compiled by the author based on NDRC (2015), GMF (2026), and official BRI documents.</span>
+                <span class="lang-cn">来源：作者根据国家发改委(2015)、德国马歇尔基金会(2026)及BRI官方文件整理。</span>
+            </p>
+        </section>
+
+        <!-- 1.2 Section -->
+        <section id="1.2">
+            <h2 class="section-header">
+                <span class="lang-en">1.2 Financial Mechanisms and Investment Instruments of the BRI</span>
+                <span class="lang-cn">1.2 "一带一路"的金融机制与投资工具</span>
+                <span class="lang-both">1.2 Financial Mechanisms / 金融机制与投资工具</span>
             </h2>
 
-            <div class="grid lg:grid-cols-3 gap-8">
-                <!-- Type I -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border-t-4 border-green-500">
-                    <div class="w-16 h-16 bg-green-100 dark:bg-green-900/30 rounded-full flex items-center justify-center mb-6">
-                        <span class="text-3xl">🤝</span>
-                    </div>
-                    <h3 class="font-serif text-2xl font-bold mb-4 text-green-700 dark:text-green-400 lang-both-container">
-                        <span class="lang-en">Type I: Harmonious Coordination</span>
-                        <span class="lang-cn block text-xl mt-1">类型一：和谐协调</span>
-                    </h3>
-                    <div class="space-y-4 text-gray-600 dark:text-gray-300 lang-both-container">
-                        <p class="lang-en"><strong>Adaptive Compliance:</strong> BRI projects entering EU environments proactively adapt to legal and governance requirements.</p>
-                        <p class="lang-cn text-sm">适应性合规：进入欧盟环境的一带一路项目主动适应法律与治理要求。</p>
-                        
-                        <div class="bg-green-50 dark:bg-green-900/20 p-4 rounded-lg text-sm">
-                            <div class="lang-en font-semibold text-green-800 dark:text-green-300 mb-2">Key Mechanism:</div>
-                            <div class="lang-cn font-semibold text-green-800 dark:text-green-300 mb-2">关键机制：</div>
-                            <ul class="space-y-1 list-disc list-inside">
-                                <li class="lang-en">Investor rule-learning capacity</li>
-                                <li class="lang-cn">投资者规则学习能力</li>
-                                <li class="lang-en">Host-government bridging role</li>
-                                <li class="lang-cn">东道国政府桥梁作用</li>
-                                <li class="lang-en">Commercial sustainability</li>
-                                <li class="lang-cn">商业可持续性</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="border-t pt-4 mt-4">
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider lang-en">Exemplar Case</span>
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider lang-cn block">典型案例</span>
-                            <p class="font-semibold text-gray-900 dark:text-white mt-1 lang-en">Port of Piraeus</p>
-                            <p class="font-semibold text-gray-900 dark:text-white mt-1 lang-cn">比雷埃夫斯港</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Type II -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border-t-4 border-red-500">
-                    <div class="w-16 h-16 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center mb-6">
-                        <span class="text-3xl">⚡</span>
-                    </div>
-                    <h3 class="font-serif text-2xl font-bold mb-4 text-red-700 dark:text-red-400 lang-both-container">
-                        <span class="lang-en">Type II: Conflictual Confrontation</span>
-                        <span class="lang-cn block text-xl mt-1">类型二：冲突对抗</span>
-                    </h3>
-                    <div class="space-y-4 text-gray-600 dark:text-gray-300 lang-both-container">
-                        <p class="lang-en"><strong>Regulatory Friction:</strong> Multi-source financing encounters rule mutual exclusivity, causing cost escalation and delays.</p>
-                        <p class="lang-cn text-sm">监管摩擦：多源融资遭遇规则互斥，导致成本上升与延误。</p>
-                        
-                        <div class="bg-red-50 dark:bg-red-900/20 p-4 rounded-lg text-sm">
-                            <div class="lang-en font-semibold text-red-800 dark:text-red-300 mb-2">Trigger Conditions:</div>
-                            <div class="lang-cn font-semibold text-red-800 dark:text-red-300 mb-2">触发条件：</div>
-                            <ul class="space-y-1 list-disc list-inside">
-                                <li class="lang-en">Multi-source financing (3+ rule systems)</li>
-                                <li class="lang-cn">多源融资（3+规则体系）</li>
-                                <li class="lang-en">Technical standard conflicts (TSI vs Chinese)</li>
-                                <li class="lang-cn">技术标准冲突（TSI vs 中国标准）</li>
-                                <li class="lang-en">Procedural uncertainty (EU investigation)</li>
-                                <li class="lang-cn">程序不确定性（欧盟审查）</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="border-t pt-4 mt-4">
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider lang-en">Exemplar Case</span>
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider lang-cn block">典型案例</span>
-                            <p class="font-semibold text-gray-900 dark:text-white mt-1 lang-en">Budapest–Belgrade Railway</p>
-                            <p class="font-semibold text-gray-900 dark:text-white mt-1 lang-cn">布达佩斯-贝尔格莱德铁路</p>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Type III -->
-                <div class="bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg border-t-4 border-blue-500">
-                    <div class="w-16 h-16 bg-blue-100 dark:bg-blue-900/30 rounded-full flex items-center justify-center mb-6">
-                        <span class="text-3xl">🎯</span>
-                    </div>
-                    <h3 class="font-serif text-2xl font-bold mb-4 text-blue-700 dark:text-blue-400 lang-both-container">
-                        <span class="lang-en">Type III: Strategic Arbitrage</span>
-                        <span class="lang-cn block text-xl mt-1">类型三：战略套利</span>
-                    </h3>
-                    <div class="space-y-4 text-gray-600 dark:text-gray-300 lang-both-container">
-                        <p class="lang-en"><strong>Institutional Shopping:</strong> Participating countries exploit rule differences to optimize financing structures and enhance bargaining power.</p>
-                        <p class="lang-cn text-sm">制度选购：参与国利用规则差异优化融资结构并增强议价能力。</p>
-                        
-                        <div class="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-lg text-sm">
-                            <div class="lang-en font-semibold text-blue-800 dark:text-blue-300 mb-2">Strategies:</div>
-                            <div class="lang-cn font-semibold text-blue-800 dark:text-blue-300 mb-2">策略：</div>
-                            <ul class="space-y-1 list-disc list-inside">
-                                <li class="lang-en">Infrastructure→BRI (speed advantage)</li>
-                                <li class="lang-cn">基础设施→一带一路（速度优势）</li>
-                                <li class="lang-en">Green projects→Global Gateway (standards)</li>
-                                <li class="lang-cn">绿色项目→全球门户（标准优势）</li>
-                                <li class="lang-en">Using one party's rules as reference</li>
-                                <li class="lang-cn">以一方规则作为谈判参照</li>
-                            </ul>
-                        </div>
-                        
-                        <div class="border-t pt-4 mt-4">
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider lang-en">Exemplar Case</span>
-                            <span class="text-xs font-bold text-gray-500 uppercase tracking-wider lang-cn block">典型案例</span>
-                            <p class="font-semibold text-gray-900 dark:text-white mt-1 lang-en">Kazakhstan (Nurly Zhol)</p>
-                            <p class="font-semibold text-gray-900 dark:text-white mt-1 lang-cn">哈萨克斯坦（光明之路）</p>
-                        </div>
-                    </div>
-                </div>
+            <div class="bilingual-parallel mb-6">
+                <p class="lang-en leading-relaxed">
+                    Financial cooperation constitutes the critical infrastructure supporting the BRI's operational implementation. Over the past decade, the initiative has evolved a <strong>diversified toolkit</strong> of financing instruments, encompassing policy-based lending, concessional loans, commercial credit, equity investment funds, bond issuance, and local-currency settlement mechanisms.
+                </p>
+                <p class="lang-cn leading-relaxed">
+                    金融合作构成了支撑BRI运营实施的关键基础设施。在过去十年中，该倡议已发展出<strong>多样化的工具包</strong>，包括政策性贷款、优惠贷款、商业信贷、股权投资基金、债券发行和本币结算机制。
+                </p>
             </div>
 
-            <!-- Concept Map -->
-            <div class="mt-16 bg-white dark:bg-slate-800 rounded-2xl p-8 shadow-lg">
-                <h3 class="font-serif text-2xl font-bold mb-8 text-center lang-both-container">
-                    <span class="lang-en">Analytical Framework: From Rule Differences to Outcomes</span>
-                    <span class="lang-cn block text-xl mt-2 text-gray-600">分析框架：从规则差异到结果</span>
+            <!-- 1.2.1 -->
+            <div id="1.2.1" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.2.1 Policy-Based Lending and Concessional Lending</span>
+                    <span class="lang-cn">1.2.1 政策性贷款与优惠贷款</span>
+                    <span class="lang-both">1.2.1 Policy-Based Lending / 政策性贷款与优惠贷款</span>
                 </h3>
                 
-                <div class="relative overflow-x-auto">
-                    <div class="min-w-[800px] flex items-center justify-between gap-4">
-                        <!-- Step 1 -->
-                        <div class="flex-1 bg-theory-purple/10 rounded-lg p-4 border-2 border-theory-purple/30">
-                            <div class="text-center font-bold text-theory-purple mb-2 lang-both-container">
-                                <span class="lang-en">Rule Design</span>
-                                <span class="lang-cn block text-sm">规则设计</span>
-                            </div>
-                            <div class="text-xs text-gray-600 dark:text-gray-400 text-center">
-                                <span class="lang-en">Financing, Environmental, Procurement</span>
-                                <span class="lang-cn block">融资、环境、采购</span>
-                            </div>
+                <div class="bilingual-parallel">
+                    <div class="lang-en">
+                        <p class="mb-4 leading-relaxed">Policy-based lending has historically constituted the primary funding source for early-phase BRI infrastructure projects. The <strong>China Development Bank (CDB)</strong> and the <strong>Export-Import Bank of China (China Exim Bank)</strong>, as the two principal policy financial institutions, provide long-term, large-scale credit support.</p>
+                        <p class="mb-4 leading-relaxed">According to <strong>AidData</strong> statistics, between 2000 and 2021, Chinese development finance institutions globally provided <strong>13,427 development financing projects</strong> totaling approximately <strong>$843 billion</strong>.</p>
+                    </div>
+                    <div class="lang-cn">
+                        <p class="mb-4 leading-relaxed">政策性贷款历来构成早期BRI基础设施项目的主要资金来源。<strong>中国国家开发银行(CDB)</strong>和<strong>中国进出口银行</strong>作为两大政策性金融机构，提供长期、大规模的信贷支持。</p>
+                        <p class="mb-4 leading-relaxed">根据<strong>AidData</strong>统计，2000年至2021年间，中国开发性金融机构在全球范围内提供了<strong>13,427个发展融资项目</strong>，总额约<strong>8430亿美元</strong>。</p>
+                    </div>
+                </div>
+
+                <div class="bg-academic-100 p-4 rounded-lg mt-4">
+                    <h4 class="font-bold text-primary mb-3 text-sm">
+                        <span class="lang-en">Distinguishing Characteristics /  distinguishing特征</span>
+                        <span class="lang-cn"> distinguishing特征</span>
+                    </h4>
+                    <div class="bilingual-parallel text-sm space-y-2">
+                        <ul class="lang-en list-disc pl-5 space-y-1">
+                            <li><strong>Extended maturities:</strong> 15-20 years, some to 30 years</li>
+                            <li><strong>Concessional pricing:</strong> Below-market benchmarks</li>
+                            <li><strong>Project-linked conditionality:</strong> Earmarked for Chinese contractors</li>
+                        </ul>
+                        <ul class="lang-cn list-disc pl-5 space-y-1">
+                            <li><strong>延长期限：</strong>15-20年，部分可达30年</li>
+                            <li><strong>优惠定价：</strong>低于市场基准</li>
+                            <li><strong>项目关联条件性：</strong>指定用于中国承包商</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 1.2.2 -->
+            <div id="1.2.2" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.2.2 Equity Investment and Funds</span>
+                    <span class="lang-cn">1.2.2 股权投资与基金</span>
+                    <span class="lang-both">1.2.2 Equity Investment / 股权投资与基金</span>
+                </h3>
+                
+                <div class="bilingual-parallel mb-4">
+                    <p class="lang-en leading-relaxed">
+                        The establishment of the <strong>Silk Road Fund</strong> in 2014 marked China's inaugural equity investment vehicle specifically dedicated to BRI objectives. With initial capital of <strong>$40 billion</strong> (subsequently increased to $45 billion), the Fund operates through equity participation, joint ventures, and project-specific capitalization.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        <strong>丝路基金</strong>于2014年成立，标志着中国首个专门致力于BRI目标的股权投资工具的诞生。初始资本为<strong>400亿美元</strong>（随后增至450亿美元），该基金通过股权参与、合资企业和项目特定资本化进行运作。
+                    </p>
+                </div>
+
+                <div class="bg-white border border-academic-200 p-4 rounded-lg shadow-sm">
+                    <h4 class="font-bold text-primary mb-2 text-sm lang-en">Key Operational Characteristics</h4>
+                    <h4 class="font-bold text-primary mb-2 text-sm lang-cn">主要运作特征</h4>
+                    <div class="bilingual-parallel text-xs space-y-1">
+                        <ul class="lang-en list-disc pl-4 space-y-1">
+                            <li>Market-driven governance: Commercial viability focus</li>
+                            <li>Portfolio diversification: Infrastructure, energy, industrial capacity</li>
+                            <li>Leverage effects: Catalytic capital deployment</li>
+                        </ul>
+                        <ul class="lang-cn list-disc pl-4 space-y-1">
+                            <li>市场化治理：注重商业可行性</li>
+                            <li>投资组合多元化：基础设施、能源、产能合作</li>
+                            <li>杠杆效应：催化性资本配置</li>
+                        </ul>
+                    </div>
+                    <p class="text-xs text-academic-600 mt-3 pt-2 border-t border-academic-100">
+                        <span class="lang-en">By year-end 2024: 200+ projects, $20B+ committed</span>
+                        <span class="lang-cn">截至2024年底：200多个项目，承诺投资超200亿美元</span>
+                    </p>
+                </div>
+            </div>
+
+            <!-- 1.2.3 -->
+            <div id="1.2.3" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.2.3 Multilateral Financial Institutions</span>
+                    <span class="lang-cn">1.2.3 多边金融机构</span>
+                    <span class="lang-both">1.2.3 Multilateral Institutions / 多边金融机构</span>
+                </h3>
+                
+                <div class="bilingual-parallel">
+                    <p class="lang-en leading-relaxed">
+                        The establishment of the <strong>Asian Infrastructure Investment Bank (AIIB)</strong> in 2015 provided a crucial complement to the BRI's financial architecture. Operating as a multilateral development bank (MDB), the AIIB introduces internationally recognized environmental, social, and procurement standards.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        <strong>亚洲基础设施投资银行(AIIB)</strong>于2015年成立，为BRI金融架构提供了重要补充。作为多边开发银行(MDB)运作，AIIB引入了国际认可的环境、社会和采购标准。
+                    </p>
+                </div>
+                
+                <div class="mt-3 p-3 bg-blue-50 rounded text-sm bilingual-parallel">
+                    <p class="lang-en text-blue-900"><strong>By year-end 2025:</strong> 110 countries, 300+ projects approved, $50B+ financing</p>
+                    <p class="lang-cn text-blue-900"><strong>截至2025年底：</strong>110个成员国，批准300多个项目，融资超500亿美元</p>
+                </div>
+            </div>
+
+            <!-- 1.2.4 -->
+            <div id="1.2.4" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.2.4 Bond Financing and Financial Innovation</span>
+                    <span class="lang-cn">1.2.4 债券融资与金融创新</span>
+                    <span class="lang-both">1.2.4 Bond Financing / 债券融资与金融创新</span>
+                </h3>
+                
+                <div class="bilingual-parallel mb-4">
+                    <p class="lang-en leading-relaxed">
+                        In recent years, the BRI financing toolkit has witnessed continuous innovation, with <strong>Panda bonds</strong> emerging as a significant modality. Panda bonds—renminbi-denominated bonds issued by foreign entities within China's domestic capital markets—enable project financing with currency-asset matching, thereby reducing foreign exchange risk exposure.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        近年来，BRI融资工具包不断创新，<strong>熊猫债券</strong>已成为一种重要模式。熊猫债券——在中国国内资本市场发行的以人民币计价的债券——使项目融资能够实现货币-资产匹配，从而降低外汇风险敞口。
+                    </p>
+                </div>
+
+                <div class="quote-block bilingual-parallel text-sm">
+                    <p class="lang-en">Research by Schclarek et al. demonstrates that financing BRI projects through Panda bond issuance can effectively mitigate currency mismatches, as future project revenues are frequently generated in renminbi or local currencies correlated with the Chinese currency.</p>
+                    <p class="lang-cn">Schclarek等人的研究表明，通过熊猫债券发行为BRI项目融资可以有效缓解货币错配，因为未来的项目收益经常以人民币或与人民币相关的本币产生。</p>
+                </div>
+            </div>
+
+            <!-- Table 1 -->
+            <div class="mt-8" id="table1">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.2.5 Comparison of Financial Mechanisms</span>
+                    <span class="lang-cn">1.2.5 金融机制比较</span>
+                </h3>
+                
+                <p class="text-sm mb-4 text-academic-600 italic">
+                    <span class="lang-en">Table 1: Comparison of BRI Financial Mechanisms</span>
+                    <span class="lang-cn">表1：BRI金融机制比较</span>
+                </p>
+                
+                <div class="overflow-x-auto">
+                    <table class="academic-table bilingual-table">
+                        <thead>
+                            <tr>
+                                <th class="lang-en">Financing Instrument</th>
+                                <th class="lang-cn">融资工具</th>
+                                <th class="lang-en">Primary Providers</th>
+                                <th class="lang-cn">主要提供方</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="lang-en"><strong>Policy-based Lending</strong><br>Extended tenor, concessional pricing, contractor-linked</td>
+                                <td class="lang-cn"><strong>政策性贷款</strong><br>延长期限、优惠定价、承包商关联</td>
+                                <td class="lang-en" colspan="2">CDB, China Exim Bank / 国开行、进出口银行</td>
+                            </tr>
+                            <tr>
+                                <td class="lang-en"><strong>Concessional Loans</strong><br>Below-market rates, limited scale</td>
+                                <td class="lang-cn"><strong>优惠贷款</strong><br>低于市场利率、规模有限</td>
+                                <td class="lang-en" colspan="2">China Exim Bank / 中国进出口银行</td>
+                            </tr>
+                            <tr>
+                                <td class="lang-en"><strong>Equity Investment Funds</strong><br>Governance participation, commercial sustainability</td>
+                                <td class="lang-cn"><strong>股权投资基金</strong><br>治理参与、商业可持续性</td>
+                                <td class="lang-en" colspan="2">Silk Road Fund, bilateral funds / 丝路基金、双边基金</td>
+                            </tr>
+                            <tr>
+                                <td class="lang-en"><strong>Multilateral Financing</strong><br>High standards, transparency, international legitimacy</td>
+                                <td class="lang-cn"><strong>多边融资</strong><br>高标准、透明度、国际合法性</td>
+                                <td class="lang-en" colspan="2">AIIB, NDB / 亚投行、新开发银行</td>
+                            </tr>
+                            <tr>
+                                <td class="lang-en"><strong>Panda Bonds</strong><br>Renminbi-denominated, FX risk mitigation</td>
+                                <td class="lang-cn"><strong>熊猫债券</strong><br>人民币计价、外汇风险缓解</td>
+                                <td class="lang-en" colspan="2">Chinese capital markets / 中国资本市场</td>
+                            </tr>
+                            <tr>
+                                <td class="lang-en"><strong>Local-currency Settlement</strong><br>Reduced dollar dependency</td>
+                                <td class="lang-cn"><strong>本币结算</strong><br>降低美元依赖</td>
+                                <td class="lang-en" colspan="2">CIPS / 人民币跨境支付系统</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <p class="text-xs text-academic-500 mt-2 text-center">
+                    <span class="lang-en">Source: Compiled by the author based on AidData (2021), Silk Road Fund (2024), AIIB (2025).</span>
+                    <span class="lang-cn">来源：作者根据AidData(2021)、丝路基金(2024)、亚投行(2025)整理。</span>
+                </p>
+            </div>
+
+            <div class="highlight-box mt-6">
+                <div class="bilingual-parallel">
+                    <p class="text-sm lang-en"><strong>Summary:</strong> The BRI's financial architecture has evolved from early reliance on policy-based lending to a diversified matrix incorporating equity funds, multilateral co-financing, and market-based instruments. This diversification enhances project financing accessibility while simultaneously introducing regulatory complexity.</p>
+                    <p class="text-sm lang-cn"><strong>小结：</strong>BRI的金融架构已从早期依赖政策性贷款发展为包含股权基金、多边联合融资和市场工具的多元化矩阵。这种多样化增强了项目融资的可及性，同时引入了监管复杂性。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1.3 Section -->
+        <section id="1.3">
+            <h2 class="section-header">
+                <span class="lang-en">1.3 Theoretical Framework: Institutional Complexity and Regulatory Coopetition</span>
+                <span class="lang-cn">1.3 理论框架：制度复杂性与监管竞合</span>
+                <span class="lang-both">1.3 Theoretical Framework / 理论框架：制度复杂性与监管竞合</span>
+            </h2>
+
+            <div id="1.3.1" class="mt-6">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.3.1 Institutional Complexity Theory and Its Evolution</span>
+                    <span class="lang-cn">1.3.1 制度复杂性理论及其演进</span>
+                    <span class="lang-both">1.3.1 Institutional Complexity / 制度复杂性理论</span>
+                </h3>
+                
+                <div class="bilingual-parallel mb-4">
+                    <p class="lang-en leading-relaxed">
+                        How do we make sense of the tangled relationship between the BRI and the Global Gateway? <strong>Institutional complexity theory</strong> offers a way in. Born from international relations debates about "regime overlap," this framework stops treating institutions as isolated islands and starts asking how actors navigate the spaces between them.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        我们如何理解BRI与全球门户之间错综复杂的关系？<strong>制度复杂性理论</strong>提供了一种切入点。源于国际关系关于"制度重叠"的辩论，这一框架不再将制度视为孤立的岛屿，而是开始询问行为者如何在其间的空间中航行。
+                    </p>
+                </div>
+
+                <div class="bg-white p-5 rounded-lg border border-academic-200 my-4 shadow-sm">
+                    <h4 class="font-bold text-primary mb-3 text-sm">
+                        <span class="lang-en">Three Ideal Morphologies (Orsini et al.)</span>
+                        <span class="lang-cn">三种理想形态 (Orsini等)</span>
+                    </h4>
+                    <div class="space-y-3 text-sm bilingual-parallel">
+                        <div class="flex gap-3 lang-en">
+                            <span class="font-bold text-secondary min-w-[140px]">Institutional Overlapping</span>
+                            <span class="text-academic-700">Multiple institutions cover the same policy domain with different rule designs. BRI and Global Gateway coexistence exemplifies this.</span>
+                        </div>
+                        <div class="flex gap-3 lang-cn">
+                            <span class="font-bold text-secondary min-w-[140px]">制度重叠</span>
+                            <span class="text-academic-700">多个机构覆盖相同政策领域但规则设计不同。BRI与全球门户的共存即为例证。</span>
                         </div>
                         
-                        <div class="text-2xl text-gray-400">→</div>
-                        
-                        <!-- Step 2 -->
-                        <div class="flex-1 bg-theory-teal/10 rounded-lg p-4 border-2 border-theory-teal/30">
-                            <div class="text-center font-bold text-theory-teal mb-2 lang-both-container">
-                                <span class="lang-en">Rule Interaction</span>
-                                <span class="lang-cn block text-sm">规则交互</span>
-                            </div>
-                            <div class="text-xs text-gray-600 dark:text-gray-400 text-center">
-                                <span class="lang-en">Coordination / Conflict / Arbitrage</span>
-                                <span class="lang-cn block">协调/冲突/套利</span>
-                            </div>
+                        <div class="flex gap-3 lang-en pt-2 border-t border-academic-100">
+                            <span class="font-bold text-secondary min-w-[140px]">Institutional Nesting</span>
+                            <span class="text-academic-700">Local institutions embed within global architectures. BRI projects in EU markets must embed within EU legal systems.</span>
+                        </div>
+                        <div class="flex gap-3 lang-cn pt-2 border-t border-academic-100">
+                            <span class="font-bold text-secondary min-w-[140px]">制度嵌套</span>
+                            <span class="text-academic-700">地方机构嵌入全球架构。欧盟市场中的BRI项目必须嵌入欧盟法律体系。</span>
                         </div>
                         
-                        <div class="text-2xl text-gray-400">→</div>
-                        
-                        <!-- Step 3 -->
-                        <div class="flex-1 bg-bri-red/10 rounded-lg p-4 border-2 border-bri-red/30">
-                            <div class="text-center font-bold text-bri-red mb-2 lang-both-container">
-                                <span class="lang-en">Financial Effects</span>
-                                <span class="lang-cn block text-sm">金融效应</span>
-                            </div>
-                            <div class="text-xs text-gray-600 dark:text-gray-400 text-center">
-                                <span class="lang-en">Costs, Risks, Opportunities</span>
-                                <span class="lang-cn block">成本、风险、机遇</span>
-                            </div>
+                        <div class="flex gap-3 lang-en pt-2 border-t border-academic-100">
+                            <span class="font-bold text-secondary min-w-[140px]">Competition/Cooperation</span>
+                            <span class="text-academic-700">Different institutions provide alternative rule choices, enabling "forum shopping" or synergies.</span>
+                        </div>
+                        <div class="flex gap-3 lang-cn pt-2 border-t border-academic-100">
+                            <span class="font-bold text-secondary min-w-[140px]">竞争/合作</span>
+                            <span class="text-academic-700">不同机构提供替代性规则选择，使"论坛购物"或协同效应成为可能。</span>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </section>
 
-    <!-- Footer -->
-    <footer class="bg-gray-900 text-white py-8 mt-16">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="text-sm text-gray-400 lang-both-container">
-                <span class="lang-en">Chapter 1 of 5 | Theoretical Foundations</span>
-                <span class="lang-cn">第1章，共5章 | 理论基础</span>
-            </p>
-            <a href="chapter3.html" class="inline-flex items-center mt-4 text-eu-gold hover:text-yellow-300 transition-colors">
-                <span class="lang-en">Next: Chapter 3 - Institutional Comparison</span>
-                <span class="lang-cn font-cnsans mr-2">下一章：第3章 - 制度比较</span>
-                <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            <div id="1.3.2" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.3.2 The "Coopetition" Concept</span>
+                    <span class="lang-cn">1.3.2 "竞合"概念</span>
+                    <span class="lang-both">1.3.2 The "Coopetition" Concept / "竞合"概念</span>
+                </h3>
+                
+                <div class="bilingual-parallel mb-4">
+                    <p class="lang-en leading-relaxed">
+                        Within the institutional complexity framework, the relationship between BRI and Global Gateway can be characterized as <strong>"coopetition"</strong>—a concept originally developed by Brandenburger and Nalebuff to describe interactive patterns wherein actors simultaneously compete and cooperate.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        在制度复杂性框架内，BRI与全球门户之间的关系可以定性为<strong>"竞合"(coopetition)</strong>——这一概念最初由Brandenburger和Nalebuff提出，用以描述行为者同时竞争与合作的互动模式。
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-4 mt-4">
+                    <div class="bg-red-50 border-l-4 border-red-400 p-4">
+                        <h5 class="font-bold text-red-800 mb-2 text-sm lang-en">Competitive Dimensions</h5>
+                        <h5 class="font-bold text-red-800 mb-2 text-sm lang-cn">竞争维度</h5>
+                        <ul class="text-xs space-y-1 text-red-700 bilingual-parallel">
+                            <li class="lang-en">• Rule competition (flexibility vs. high standards)</li>
+                            <li class="lang-cn">• 规则竞争（灵活性vs高标准）</li>
+                            <li class="lang-en">• Financing competition (project resources)</li>
+                            <li class="lang-cn">• 融资竞争（项目资源）</li>
+                            <li class="lang-en">• Geopolitical competition (influence expansion)</li>
+                            <li class="lang-cn">• 地缘政治竞争（影响力扩张）</li>
+                        </ul>
+                    </div>
+                    <div class="bg-green-50 border-l-4 border-green-400 p-4">
+                        <h5 class="font-bold text-green-800 mb-2 text-sm lang-en">Cooperative Dimensions</h5>
+                        <h5 class="font-bold text-green-800 mb-2 text-sm lang-cn">合作维度</h5>
+                        <ul class="text-xs space-y-1 text-green-700 bilingual-parallel">
+                            <li class="lang-en">• Project-level cooperation in third markets</li>
+                            <li class="lang-cn">• 第三市场的项目级合作</li>
+                            <li class="lang-en">• Rule coordination in green finance</li>
+                            <li class="lang-cn">• 绿色金融中的规则协调</li>
+                            <li class="lang-en">• Shared challenge response (climate change)</li>
+                            <li class="lang-cn">• 共同挑战应对（气候变化）</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="1.3.4" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.3.4 Typology of "Rule Interaction" [Core Innovation]</span>
+                    <span class="lang-cn">1.3.4 "规则互动"类型学 [核心创新]</span>
+                    <span class="lang-both">1.3.4 Typology of Rule Interaction / 规则互动类型学</span>
+                </h3>
+                
+                <div class="bilingual-parallel mb-4">
+                    <p class="lang-en leading-relaxed">
+                        Based on institutional complexity theory, this study constructs <strong>three ideal types</strong> of "rule interaction" as theoretical tools for analyzing the BRI–Global Gateway relationship.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        基于制度复杂性理论，本研究构建了<strong>三种理想类型</strong>的"规则互动"作为分析BRI-全球门户关系的理论工具。
+                    </p>
+                </div>
+
+                <div class="space-y-4">
+                    <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
+                        <h4 class="font-bold text-blue-900 mb-2 bilingual-parallel">
+                            <span class="lang-en">Type I: Harmonious Coordination</span>
+                            <span class="lang-cn">类型一：协调性协调 (适应性协调)</span>
+                        </h4>
+                        <div class="bilingual-parallel text-sm">
+                            <p class="text-blue-800 mb-2 lang-en">Scenarios wherein BRI projects proactively adapt to EU regulatory requirements. <strong>Core characteristic:</strong> "Adaptive compliance"—accepting EU constraints without sacrificing efficiency.</p>
+                            <p class="text-blue-800 mb-2 lang-cn">BRI项目主动适应欧盟监管要求的场景。<strong>核心特征：</strong>"适应性合规"——接受欧盟约束而不牺牲效率。</p>
+                        </div>
+                        <div class="text-xs text-blue-700 mt-2 pt-2 border-t border-blue-200 bilingual-parallel">
+                            <span class="lang-en"><strong>Case:</strong> Port of Piraeus</span>
+                            <span class="lang-cn"><strong>案例：</strong>比雷埃夫斯港</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
+                        <h4 class="font-bold text-orange-900 mb-2 bilingual-parallel">
+                            <span class="lang-en">Type II: Conflictual Confrontation</span>
+                            <span class="lang-cn">类型二：冲突性对抗</span>
+                        </h4>
+                        <div class="bilingual-parallel text-sm">
+                            <p class="text-orange-800 mb-2 lang-en">Projects encounter rule mutual exclusivity. <strong>Core characteristic:</strong> "Regulatory friction"—substantive conflicts between rule systems.</p>
+                            <p class="text-orange-800 mb-2 lang-cn">项目遭遇规则互斥的场景。<strong>核心特征：</strong>"监管摩擦"——规则体系间的实质性冲突。</p>
+                        </div>
+                        <div class="text-xs text-orange-700 mt-2 pt-2 border-t border-orange-200 bilingual-parallel">
+                            <span class="lang-en"><strong>Case:</strong> Budapest–Belgrade Railway</span>
+                            <span class="lang-cn"><strong>案例：</strong>布达佩斯-贝尔格莱德铁路</span>
+                        </div>
+                    </div>
+
+                    <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
+                        <h4 class="font-bold text-purple-900 mb-2 bilingual-parallel">
+                            <span class="lang-en">Type III: Strategic Arbitrage</span>
+                            <span class="lang-cn">类型三：战略性套利</span>
+                        </h4>
+                        <div class="bilingual-parallel text-sm">
+                            <p class="text-purple-800 mb-2 lang-en">Countries exploit differences to select advantageous rules. <strong>Core characteristic:</strong> "Institutional shopping"—strategic selection among environments.</p>
+                            <p class="text-purple-800 mb-2 lang-cn">国家利用差异选择有利规则的场景。<strong>核心特征：</strong>"制度购物"——在环境中的策略性选择。</p>
+                        </div>
+                        <div class="text-xs text-purple-700 mt-2 pt-2 border-t border-purple-200 bilingual-parallel">
+                            <span class="lang-en"><strong>Case:</strong> Kazakhstan (Nurly Zhol)</span>
+                            <span class="lang-cn"><strong>案例：</strong>哈萨克斯坦（光明之路）</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1.4 Section -->
+        <section id="1.4">
+            <h2 class="section-header">
+                <span class="lang-en">1.4 The Impact of BRI on Economic Development</span>
+                <span class="lang-cn">1.4 BRI对经济发展的影响</span>
+                <span class="lang-both">1.4 Economic Development Impact / 对经济发展的影响</span>
+            </h2>
+
+            <div id="1.4.1" class="mt-6">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.4.1 Impacts on Asian Countries</span>
+                    <span class="lang-cn">1.4.1 对亚洲国家的影响</span>
+                    <span class="lang-both">1.4.1 Asian Impacts / 对亚洲国家的影响</span>
+                </h3>
+                
+                <div class="bilingual-parallel mb-4">
+                    <p class="lang-en leading-relaxed">
+                        Asia represents the most concentrated region for BRI investment. According to GMF statistics, Chinese infrastructure investment in Asia accounted for <strong>over 60 percent</strong> of total overseas investment (2000-2025).
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        亚洲是BRI投资最集中的地区。根据GMF统计，2000-2025年间，中国在亚洲的基础设施投资占海外投资总额的<strong>60%以上</strong>。
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-3 gap-4 my-4">
+                    <div class="info-card">
+                        <strong class="text-primary text-sm block mb-2 lang-en">Central Asia / 中亚</strong>
+                        <p class="text-xs text-academic-600 lang-en">Kazakhstan: 50+ projects, $20B+ investment under China-Kazakhstan Industrial Capacity Cooperation.</p>
+                        <p class="text-xs text-academic-600 lang-cn">哈萨克斯坦：产能合作框架下50多个项目，投资超200亿美元。</p>
+                    </div>
+                    <div class="info-card">
+                        <strong class="text-primary text-sm block mb-2 lang-en">Southeast Asia / 东南亚</strong>
+                        <p class="text-xs text-academic-600 lang-en">China-Laos Railway: 40% freight cost reduction, 2-3 days to 3-4 hours travel time.</p>
+                        <p class="text-xs text-academic-600 lang-cn">中老铁路：货运成本降低40%，行程时间从2-3天缩短至3-4小时。</p>
+                    </div>
+                    <div class="info-card">
+                        <strong class="text-primary text-sm block mb-2 lang-en">South Asia / 南亚</strong>
+                        <p class="text-xs text-academic-600 lang-en">CPEC: Over $25 billion accumulated investment in Pakistan.</p>
+                        <p class="text-xs text-academic-600 lang-cn">中巴经济走廊(CPEC)：在巴基斯坦累计投资超250亿美元。</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="1.4.2" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.4.2 Impacts on European Countries</span>
+                    <span class="lang-cn">1.4.2 对欧洲国家的影响</span>
+                    <span class="lang-both">1.4.2 European Impacts / 对欧洲国家的影响</span>
+                </h3>
+                
+                <div class="bilingual-parallel">
+                    <p class="lang-en leading-relaxed">
+                        European participation exhibits East-West differentiation. The <strong>Port of Piraeus</strong> in Greece represents the most successful BRI case—container throughput increased from <strong>880,000 TEU in 2010 to 6.5 million TEU in 2024</strong>.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        欧洲参与呈现东西分化。希腊<strong>比雷埃夫斯港</strong>代表欧洲最成功的BRI案例——集装箱吞吐量从<strong>2010年的88万TEU增长到2024年的650万TEU</strong>。
+                    </p>
+                </div>
+            </div>
+
+            <div id="1.4.3" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.4.3 Heterogeneity: Role of Institutional Factors</span>
+                    <span class="lang-cn">1.4.3 异质性：制度因素的调节作用</span>
+                    <span class="lang-both">1.4.3 Institutional Factors / 异质性与制度因素</span>
+                </h3>
+                
+                <div class="bilingual-parallel">
+                    <p class="lang-en leading-relaxed">
+                        Hoong et al. employ PMG-ARDL analysis across nine Asian countries, finding that BRI engagement produces <strong>negative long-term effects on government debt-to-GDP ratios</strong> (reducing debt levels), though short-term effects vary according to national governance capacity.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        Hoong等人采用PMG-ARDL方法对九个亚洲国家进行分析，发现BRI参与对政府债务/GDP比率产生<strong>负的长期影响</strong>（降低债务水平），尽管短期效应因国家治理能力而异。
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 1.5 Section -->
+        <section id="1.5">
+            <h2 class="section-header">
+                <span class="lang-en">1.5 Research Design</span>
+                <span class="lang-cn">1.5 研究设计</span>
+                <span class="lang-both">1.5 Research Design / 研究设计</span>
+            </h2>
+
+            <div id="1.5.1" class="mt-6">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.5.1 Methodological Positioning</span>
+                    <span class="lang-cn">1.5.1 方法论定位</span>
+                    <span class="lang-both">1.5.1 Methodology / 方法论定位</span>
+                </h3>
+                
+                <div class="bilingual-parallel mb-4">
+                    <p class="lang-en leading-relaxed">
+                        Every research design is a product of trade-offs. I opt for a <strong>mixed-methods approach</strong> combining comparative institutional analysis with case study methodology—not because it is the most "standard" choice, but because it best fits the research question: how do rule differences translate into financial opportunities and risks?
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        每一种研究设计都是权衡的产物。我选择<strong>混合方法</strong>，将比较制度分析与案例研究相结合——并非因为它是最"标准"的选择，而是因为它最适合研究问题：规则差异如何转化为金融机遇与风险？
+                    </p>
+                </div>
+
+                <div class="bg-academic-100 p-4 rounded-lg">
+                    <h4 class="font-bold text-primary mb-2 text-sm bilingual-parallel">
+                        <span class="lang-en">Three Reasons Against Large-N Statistics</span>
+                        <span class="lang-cn">反对大样本统计的三个理由</span>
+                    </h4>
+                    <div class="bilingual-parallel text-sm space-y-2">
+                        <ol class="lang-en list-decimal pl-5 space-y-1">
+                            <li>Time window too short (BRI 2013, Global Gateway 2021)</li>
+                            <li>Mechanisms matter more than correlations</li>
+                            <li>Institutional details cannot be compressed into variables</li>
+                        </ol>
+                        <ol class="lang-cn list-decimal pl-5 space-y-1">
+                            <li>时间窗口太短（BRI始于2013，全球门户始于2021）</li>
+                            <li>机制比相关性更重要</li>
+                            <li>制度细节不能压缩为变量</li>
+                        </ol>
+                    </div>
+                </div>
+            </div>
+
+            <div id="1.5.2" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.5.2 Case Selection Logic</span>
+                    <span class="lang-cn">1.5.2 案例选择逻辑</span>
+                    <span class="lang-both">1.5.2 Case Selection / 案例选择逻辑</span>
+                </h3>
+                
+                <div class="bilingual-parallel mb-4">
+                    <p class="lang-en leading-relaxed">
+                        This study selects the <strong>Port of Piraeus</strong> and the <strong>Budapest-Belgrade Railway</strong> based on <strong>"most similar" background with "most different" outcomes</strong>.
+                    </p>
+                    <p class="lang-cn leading-relaxed">
+                        本研究选择<strong>比雷埃夫斯港</strong>和<strong>布达佩斯-贝尔格莱德铁路</strong>，基于<strong>"最相似"背景与"最不同"结果</strong>的逻辑。
+                    </p>
+                </div>
+
+                <div class="overflow-x-auto">
+                    <table class="academic-table text-sm">
+                        <thead>
+                            <tr>
+                                <th class="lang-en">Control Variable</th>
+                                <th class="lang-cn">控制变量</th>
+                                <th class="lang-en">Similarity</th>
+                                <th class="lang-cn">相似度</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td class="lang-en">Project type (infrastructure)</td>
+                                <td class="lang-cn">项目类型（基础设施）</td>
+                                <td colspan="2" class="text-center">Port vs Railway / 港口vs铁路 = 5/5</td>
+                            </tr>
+                            <tr>
+                                <td class="lang-en">Strategic positioning</td>
+                                <td class="lang-cn">战略定位</td>
+                                <td colspan="2" class="text-center">Flagship project / 旗舰项目 = 5/5</td>
+                            </tr>
+                            <tr>
+                                <td class="lang-en">Geographic location</td>
+                                <td class="lang-cn">地理位置</td>
+                                <td colspan="2" class="text-center">EU member / 欧盟成员 = 4/5</td>
+                            </tr>
+                            <tr class="bg-secondary/10">
+                                <td class="lang-en"><strong>Outcome: Rule Pattern</strong></td>
+                                <td class="lang-cn"><strong>结果：规则模式</strong></td>
+                                <td class="lang-en text-center font-bold">Harmonious vs Conflictual</td>
+                                <td class="lang-cn text-center font-bold">协调vs冲突</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="1.5.4" class="mt-8">
+                <h3 class="subsubsection-header">
+                    <span class="lang-en">1.5.4 Research Limitations</span>
+                    <span class="lang-cn">1.5.4 研究局限</span>
+                    <span class="lang-both">1.5.4 Limitations / 研究局限</span>
+                </h3>
+                
+                <div class="space-y-3 text-sm">
+                    <div class="bilingual-parallel border-l-2 border-red-300 pl-4">
+                        <div class="lang-en">
+                            <strong class="text-red-700">Limited case quantity:</strong> Only two cases; findings may not apply universally. <em>Response:</em> Chapter 5 discusses Asian cases for cross-regional testing.
+                        </div>
+                        <div class="lang-cn">
+                            <strong class="text-red-700">案例数量有限：</strong>仅两个案例；发现可能不具普遍性。<em>应对：</em>第五章讨论亚洲案例进行跨区域检验。
+                        </div>
+                    </div>
+                    
+                    <div class="bilingual-parallel border-l-2 border-red-300 pl-4 mt-2">
+                        <div class="lang-en">
+                            <strong class="text-red-700">Dependence on public sources:</strong> No field interviews. <em>Response:</em> Utilize semi-public data and multi-source triangulation.
+                        </div>
+                        <div class="lang-cn">
+                            <strong class="text-red-700">依赖公开资料：</strong>无实地访谈。<em>应对：</em>利用半公开资料和多源三角验证。
+                        </div>
+                    </div>
+                    
+                    <div class="bilingual-parallel border-l-2 border-red-300 pl-4 mt-2">
+                        <div class="lang-en">
+                            <strong class="text-red-700">Temporal constraints:</strong> Global Gateway implementation period short (2021–present). <em>Response:</em> Define boundaries through end-2025.
+                        </div>
+                        <div class="lang-cn">
+                            <strong class="text-red-700">时间限制：</strong>全球门户实施期短（2021至今）。<em>应对：</em>界定时间边界至2025年底。
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="highlight-box mt-8">
+                <div class="bilingual-parallel">
+                    <p class="text-sm lang-en"><strong>Summary:</strong> This study employs mixed methods combining comparative institutional analysis with case studies. Through "most similar" and "most different" case selection logic, the research controls background variables to focus on the impact of rule interaction morphology on project performance.</p>
+                    <p class="text-sm lang-cn"><strong>小结：</strong>本研究采用混合方法，结合比较制度分析与案例研究。通过"最相似"和"最不同"的案例选择逻辑，控制背景变量，聚焦于规则互动形态对项目绩效的影响。</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="main.html" class="page-btn">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <span class="lang-en">Home</span><span class="lang-cn">首页</span>
+            </a>
+            <a href="chapter2.html" class="page-btn">
+                <span class="lang-en">Chapter 2 →</span><span class="lang-cn">第二章 →</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
             </a>
         </div>
-    </footer>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-academic-200 text-center text-sm text-academic-500">
+            <p class="bilingual-parallel justify-center">
+                <span class="lang-en">Chapter 1: Introduction | ZHAO JIE | Almaty 2026</span>
+                <span class="lang-cn">第一章：引言 | 赵杰 | 阿拉木图 2026</span>
+            </p>
+        </footer>
+    </main>
 
     <script>
-        // Language Toggle
-        let currentLang = localStorage.getItem('lang-mode') || 'en';
-        function setLanguage(lang) {
-            currentLang = lang;
-            document.documentElement.setAttribute('lang-mode', lang);
-            localStorage.setItem('lang-mode', lang);
-            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
-            document.getElementById(`btn-${lang}`).classList.add('active');
+        // Language Management
+        function setLang(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('dissertation-lang', lang);
+            
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if(btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('bg-primary', 'text-white');
+                    btn.classList.remove('hover:bg-primary', 'hover:text-white');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-white');
+                    btn.classList.add('hover:bg-primary', 'hover:text-white');
+                }
+            });
         }
-        setLanguage(currentLang);
-        
-        // Dark Mode
-        function toggleDarkMode() {
-            document.documentElement.classList.toggle('dark');
-            localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
+
+        // Navigation
+        function toggleNav() {
+            document.getElementById('chapterNav').classList.toggle('open');
+            document.querySelector('.nav-overlay').classList.toggle('open');
         }
-        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-            document.documentElement.classList.add('dark');
+
+        function scrollTo(id) {
+            const el = document.getElementById(id);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                document.getElementById('chapterNav').classList.remove('open');
+                document.querySelector('.nav-overlay').classList.remove('open');
+            }
         }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('dissertation-lang') || 'en';
+            setLang(savedLang);
+        });
     </script>
 </body>
 </html>
