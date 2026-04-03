@@ -11,11 +11,10 @@
             font-family: 'Inter', sans-serif; 
             margin: 0;
             padding: 0;
-            overflow: hidden; /* 防止滚动条，由iframe内部处理 */
+            overflow: hidden;
         }
         .serif-sc { font-family: 'Noto Serif SC', serif; }
         
-        /* 密码门样式 - 完全继承文件1风格 */
         #gate {
             position: fixed;
             inset: 0;
@@ -36,6 +35,7 @@
             width: 90%;
             border: 1px solid rgba(255, 255, 255, 0.2);
             animation: slideUp 0.6s ease-out;
+            user-select: none; /* 禁止文本选择 */
         }
         @keyframes slideUp {
             from { transform: translateY(30px); opacity: 0; }
@@ -69,6 +69,8 @@
             transition: border-color 0.3s;
             text-align: center;
             letter-spacing: 2px;
+            user-select: text; /* 输入框内允许选择 */
+            -webkit-user-select: text;
         }
         #gate-box input:focus {
             outline: none;
@@ -86,6 +88,7 @@
             font-size: 15px;
             font-weight: 600;
             transition: all 0.3s;
+            user-select: none;
         }
         #gate-box button:hover {
             transform: translateY(-1px);
@@ -122,6 +125,7 @@
             border: 1px solid #e2e8f0;
             cursor: pointer;
             box-sizing: border-box;
+            user-select: none;
         }
         .gate-apply-btn:hover {
             background: #e2e8f0;
@@ -131,6 +135,7 @@
             color: #94a3b8;
             margin-top: 20px;
             line-height: 1.5;
+            user-select: none;
         }
         .gate-hint .cn {
             font-family: 'Noto Serif SC', serif;
@@ -138,6 +143,7 @@
         .gate-icon {
             font-size: 48px;
             margin-bottom: 16px;
+            user-select: none;
         }
         .gate-label {
             display: block;
@@ -148,6 +154,7 @@
             margin-bottom: 4px;
             text-transform: uppercase;
             letter-spacing: 0.5px;
+            user-select: none;
         }
         .gate-label .cn {
             font-family: 'Noto Serif SC', serif;
@@ -165,11 +172,10 @@
             75% { transform: translateX(10px); }
         }
         
-        /* 主内容容器 */
         #main-container {
             width: 100vw;
             height: 100vh;
-            display: none; /* 初始隐藏 */
+            display: none;
         }
         #main-container.active {
             display: block;
@@ -179,20 +185,9 @@
             height: 100%;
             border: none;
         }
-        
-        /* 简单的加载指示器 */
-        .loading-indicator {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #1e3a8a;
-            font-size: 14px;
-            display: none;
-        }
     </style>
 </head>
-<body>
+<body oncontextmenu="return false;"> <!-- 全局禁止右键 -->
 
     <!-- 密码门 -->
     <div id="gate">
@@ -207,14 +202,14 @@
             <label class="gate-label">
                 Access Password <span class="cn">访问密码</span>
             </label>
-            <input type="password" id="pwd" placeholder="Enter password | 输入密码" onkeydown="if(event.key==='Enter')check()">
-            <button onclick="check()">
+            <input type="password" id="pwd" placeholder="Enter password | 输入密码" autocomplete="off">
+            <button onclick="check()" id="submit-btn">
                 Enter System | 进入系统
             </button>
             
             <div class="gate-divider"></div>
             
-            <button class="gate-apply-btn" onclick="requestAccess()">
+            <button class="gate-apply-btn" onclick="requestAccess()" id="apply-btn">
                 📩 Request Access | 申请查看权限
             </button>
             
@@ -225,25 +220,172 @@
         </div>
     </div>
 
-    <!-- 主内容区 - 通过 iframe 加载原 index.html（请将其重命名为 main.html） -->
+    <!-- 主内容区 -->
     <div id="main-container">
-        <div class="loading-indicator" id="loading">Loading Research Content | 加载研究内容...</div>
         <iframe id="content-frame" src="main.html" title="Research Content"></iframe>
     </div>
 
     <script>
-        // 密码验证 - kz2026 (编码形式)
-        const _0x6b=["\x6b\x7a\x32\x30\x32\x36"]; // kz2026
+        // ==================== 核心安全控制：全面禁止快捷键 ====================
+        (function() {
+            'use strict';
+            
+            const pwdInput = document.getElementById('pwd');
+            const gate = document.getElementById('gate');
+            
+            // 禁止的按键列表
+            const forbiddenKeys = [
+                'F1', 'F2', 'F3', 'F4', 'F5', 'F6', 'F7', 'F8', 'F9', 'F10', 'F11', 'F12',
+                'Escape', 'Insert', 'Delete', 'Home', 'End', 'PageUp', 'PageDown',
+                'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight',
+                'Tab', 'CapsLock', 'NumLock', 'ScrollLock', 'Pause', 'PrintScreen',
+                'ContextMenu'
+            ];
+            
+            // 禁止的组合键检查
+            function isForbiddenCombo(e) {
+                // Ctrl + 任何键 (包括 C/V/X/A/S/U/P/R等)
+                if (e.ctrlKey) return true;
+                
+                // Alt + 任何键 (包括 F4, Tab等)
+                if (e.altKey) return true;
+                
+                // Meta键 (Mac的Command键) + 任何键
+                if (e.metaKey) return true;
+                
+                // Shift + 功能键 (如 Shift+F5)
+                if (e.shiftKey && e.key.startsWith('F')) return true;
+                
+                return false;
+            }
+            
+            // 全局键盘拦截 (捕获阶段，确保最先执行)
+            document.addEventListener('keydown', function(e) {
+                // 如果已通过验证，不再拦截
+                if (!gate || gate.style.display === 'none') {
+                    return true;
+                }
+                
+                const target = e.target;
+                const isPwdInput = target === pwdInput;
+                
+                // 1. 首先拦截所有功能键和特定禁止键（无论在何处）
+                if (forbiddenKeys.includes(e.key)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Blocked key:', e.key);
+                    return false;
+                }
+                
+                // 2. 拦截所有组合键 (Ctrl, Alt, Meta等)
+                if (isForbiddenCombo(e)) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    console.log('Blocked combo key');
+                    return false;
+                }
+                
+                // 3. 非输入框状态下，禁止除Tab外的所有键（Tab用于可访问性导航到按钮）
+                if (!isPwdInput) {
+                    // 只允许Tab键用于在按钮间导航，其他全部禁止
+                    if (e.key !== 'Tab') {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        return false;
+                    }
+                    return true;
+                }
+                
+                // 4. 在密码输入框内，只允许可打印字符和回车、退格
+                if (isPwdInput) {
+                    // 允许的键：回车（提交）、退格
+                    if (e.key === 'Enter' || e.key === 'Backspace') {
+                        return true;
+                    }
+                    
+                    // 禁止在输入框内的方向键（防止光标移动查看已输入内容？可选，但用户要求严格）
+                    // 如果用户需要严格禁止一切，只保留输入功能，可以取消下面注释：
+                    /*
+                    if (['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End'].includes(e.key)) {
+                        e.preventDefault();
+                        return false;
+                    }
+                    */
+                    
+                    // 只允许可打印字符（字母、数字、符号）
+                    // key.length === 1 通常表示可打印字符
+                    if (e.key.length === 1) {
+                        return true; // 允许输入
+                    }
+                    
+                    // 其他所有键（如Escape, Insert等）在输入框内也禁止
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+                
+            }, true); // true = 捕获阶段
+            
+            // 禁止拖拽（防止拖拽查看源代码或图片）
+            document.addEventListener('dragstart', function(e) {
+                e.preventDefault();
+                return false;
+            }, true);
+            
+            // 禁止选择文本（除了在密码输入框内）
+            document.addEventListener('selectstart', function(e) {
+                if (e.target !== pwdInput) {
+                    e.preventDefault();
+                    return false;
+                }
+            }, true);
+            
+            // 禁止复制事件
+            document.addEventListener('copy', function(e) {
+                if (e.target !== pwdInput) {
+                    e.preventDefault();
+                    return false;
+                }
+            }, true);
+            
+            // 禁止剪切
+            document.addEventListener('cut', function(e) {
+                e.preventDefault();
+                return false;
+            }, true);
+            
+            // 禁止粘贴（防止粘贴密码？虽然这不合理，但用户要求严格禁止一切）
+            // 实际上应该允许粘贴密码，所以注释掉，如需严格可取消注释
+            /*
+            document.addEventListener('paste', function(e) {
+                e.preventDefault();
+                return false;
+            }, true);
+            */
+            
+            // 处理输入框的回车事件（因为内联的onkeydown可能被拦截）
+            pwdInput.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') {
+                    check();
+                }
+            });
+            
+        })();
         
-        function check(){
+        // ==================== 业务逻辑 ====================
+        
+        // 密码验证 - kz2026
+        const _0x6b = ["\x6b\x7a\x32\x30\x32\x36"]; // kz2026
+        
+        function check() {
             const input = document.getElementById('pwd');
             const gate = document.getElementById('gate');
             const mainContainer = document.getElementById('main-container');
             
-            if(input.value === _0x6b[0]){
+            if (input.value === _0x6b[0]) {
                 // 验证通过
                 gate.style.opacity = '0';
-                setTimeout(function(){
+                setTimeout(function() {
                     gate.style.display = 'none';
                     mainContainer.classList.add('active');
                     console.log("✓ Authorized access at: " + new Date().toLocaleString());
@@ -262,21 +404,23 @@
         }
         
         function requestAccess() {
-            // 模拟申请访问功能
             const email = prompt("Please enter your institutional email address | 请输入您的机构邮箱：");
-            if (email && email.includes('@')) {
+            if (email && email.includes('@') && email.includes('.')) {
                 alert("Access request sent to administrator.\nYou will receive the password via email within 1-24 hours.\n\n申请已发送至管理员，密码将在1-24小时内发送至您的邮箱。");
             } else if (email) {
-                alert("Please enter a valid email address | 请输入有效的邮箱地址");
+                alert("Please enter a valid email address (e.g., name@university.edu) | 请输入有效的机构邮箱地址");
             }
         }
         
-        // 防止右键查看源代码（可选的简单防护）
-        document.addEventListener('contextmenu', function(e) {
-            if (document.getElementById('gate').style.display !== 'none') {
-                e.preventDefault();
+        // 额外的安全：阻止通过控制台修改（简单的debugger陷阱，可被绕过但增加难度）
+        setInterval(function() {
+            const gate = document.getElementById('gate');
+            if (gate && gate.style.display !== 'none') {
+                // 在密码门显示期间，每隔一段时间检查是否有调试器
+                // 这只是心理威慑，可删除
+                (function(){}).constructor('debugger')();
             }
-        });
+        }, 3000);
     </script>
 
 </body>
