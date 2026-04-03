@@ -1,0 +1,1231 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appendices | BRI Dissertation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        'serif': ['Crimson Text', 'Noto Serif SC', 'serif'],
+                        'sans': ['Inter', 'Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        'academic': {
+                            50: '#f8f9fa', 100: '#e9ecef', 200: '#dee2e6',
+                            300: '#ced4da', 400: '#adb5bd', 500: '#6c757d',
+                            600: '#495057', 700: '#343a40', 800: '#212529', 900: '#121416',
+                        },
+                        'primary': '#1a365d', 'secondary': '#c9a227', 'accent': '#2c5282',
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .lang-en, .lang-cn, .lang-both { display: none; }
+        body[data-lang="en"] .lang-en, body[data-lang="cn"] .lang-cn { display: block; }
+        body[data-lang="both"] .lang-en, body[data-lang="both"] .lang-cn { display: block; }
+        body[data-lang="both"] .bilingual-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;
+        }
+        body[data-lang="both"] .bilingual-grid > div:first-child {
+            border-right: 1px solid #e5e7eb; padding-right: 1rem;
+        }
+        .chapter-nav {
+            position: fixed; left: 0; top: 0; height: 100vh; width: 280px;
+            background: white; border-right: 1px solid #e9ecef;
+            overflow-y: auto; z-index: 40; padding: 2rem;
+            transform: translateX(-100%); transition: transform 0.3s;
+        }
+        .chapter-nav.open { transform: translateX(0); }
+        .nav-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 35; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .nav-overlay.open { opacity: 1; pointer-events: auto; }
+        .content-wrapper { max-width: 900px; margin: 0 auto; padding: 2rem 1rem; }
+        @media (min-width: 1024px) {
+            .content-wrapper { margin-left: 300px; margin-right: auto; padding: 3rem 2rem; }
+            .chapter-nav { transform: translateX(0); }
+            .menu-toggle { display: none; }
+        }
+        .toc-item {
+            display: block; padding: 0.5rem 0; color: #6c757d;
+            font-size: 0.875rem; border-left: 2px solid transparent;
+            padding-left: 1rem; margin-left: -1rem; transition: all 0.2s;
+        }
+        .toc-item:hover, .toc-item.active {
+            color: #1a365d; border-left-color: #c9a227;
+        }
+        .appendix-header {
+            font-size: 2rem; font-weight: 700; color: #1a365d;
+            margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem;
+            border-bottom: 2px solid #c9a227; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+        }
+        .subappendix-header {
+            font-size: 1.5rem; font-weight: 600; color: #2c5282;
+            margin-top: 2.5rem; margin-bottom: 1rem; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+        }
+        .academic-table {
+            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
+            font-size: 0.85rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+        .academic-table th {
+            background: #1a365d; color: white; padding: 0.75rem;
+            text-align: left; font-weight: 600; border: 1px solid #1a365d;
+        }
+        .academic-table td {
+            padding: 0.75rem; border: 1px solid #dee2e6;
+            vertical-align: top;
+        }
+        .academic-table tr:nth-child(even) { background: #f8f9fa; }
+        .academic-table tr:hover { background: #e9ecef; }
+        .timeline-table td:first-child {
+            font-weight: 600; color: #1a365d; white-space: nowrap;
+            width: 120px;
+        }
+        .data-highlight {
+            background: linear-gradient(120deg, #ffeaa7 0%, #ffeaa7 100%);
+            background-repeat: no-repeat;
+            background-size: 100% 40%;
+            background-position: 0 88%;
+            font-weight: 600;
+        }
+        .pagination {
+            display: flex; justify-content: space-between; margin-top: 4rem;
+            padding-top: 2rem; border-top: 1px solid #dee2e6;
+        }
+        .page-btn {
+            display: inline-flex; align-items: center; gap: 0.5rem;
+            padding: 0.75rem 1.5rem; background: #1a365d; color: white;
+            border-radius: 6px; text-decoration: none; transition: all 0.3s;
+        }
+        .page-btn:hover { background: #2c5282; transform: translateY(-2px); }
+        .appendix-card {
+            background: white; border: 1px solid #e9ecef; border-radius: 8px;
+            padding: 1.5rem; margin-bottom: 1rem; box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .matrix-cell { font-size: 0.8rem; line-height: 1.4; }
+        .reliability-badge {
+            display: inline-block; padding: 0.25rem 0.5rem;
+            border-radius: 4px; font-size: 0.75rem; font-weight: 600;
+        }
+        .rel-5 { background: #d4edda; color: #155724; }
+        .rel-4 { background: #fff3cd; color: #856404; }
+        .rel-3 { background: #f8d7da; color: #721c24; }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-academic-50 text-academic-800 font-sans antialiased" data-lang="en">
+    <!-- Language Switcher -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2 bg-white/90 backdrop-blur rounded-full shadow-lg border border-academic-200 p-1">
+        <button onclick="setLang('en')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="en">EN</button>
+        <button onclick="setLang('cn')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="cn">CN</button>
+        <button onclick="setLang('both')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="both">EN/CN</button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <button onclick="toggleNav()" class="menu-toggle fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-md border border-academic-200">
+        <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+
+    <div class="nav-overlay" onclick="toggleNav()"></div>
+
+    <!-- Navigation Sidebar -->
+    <nav class="chapter-nav" id="chapterNav">
+        <div class="mb-8">
+            <h2 class="text-lg font-bold text-primary mb-1">Appendices</h2>
+            <p class="text-sm text-academic-500">附录</p>
+        </div>
+        
+        <div class="space-y-1 mb-8">
+            <a href="#appendix-a" class="toc-item" onclick="scrollToSection('appendix-a')">Appendix A: Rules Comparison Matrix</a>
+            <a href="#appendix-b" class="toc-item" onclick="scrollToSection('appendix-b')">Appendix B: Port of Piraeus Data</a>
+            <a href="#appendix-c" class="toc-item" onclick="scrollToSection('appendix-c')">Appendix C: Budapest-Belgrade Data</a>
+            <a href="#appendix-d" class="toc-item" onclick="scrollToSection('appendix-d')">Appendix D: EU Regulatory Overview</a>
+            <a href="#appendix-e" class="toc-item" onclick="scrollToSection('appendix-e')">Appendix E: Policy Documents</a>
+        </div>
+
+        <div class="pt-4 border-t border-academic-200">
+            <a href="chapter5.html" class="flex items-center gap-2 text-sm text-academic-600 hover:text-primary mb-3">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <span>Chapter 5</span>
+            </a>
+            <a href="main.html" class="flex items-center gap-2 text-sm text-academic-600 hover:text-primary">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                <span>Home / 首页</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="content-wrapper">
+        <header class="mb-12 text-center">
+            <div class="text-sm text-secondary font-semibold tracking-wider uppercase mb-2">Supporting Materials</div>
+            <h1 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-4">
+                <span class="lang-en">Appendices</span>
+                <span class="lang-cn">附录</span>
+                <span class="lang-both">Appendices / 附录</span>
+            </h1>
+            <div class="h-1 w-24 bg-secondary mx-auto mb-4"></div>
+            <p class="text-academic-600 max-w-2xl mx-auto">
+                <span class="lang-en">Extended data tables, case materials, regulatory frameworks, and source documentation supporting the dissertation analysis.</span>
+                <span class="lang-cn">支持论文分析的扩展数据表、案例材料、监管框架和来源文件。</span>
+            </p>
+        </header>
+
+        <!-- Appendix A -->
+        <section id="appendix-a" class="mb-16">
+            <h2 class="appendix-header">
+                <span class="lang-en">Appendix A: Extended Matrix of China-Europe Financial Rules Comparison</span>
+                <span class="lang-cn">附录A：中欧金融规则比较扩展矩阵</span>
+            </h2>
+            
+            <p class="mb-6 text-sm text-academic-600 leading-relaxed">
+                <span class="lang-en">This appendix provides the detailed extended version of the institutional comparison matrix developed in Chapter 3, including sub-dimensions, specific rule clauses, and sources for each of the eight analytical dimensions.</span>
+                <span class="lang-cn">本附录提供第三章制度比较矩阵的详细扩展版本，包括八個分析维度的子维度、具体规则条款和来源。</span>
+            </p>
+
+            <div class="overflow-x-auto">
+                <table class="academic-table text-xs">
+                    <thead>
+                        <tr>
+                            <th style="width:8%">Dim.</th>
+                            <th style="width:15%">Sub-dimension</th>
+                            <th style="width:28%">BRI Rule Characteristics</th>
+                            <th style="width:28%">Global Gateway Rule Characteristics</th>
+                            <th style="width:21%">Assessment Indicators</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Dimension 1 -->
+                        <tr>
+                            <td rowspan="5" class="font-bold bg-blue-50 text-primary text-center">1<br>Financing<br>Mechanisms</td>
+                            <td>1.1 Primary Funding Sources</td>
+                            <td>CDB, China Exim Bank policy lending; Silk Road Fund equity; AIIB multilateral financing</td>
+                            <td>EFSD+ blended finance; EIB, EBRD lending; member state DFIs; private capital mobilization</td>
+                            <td>Public capital share, multilateral participation</td>
+                        </tr>
+                        <tr>
+                            <td>1.2 Capital Scale</td>
+                            <td>Cumulative investment $1.308 trillion (by 2025); Silk Road Fund commitments $22 billion</td>
+                            <td>€300 billion planned mobilization 2021–2027; actual implementation lagging, disbursement rate approx. 35%</td>
+                            <td>Committed/disbursement ratio</td>
+                        </tr>
+                        <tr>
+                            <td>1.3 Currency Selection</td>
+                            <td>USD-denominated, promoting RMB cross-border settlement (CIPS); Panda bond pilots</td>
+                            <td>Euro-denominated, promoting digital euro; emphasizing euro payment strategic autonomy</td>
+                            <td>Local currency financing share, FX risk-sharing mechanisms</td>
+                        </tr>
+                        <tr>
+                            <td>1.4 Loan Terms</td>
+                            <td>15–20 year maturities, concessional rates, project-linked (Chinese contractors, equipment)</td>
+                            <td>Blended finance: grants + concessional loans + commercial credit combinations</td>
+                            <td>Concessional element share (grant element)</td>
+                        </tr>
+                        <tr>
+                            <td>1.5 Risk Mitigation Instruments</td>
+                            <td>Sinosure political risk insurance; inter-governmental agreement backing; exploration of market instruments with EIF</td>
+                            <td>African Currency Linked Bond (ACLB) guarantees; political risk insurance; construction-period insurance</td>
+                            <td>Private capital mobilization rate, risk transfer mechanisms</td>
+                        </tr>
+
+                        <!-- Dimension 2 -->
+                        <tr>
+                            <td rowspan="5" class="font-bold bg-green-50 text-primary text-center">2<br>Environmental<br>Standards</td>
+                            <td>2.1 Compliance Requirements</td>
+                            <td>"Applicability of host-country law" principle; AIIB references international standards (non-mandatory unified application)</td>
+                            <td>Mandatory compliance with EU Taxonomy for Sustainable Finance; Paris Agreement alignment; mandatory ESIA</td>
+                            <td>Number of mandatory standards, third-party certification requirements</td>
+                        </tr>
+                        <tr>
+                            <td>2.2 Social Safeguards</td>
+                            <td>No unified labor standards requirements; project-level negotiation</td>
+                            <td>Mandatory compliance with ILO core conventions; supply chain due diligence (CSDDD)</td>
+                            <td>Labor standard clauses, union participation mechanisms</td>
+                        </tr>
+                        <tr>
+                            <td>2.3 Green Standards</td>
+                            <td>Post-2021 shift toward "Green Silk Road"; self-defined standards; no mandatory third-party certification</td>
+                            <td>Mandatory EU green taxonomy alignment; carbon footprint disclosure; climate transition plan requirements</td>
+                            <td>Carbon accounting methodology, renewable energy targets</td>
+                        </tr>
+                        <tr>
+                            <td>2.4 Biodiversity</td>
+                            <td>Mentioned in recent years, no mandatory requirements</td>
+                            <td>Mandatory assessment of project biodiversity impacts; mitigation measures required</td>
+                            <td>Biodiversity impact assessment coverage</td>
+                        </tr>
+                        <tr>
+                            <td>2.5 Environmental Information Disclosure</td>
+                            <td>No mandatory disclosure requirements; commercial confidentiality prioritized</td>
+                            <td>Mandatory public environmental assessment reports; European Ombudsman oversight</td>
+                            <td>Environmental information disclosure completeness index</td>
+                        </tr>
+
+                        <!-- Dimension 3 -->
+                        <tr>
+                            <td rowspan="5" class="font-bold bg-yellow-50 text-primary text-center">3<br>Procurement<br>Procedures</td>
+                            <td>3.1 Tendering Method</td>
+                            <td>EPC model dominant; Chinese equipment may be required; "turnkey" engineering</td>
+                            <td>International competitive bidding; "EU enterprise priority" emphasis; reciprocal market access requirements</td>
+                            <td>Open tendering share, local enterprise winning rate</td>
+                        </tr>
+                        <tr>
+                            <td>3.2 Local Content Requirements</td>
+                            <td>No mandatory requirements; recent encouragement of local suppliers</td>
+                            <td>Emphasis on "local value creation"; technology transfer and local training required</td>
+                            <td>Local procurement share, technology transfer clauses</td>
+                        </tr>
+                        <tr>
+                            <td>3.3 Transparency</td>
+                            <td>Commercial sensitive information confidentiality; no unified public platform</td>
+                            <td>Mandatory public tender information; EU Procurement Directive constraints</td>
+                            <td>Tender document completeness, challenge/complaint mechanisms</td>
+                        </tr>
+                        <tr>
+                            <td>3.4 Bid Evaluation Criteria</td>
+                            <td>Price-primary, with technical scheme consideration</td>
+                            <td>"Total lifecycle value" rather than "lowest bid wins"; non-price criteria (cybersecurity, supply chain resilience, environmental sustainability)</td>
+                            <td>Non-price criteria weighting, supply chain resilience scoring</td>
+                        </tr>
+                        <tr>
+                            <td>3.5 Dispute Resolution</td>
+                            <td>Inter-governmental consultation primary; international arbitration optional</td>
+                            <td>EU Court of Justice review; international arbitration</td>
+                            <td>Dispute resolution duration, enforcement rates</td>
+                        </tr>
+
+                        <!-- Dimension 4 -->
+                        <tr>
+                            <td rowspan="5" class="font-bold bg-red-50 text-primary text-center">4<br>Debt<br>Sustainability</td>
+                            <td>4.1 Assessment Framework</td>
+                            <td>China's Debt Sustainability Framework for BRI (2019); development-first emphasis, acknowledging infrastructure long-term growth effects</td>
+                            <td>IMF/World Bank Joint DSF; fiscal prudence and solvency threshold emphasis</td>
+                            <td>Assessment frequency, debt coverage scope</td>
+                        </tr>
+                        <tr>
+                            <td>4.2 Debt Thresholds</td>
+                            <td>No unified hard thresholds; case-by-case determination</td>
+                            <td>Clear debt-to-GDP, debt-to-exports threshold indicators</td>
+                            <td>Threshold stringency, early warning mechanisms</td>
+                        </tr>
+                        <tr>
+                            <td>4.3 Debt Treatment Mechanisms</td>
+                            <td>Bilateral negotiation primary (e.g., Sri Lanka Hambantota Port converted to long-term lease); high flexibility, low transparency</td>
+                            <td>Promotes Paris Club-coordinated debt treatment; requires equal burden-sharing; standardized procedures but time-consuming</td>
+                            <td>Debt restructuring duration, debt reduction magnitude</td>
+                        </tr>
+                        <tr>
+                            <td>4.4 Debt Transparency</td>
+                            <td>No unified debt information disclosure requirements</td>
+                            <td>Requires public debt terms; Paris Club oversight</td>
+                            <td>Debt data disclosure completeness</td>
+                        </tr>
+                        <tr>
+                            <td>4.5 Empirical Effects</td>
+                            <td>Long-term reduction in debt-to-GDP ratios (9-country study); short-term liquidity pressures</td>
+                            <td>Emphasis on "avoiding debt traps," yet project implementation lag prevents large-scale debt formation</td>
+                            <td>Debt distress incidence rates</td>
+                        </tr>
+
+                        <!-- Dimension 5 -->
+                        <tr>
+                            <td rowspan="5" class="font-bold bg-purple-50 text-primary text-center">5<br>Transparency<br>& Governance</td>
+                            <td>5.1 Information Disclosure</td>
+                            <td>No unified project information platform; commercial confidentiality prioritized</td>
+                            <td>Mandatory project information disclosure; public financing terms and environmental assessments</td>
+                            <td>Project information accessibility index</td>
+                        </tr>
+                        <tr>
+                            <td>5.2 Oversight Mechanisms</td>
+                            <td>Chinese inter-governmental coordination primary; no mandatory independent third-party oversight</td>
+                            <td>European Ombudsman complaint reception; independent audit as "design feature"</td>
+                            <td>Number of independent oversight bodies, complaint resolution rates</td>
+                        </tr>
+                        <tr>
+                            <td>5.3 Anti-Corruption Provisions</td>
+                            <td>Recent emphasis on "Clean Silk Road"; no mandatory beneficial ownership disclosure</td>
+                            <td>Mandatory beneficial ownership disclosure; anti-corruption clauses in financing agreements</td>
+                            <td>Beneficial ownership disclosure coverage</td>
+                        </tr>
+                        <tr>
+                            <td>5.4 Civil Society Participation</td>
+                            <td>Limited; inter-governmental dialogue primary</td>
+                            <td>Mandatory civil society consultation; NGO oversight</td>
+                            <td>Civil society consultation frequency, feedback adoption rates</td>
+                        </tr>
+                        <tr>
+                            <td>5.5 Data Governance</td>
+                            <td>Commercial data confidentiality</td>
+                            <td>Data localization requirements (e.g., NIS2 Directive); cybersecurity plans</td>
+                            <td>Data storage location, cross-border transmission restrictions</td>
+                        </tr>
+
+                        <!-- Dimension 6 -->
+                        <tr>
+                            <td rowspan="4" class="font-bold bg-indigo-50 text-primary text-center">6<br>Implementation<br>Efficiency</td>
+                            <td>6.1 Project Cycle</td>
+                            <td>Short time from agreement to groundbreaking (China-Laos Railway 5 years)</td>
+                            <td>Slow decision-making, slow implementation (Lobito Corridor planned for years with limited progress)</td>
+                            <td>Project preparation period, construction duration</td>
+                        </tr>
+                        <tr>
+                            <td>6.2 Approval Processes</td>
+                            <td>"Not so much red tape"</td>
+                            <td>Complex procedures due to environmental/social review, compliance screening, transparency requirements</td>
+                            <td>Number of approval stages, parallel approval ratios</td>
+                        </tr>
+                        <tr>
+                            <td>6.3 Decision Mechanisms</td>
+                            <td>Rapid inter-governmental negotiation; rapid alignment of SOEs and financial institutions</td>
+                            <td>Multilateral coordination; member state consensus; slow private capital mobilization</td>
+                            <td>Number of decision-making levels, veto points</td>
+                        </tr>
+                        <tr>
+                            <td>6.4 Case Evidence</td>
+                            <td>Piraeus Port (rapid expansion), China-Laos Railway (5 years)</td>
+                            <td>Lobito Corridor, MEDUSA cable (in progress)</td>
+                            <td>Actual completion time versus planned comparison</td>
+                        </tr>
+
+                        <!-- Dimension 7 -->
+                        <tr>
+                            <td rowspan="4" class="font-bold bg-pink-50 text-primary text-center">7<br>Rule<br>Applicability</td>
+                            <td>7.1 Geographic Scope</td>
+                            <td>150+ signatory countries globally; focus on Asia, Africa, Central and Eastern Europe</td>
+                            <td>Global; focus on Africa (€150 billion), Latin America, Asia, Central Asia</td>
+                            <td>Regional capital allocation, project geographic distribution</td>
+                        </tr>
+                        <tr>
+                            <td>7.2 Conflict with Host-Country Law</td>
+                            <td>Host-country law priority; special provisions in loan agreements possible</td>
+                            <td>EU rules as financing conditions; may exceed host-country law</td>
+                            <td>Rule priority clauses, legal conflict resolution mechanisms</td>
+                        </tr>
+                        <tr>
+                            <td>7.3 Rule Exemptions</td>
+                            <td>Negotiable; high flexibility</td>
+                            <td>Principle-based; low exemption probability</td>
+                            <td>Number of exemption cases, exemption condition stringency</td>
+                        </tr>
+                        <tr>
+                            <td>7.4 Extraterritorial Effects</td>
+                            <td>Limited; primarily through bilateral agreements</td>
+                            <td>Significant; extension through supply chain law, data governance rules</td>
+                            <td>Extraterritorial jurisdiction scope, enforcement case numbers</td>
+                        </tr>
+
+                        <!-- Dimension 8 -->
+                        <tr>
+                            <td rowspan="4" class="font-bold bg-teal-50 text-primary text-center">8<br>Cooperation<br>Modalities</td>
+                            <td>8.1 Relations with MDBs</td>
+                            <td>MoUs with EBRD, EIB on third-country markets; limited practical coordination</td>
+                            <td>Global Gateway inherently multilateral; emphasis on strategic structured cooperation with MDBs</td>
+                            <td>MDB co-financing share, coordination mechanism frequency</td>
+                        </tr>
+                        <tr>
+                            <td>8.2 Private Capital Participation</td>
+                            <td>Limited; primarily state capital</td>
+                            <td>Core objective: leveraging private capital; yet "private capital remains on the sidelines"</td>
+                            <td>Private capital share, risk-sharing mechanisms</td>
+                        </tr>
+                        <tr>
+                            <td>8.3 Relations with Host Countries</td>
+                            <td>"No political strings attached"; sovereignty respect; inter-governmental agreement dominance</td>
+                            <td>"Values-based"; governance reform and human rights protection requirements</td>
+                            <td>Number of political conditions, governance indicator linkage</td>
+                        </tr>
+                        <tr>
+                            <td>8.4 Third-Country Market Cooperation</td>
+                            <td>Cooperation agreements with France, UK, etc.; limited project-level coordination</td>
+                            <td>Promotion of G7 PGII coordination; cooperation with US, Japan</td>
+                            <td>Number of joint projects, capital scale</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <p class="text-xs text-academic-500 mt-4 italic">
+                Source: Compiled by the author based on Chapter 3 analysis and references cited therein.
+            </p>
+        </section>
+
+        <!-- Appendix B -->
+        <section id="appendix-b" class="mb-16">
+            <h2 class="appendix-header">
+                <span class="lang-en">Appendix B: Case Materials Compilation—Port of Piraeus</span>
+                <span class="lang-cn">附录B：案例材料汇编——比雷埃夫斯港</span>
+            </h2>
+
+            <div class="subappendix-header">B.1 Key Timeline of the Port of Piraeus Project</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table timeline-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Event</th>
+                            <th>Source Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>2008</td>
+                            <td>COSCO Group obtained 35-year concession rights for Piers II and III, Piraeus container terminal</td>
+                            <td><span class="reliability-badge rel-5">Official</span></td>
+                        </tr>
+                        <tr>
+                            <td>October 1, 2010</td>
+                            <td>COSCO formally assumed control of Piers II and III</td>
+                            <td><span class="reliability-badge rel-4">Media</span></td>
+                        </tr>
+                        <tr>
+                            <td>January 2015</td>
+                            <td>Greek left-wing government took office, suspended Piraeus privatization process</td>
+                            <td><span class="reliability-badge rel-4">Media</span></td>
+                        </tr>
+                        <tr>
+                            <td>April 8, 2016</td>
+                            <td>COSCO Shipping signed equity acquisition agreement with HRADF, committing €368.5 million for 67% PPA stake</td>
+                            <td><span class="reliability-badge rel-5">Official</span></td>
+                        </tr>
+                        <tr>
+                            <td>June 30, 2016</td>
+                            <td>Greek Parliament approved agreement 223–25</td>
+                            <td><span class="reliability-badge rel-5">Official</span></td>
+                        </tr>
+                        <tr>
+                            <td>August 10, 2016</td>
+                            <td>Transaction formally completed; COSCO Shipping became PPA controlling shareholder</td>
+                            <td><span class="reliability-badge rel-5">Official</span></td>
+                        </tr>
+                        <tr>
+                            <td>2016–2022</td>
+                            <td>Committed €350 million investment for infrastructure upgrades</td>
+                            <td><span class="reliability-badge rel-5">Official</span></td>
+                        </tr>
+                        <tr>
+                            <td>October 2021</td>
+                            <td>COSCO Shipping completed acquisition of remaining 16% stake, raising shareholding to 67%</td>
+                            <td><span class="reliability-badge rel-4">Industry</span></td>
+                        </tr>
+                        <tr>
+                            <td>2024</td>
+                            <td>Container throughput reached 6.5 million TEU, becoming Mediterranean's largest port</td>
+                            <td><span class="reliability-badge rel-5">Official</span></td>
+                        </tr>
+                        <tr>
+                            <td>February 2026</td>
+                            <td>ESAL approved €611.8 million investment plan but suspended €300 million Pier IV application</td>
+                            <td><span class="reliability-badge rel-4">Media</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subappendix-header">B.2 Piraeus Port Throughput Data (2010–2024)</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table">
+                    <thead>
+                        <tr>
+                            <th>Year</th>
+                            <th>Container Throughput (million TEU)</th>
+                            <th>YoY Growth</th>
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>2010</td><td class="data-highlight">0.88</td><td>—</td><td>Pre-COSCO acquisition</td></tr>
+                        <tr><td>2011</td><td>1.12</td><td>+27.3%</td><td>First year post-acquisition</td></tr>
+                        <tr><td>2012</td><td>1.65</td><td>+47.3%</td><td>Growth despite crisis</td></tr>
+                        <tr><td>2013</td><td>2.52</td><td>+52.7%</td><td>Significant recovery</td></tr>
+                        <tr><td>2014</td><td>2.98</td><td>+18.3%</td><td>Stable growth</td></tr>
+                        <tr><td>2015</td><td>3.36</td><td>+12.8%</td><td>Equity acquisition negotiation period</td></tr>
+                        <tr><td>2016</td><td>3.74</td><td>+11.3%</td><td>Year of equity acquisition</td></tr>
+                        <tr><td>2017</td><td>4.15</td><td>+11.0%</td><td>Rapid expansion period</td></tr>
+                        <tr><td>2018</td><td>4.41</td><td>+6.3%</td><td>Continued growth</td></tr>
+                        <tr><td>2019</td><td class="data-highlight">5.65</td><td>+28.1%</td><td>Broke 5 million mark</td></tr>
+                        <tr><td>2020</td><td>5.43</td><td>-3.9%</td><td>Pandemic impact</td></tr>
+                        <tr><td>2021</td><td>5.85</td><td>+7.7%</td><td>Post-pandemic recovery</td></tr>
+                        <tr><td>2022</td><td>6.02</td><td>+2.9%</td><td>Stable growth</td></tr>
+                        <tr><td>2023</td><td>6.28</td><td>+4.3%</td><td>Approaching 6.5 million</td></tr>
+                        <tr><td>2024</td><td class="data-highlight">6.50</td><td>+3.5%</td><td>Mediterranean's largest port</td></tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-academic-500 mt-2">Source: Piraeus Port Authority Annual Reports, 2010–2024.</p>
+
+            <div class="subappendix-header">B.3 Piraeus Port Investment Structure (as of 2026)</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table">
+                    <thead>
+                        <tr>
+                            <th>Investment Category</th>
+                            <th>Time</th>
+                            <th>Amount (€ million)</th>
+                            <th>Funding Source</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Equity Acquisition</td>
+                            <td>2016</td>
+                            <td class="data-highlight">368.5</td>
+                            <td>COSCO Shipping own funds</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Initial Investment</td>
+                            <td>2010–2016</td>
+                            <td>~400</td>
+                            <td>COSCO Group own funds</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Mandatory Investment</td>
+                            <td>2016–2022</td>
+                            <td class="data-highlight">350</td>
+                            <td>COSCO Shipping + bank loans</td>
+                            <td>Completed</td>
+                        </tr>
+                        <tr>
+                            <td>Additional Investment Plan</td>
+                            <td>Approved 2026</td>
+                            <td class="data-highlight">611.8</td>
+                            <td>COSCO Shipping</td>
+                            <td>Approved, underway</td>
+                        </tr>
+                        <tr>
+                            <td>Pier IV Development</td>
+                            <td>Pending</td>
+                            <td>300</td>
+                            <td>Pending</td>
+                            <td>Suspended</td>
+                        </tr>
+                        <tr class="bg-secondary/10 font-bold">
+                            <td>Total Committed Investment</td>
+                            <td>—</td>
+                            <td>1,630+</td>
+                            <td colspan="2">—</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subappendix-header">B.4 Piraeus Port Economic Contributions (as of 2024)</div>
+            <div class="grid md:grid-cols-2 gap-4 my-4">
+                <div class="appendix-card">
+                    <h4 class="font-bold text-primary mb-2">Direct Economic Impact</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>• Container Throughput: <strong>6.5 million TEU</strong> (+640% from 2010)</li>
+                        <li>• Cruise Passenger Throughput: ~1.5 million (+200% post-pandemic)</li>
+                        <li>• Direct Employment: ~1,300 (+500% from 2016)</li>
+                        <li>• Indirect Job Creation: ~125,000 positions</li>
+                    </ul>
+                </div>
+                <div class="appendix-card">
+                    <h4 class="font-bold text-primary mb-2">National Economic Impact</h4>
+                    <ul class="text-sm space-y-2">
+                        <li>• Cumulative GDP Contribution: ~€800 million (Greece)</li>
+                        <li>• Greece National GDP Growth (2024): <strong>3.0%</strong> (vs EU avg 0.8%)</li>
+                        <li>• Annual Revenue (est. 2024): €250–350 million</li>
+                        <li>• Concession Revenue Share: 3–5%</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="subappendix-header">B.5 Estimated Financial Indicators (Based on Public Information)</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table text-sm">
+                    <thead>
+                        <tr>
+                            <th>Indicator</th>
+                            <th>Value/Range</th>
+                            <th>Estimation Method</th>
+                            <th>Reliability</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Initial Investment (2016 equity + mandatory)</td>
+                            <td>€718.5 million</td>
+                            <td>Direct citation of agreement terms</td>
+                            <td><span class="reliability-badge rel-5">★★★★★</span></td>
+                        </tr>
+                        <tr>
+                            <td>Cumulative Committed Investment (2026)</td>
+                            <td>€1,630+ million</td>
+                            <td>Accumulated annual investment plans</td>
+                            <td><span class="reliability-badge rel-5">★★★★★</span></td>
+                        </tr>
+                        <tr>
+                            <td>Annual Revenue (2020–2024)</td>
+                            <td>€250–350 million</td>
+                            <td>Throughput × per-TEU revenue estimates</td>
+                            <td><span class="reliability-badge rel-4">★★★★</span></td>
+                        </tr>
+                        <tr>
+                            <td>Return on Investment (ROI, estimated)</td>
+                            <td>8–12%</td>
+                            <td>DCF model, assumptions noted</td>
+                            <td><span class="reliability-badge rel-3">★★★</span></td>
+                        </tr>
+                        <tr>
+                            <td>Unit Operating Cost Reduction</td>
+                            <td>~30%</td>
+                            <td>Comparison with 2010, economies of scale</td>
+                            <td><span class="reliability-badge rel-4">★★★★</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="text-xs text-academic-500 mt-2">
+                Reliability Rating: ★★★★★ Official disclosure | ★★★★ Multi-source verification | ★★★ Reasonable assumptions
+            </p>
+
+            <div class="subappendix-header">B.6 Primary Sources List</div>
+            <div class="text-sm space-y-2 text-academic-700">
+                <p>• <strong>Official Documents:</strong> Piraeus Port Authority Annual Reports (https://olp.gr/en/annual-reports/)</p>
+                <p>• <strong>Corporate Reports:</strong> COSCO Shipping Annual Reports (https://www.cosco.com/)</p>
+                <p>• <strong>Research Reports:</strong> Foundation for Economic and Industrial Research (IOBE, Greece) - "The economic impact of Piraeus port investment"</p>
+                <p>• <strong>Media Coverage:</strong> e-Asfalistiki (Greece), PortCalls Asia, Seatrade Maritime, Xinhua Silk Road</p>
+            </div>
+        </section>
+
+        <!-- Appendix C -->
+        <section id="appendix-c" class="mb-16">
+            <h2 class="appendix-header">
+                <span class="lang-en">Appendix C: Case Materials Compilation—China-Europe Land-Sea Express Line (Budapest–Belgrade Railway)</span>
+                <span class="lang-cn">附录C：案例材料汇编——中欧陆海快线（布达佩斯-贝尔格莱德铁路）</span>
+            </h2>
+
+            <div class="subappendix-header">C.1 Key Timeline of the Budapest–Belgrade Railway Project</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table timeline-table">
+                    <thead>
+                        <tr>
+                            <th>Time</th>
+                            <th>Event</th>
+                            <th>Significance</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Dec 17, 2014</td>
+                            <td>Chinese Premier met with three prime ministers in Belgrade, agreeing to jointly develop "China-Europe Land-Sea Express Line"</td>
+                            <td>Strategic launch</td>
+                        </tr>
+                        <tr>
+                            <td>2015</td>
+                            <td>China, Hungary, and Serbia signed Budapest–Belgrade Railway cooperation MoU</td>
+                            <td>Formal commitment</td>
+                        </tr>
+                        <tr>
+                            <td>2017</td>
+                            <td>EU Commission launched investigation into Budapest–Belgrade Railway (financial viability & tendering compliance)</td>
+                            <td>Regulatory hurdle</td>
+                        </tr>
+                        <tr>
+                            <td>2017</td>
+                            <td>China Exim Bank signed loan agreement with Hungary (85% financing, $1.5 billion)</td>
+                            <td>Financing secured</td>
+                        </tr>
+                        <tr>
+                            <td>2020</td>
+                            <td>Serbian Belgrade–Stara Pazova section commenced</td>
+                            <td>Construction start</td>
+                        </tr>
+                        <tr>
+                            <td>2022</td>
+                            <td>Belgrade–Stara Pazova section (34 km) opened</td>
+                            <td>First milestone</td>
+                        </tr>
+                        <tr>
+                            <td>March 2024</td>
+                            <td>Novi Sad–Subotica section (110 km) opened</td>
+                            <td>Serbian progress</td>
+                        </tr>
+                        <tr>
+                            <td>2026 (est.)</td>
+                            <td>Subotica–Hungarian Border section completion</td>
+                            <td>Pending</td>
+                        </tr>
+                        <tr>
+                            <td>2028–2029 (opt.)</td>
+                            <td>Hungarian section (160 km) completion</td>
+                            <td>8-9 years delay</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subappendix-header">C.2 Financing Structure Complexity Analysis</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table text-sm">
+                    <thead>
+                        <tr>
+                            <th>Financing Source</th>
+                            <th>Amount/Share</th>
+                            <th>Rule System</th>
+                            <th>Core Requirements</th>
+                            <th>Conflict Points</th>
+                            <th>Status (end-2025)</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-red-50">
+                            <td><strong>China Exim Bank</strong></td>
+                            <td>~$1.5B / 85%</td>
+                            <td>BRI rules</td>
+                            <td>Linked to Chinese enterprise general contracting, Chinese equipment priority</td>
+                            <td>Direct conflict with EU Procurement Directive (international tendering)</td>
+                            <td>Signed, 2017</td>
+                        </tr>
+                        <tr class="bg-yellow-50">
+                            <td><strong>Hungarian Government</strong></td>
+                            <td>~$260M / 15%</td>
+                            <td>EU state aid rules</td>
+                            <td>Compliance with EU competition policy, limited aid proportion</td>
+                            <td>Uncertainty regarding whether aid proportion exceeds limits</td>
+                            <td>Committed, partially disbursed</td>
+                        </tr>
+                        <tr class="bg-blue-50">
+                            <td><strong>EU Funds (TEN-T)</strong></td>
+                            <td>Applied, not specified</td>
+                            <td>EU Procurement Directive</td>
+                            <td>Open tendering, environmental impact assessment, transparency disclosure</td>
+                            <td>Mutual exclusivity with Chinese loan conditions</td>
+                            <td>Application pending, not approved</td>
+                        </tr>
+                        <tr class="bg-green-50">
+                            <td><strong>EBRD Loan</strong></td>
+                            <td>Intentional, not finalized</td>
+                            <td>EBRD ES Framework</td>
+                            <td>High-standard environmental and social assessment, international competitive bidding</td>
+                            <td>Technical differences with Chinese standards</td>
+                            <td>Under negotiation</td>
+                        </tr>
+                        <tr class="bg-gray-50">
+                            <td><strong>Russian Loan</strong> (Serbian section)</td>
+                            <td>Not disclosed</td>
+                            <td>Russian development financing</td>
+                            <td>Geopolitical conditions (energy cooperation linkage)</td>
+                            <td>Triggers EU sanctions concerns post-Ukraine war</td>
+                            <td>Sensitized, may be restructured</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="bg-red-50 border-l-4 border-red-400 p-4 my-4 text-sm">
+                <strong>Multi-source financing coordination dilemma:</strong> The rule requirements of the five financing parties cannot be simultaneously satisfied. China Exim Bank's loan conditions directly conflict with EU fund procurement rules; EBRD's environmental standards differ from Chinese standards; the Russian loan became a sensitive factor post-Ukraine war. This creates a "compliance impossible triangle."
+            </div>
+
+            <div class="subappendix-header">C.3 Total Project Investment Estimates and Cost Overruns</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th>Initial Estimate</th>
+                            <th>Current Estimate (2025)</th>
+                            <th>Cost Increase Reasons</th>
+                            <th>Overrun Magnitude</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Media coverage (2017)</td>
+                            <td>$2.89 billion</td>
+                            <td>—</td>
+                            <td>Initial estimate</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td>Hungarian section</td>
+                            <td>$1.6–1.8B</td>
+                            <td>$2.0–2.5B</td>
+                            <td>Delay costs, compliance cost stacking, redesign</td>
+                            <td class="data-highlight">24–56%</td>
+                        </tr>
+                        <tr>
+                            <td>Serbian section</td>
+                            <td>$1.0–1.2B</td>
+                            <td>$1.2–1.5B</td>
+                            <td>Standard alignment costs, schedule extension</td>
+                            <td class="data-highlight">20–50%</td>
+                        </tr>
+                        <tr class="bg-red-50 font-bold">
+                            <td>Total project cost</td>
+                            <td>~$2.89B</td>
+                            <td>$3.5–4.0B</td>
+                            <td>Multi-source financing coordination costs, standard conflict resolution costs, review uncertainty risk premiums</td>
+                            <td class="data-highlight">21–78%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subappendix-header">C.4 Project Progress Status (end-2025)</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table">
+                    <thead>
+                        <tr>
+                            <th>Segment</th>
+                            <th>Length</th>
+                            <th>Status</th>
+                            <th>Estimated Completion</th>
+                            <th>Delay from Original Plan</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="bg-green-50">
+                            <td>Serbian: Belgrade–Stara Pazova</td>
+                            <td>~34 km</td>
+                            <td>Opened (2022)</td>
+                            <td>Completed</td>
+                            <td>~2 years</td>
+                        </tr>
+                        <tr class="bg-green-50">
+                            <td>Serbian: Novi Sad–Subotica</td>
+                            <td>~110 km</td>
+                            <td>Opened (March 2024)</td>
+                            <td>Completed</td>
+                            <td>~2 years</td>
+                        </tr>
+                        <tr class="bg-yellow-50">
+                            <td>Serbian: Subotica–Hungarian Border</td>
+                            <td>~46 km</td>
+                            <td>Under construction</td>
+                            <td>End-2026</td>
+                            <td>~4 years</td>
+                        </tr>
+                        <tr class="bg-red-50">
+                            <td>Hungarian: Border–Budapest</td>
+                            <td>~160 km</td>
+                            <td>Main works not yet commenced; partial design tendering completed</td>
+                            <td>2028–2029 (optimistic)</td>
+                            <td class="data-highlight">~8–9 years</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subappendix-header">C.5 Timeline of Rule Conflict Events (2017–2025)</div>
+            <div class="overflow-x-auto">
+                <table class="academic-table text-sm">
+                    <thead>
+                        <tr>
+                            <th>Date</th>
+                            <th>Event</th>
+                            <th>Involved Rule Parties</th>
+                            <th>Conflict Type</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Jan 2017</td>
+                            <td>EU Commission launched investigation</td>
+                            <td>China, Hungary, EU Commission</td>
+                            <td>Procedural conflict: investigation launch, expectation uncertainty</td>
+                        </tr>
+                        <tr>
+                            <td>Jun 2017</td>
+                            <td>Hungary signed loan agreement with China Exim Bank</td>
+                            <td>China, Hungary</td>
+                            <td>Potential conflict with EU Procurement Directive</td>
+                        </tr>
+                        <tr>
+                            <td>2018–2019</td>
+                            <td>Technical standard negotiation deadlock</td>
+                            <td>China, Serbia, EU Railway Agency</td>
+                            <td>Technical conflict: Chinese standards vs. TSI standards</td>
+                        </tr>
+                        <tr>
+                            <td>2021</td>
+                            <td>EU fund application submitted</td>
+                            <td>Hungary, EU Commission</td>
+                            <td>Procedural conflict: application conditions mutually exclusive with Chinese loan</td>
+                        </tr>
+                        <tr>
+                            <td>2023</td>
+                            <td>Ukraine war impact, Russian loan factor sensitized</td>
+                            <td>Russia, EU, Hungary</td>
+                            <td>Geopolitical conflict compounded by existing rule conflicts</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="subappendix-header">C.6 Primary Sources List</div>
+            <div class="text-sm space-y-2 text-academic-700">
+                <p>• <strong>Official Documents:</strong> EBRD Project Database (https://www.ebrd.com/projects.html)</p>
+                <p>• <strong>Media:</strong> CCTV News, e-Asfalistiki, Reuters (2018 investigation report), Politico (2019)</p>
+                <p>• <strong>Academic:</strong> Mladenovic et al. (2024) "Security aspects of the construction of the high-speed railway"</p>
+                <p>• <strong>Policy:</strong> European Commission investigation documents (2017), EBRD Reports</p>
+            </div>
+        </section>
+
+        <!-- Appendix D -->
+        <section id="appendix-d" class="mb-16">
+            <h2 class="appendix-header">
+                <span class="lang-en">Appendix D: Overview of Primary EU Regulatory Instruments (2024–2025 Update)</span>
+                <span class="lang-cn">附录D：欧盟主要监管工具概述（2024-2025年更新）</span>
+            </h2>
+
+            <p class="mb-6 text-sm">
+                <span class="lang-en">This appendix compiles the primary regulatory instruments enacted by the EU in recent years and their potential impacts on BRI projects.</span>
+                <span class="lang-cn">本附录汇编了欧盟近年来颁布的主要监管工具及其对BRI项目的潜在影响。</span>
+            </p>
+
+            <div class="overflow-x-auto">
+                <table class="academic-table text-sm">
+                    <thead>
+                        <tr>
+                            <th style="width:20%">Instrument</th>
+                            <th style="width:12%">Status</th>
+                            <th style="width:35%">Core Provisions</th>
+                            <th style="width:33%">Impact on Chinese Investors</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Foreign Subsidies Regulation (FSR)</strong></td>
+                            <td>2023 effective</td>
+                            <td>Reviews acquisitions and public procurement by foreign-subsidized enterprises in EU. By June 2024, 5 investigations launched targeting Chinese enterprises.</td>
+                            <td>Must report subsidy situations in public procurement (>€250M threshold). "Foreign subsidies" definition retains broad interpretive space.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>International Procurement Instrument (IPI)</strong></td>
+                            <td>2022 effective</td>
+                            <td>Authorizes Commission to investigate non-EU procurement market restrictions, potentially limiting access to EU public procurement.</td>
+                            <td>Third-country discriminatory measures against EU enterprises trigger reciprocal restrictions in EU public procurement.</td>
+                        </tr>
+                        <tr class="bg-red-50">
+                            <td><strong>Net-Zero Industry Act Non-Price Criteria</strong></td>
+                            <td>May 2025 issued; Dec 2025 effective</td>
+                            <td>Renewable energy auctions introduce non-price criteria: responsible business conduct, cybersecurity, supply chain resilience, environmental sustainability. China-specific provisions (Art. 7(3)) require 75% non-Chinese origin for wind/electrolyzers.</td>
+                            <td><strong>Substantive entry barriers</strong> for Chinese photovoltaic, wind power, battery products. Market share >50% or 40% with 10% annual growth triggers mandatory supply chain resilience assessment.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Corporate Sustainability Due Diligence Directive (CSDDD)</strong></td>
+                            <td>2024 adopted, phased implementation</td>
+                            <td>Requires enterprises to identify, prevent, mitigate supply chain environmental and social impacts. Applies to non-EU enterprises with global turnover >€450 million.</td>
+                            <td>Must establish supply chain due diligence systems; effectively extends EU standards to global supply chains.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Economic Security Strategy Upgrade</strong></td>
+                            <td>Dec 2025 issued</td>
+                            <td>Proposes six high-risk areas and six "de-risking" policy instruments; strengthens FDI screening, subsidy regulation, procurement review.</td>
+                            <td>Chinese enterprises in EU face stricter full-sector review for sensitive technologies and critical infrastructure.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>NIS2 Directive (Cybersecurity)</strong></td>
+                            <td>2023 effective</td>
+                            <td>Requires critical entities to establish cybersecurity risk management measures; data localization requirements (business data within European Economic Area).</td>
+                            <td>Expanded critical entity definition; mandatory "cybersecurity plan" required; vulnerability information disclosure restricted.</td>
+                        </tr>
+                        <tr>
+                            <td><strong>FDI Screening Regulation (recast proposed)</strong></td>
+                            <td>2019 effective; 2024 draft revision</td>
+                            <td>Reviews foreign direct investments into the Union; 2024 draft expands to greenfield investments and broader screening mechanisms.</td>
+                            <td>Screening duration >18 months creates uncertainty; mandatory notification for sensitive sectors.</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="mt-6 p-4 bg-academic-100 rounded-lg text-sm">
+                <strong>Key 2024–2025 Dynamics:</strong>
+                <ul class="list-disc pl-5 mt-2 space-y-1">
+                    <li><strong>Expanded review scope:</strong> From M&A investments to greenfield investments, from traditional infrastructure to digital, energy, and full supply chain domains.</li>
+                    <li><strong>Enhanced targeting:</strong> Net-Zero Industry Act Art. 7(3) directly targets Chinese wind power and electrolyzer products.</li>
+                    <li><strong>Increased enforcement:</strong> FSR investigation cases rising, economic security strategy shifting from "passive defense" to "active shaping."</li>
+                    <li><strong>Significant extraterritorial effects:</strong> CSDDD extends EU standards to global supply chains.</li>
+                </ul>
+            </div>
+        </section>
+
+        <!-- Appendix E -->
+        <section id="appendix-e" class="mb-16">
+            <h2 class="appendix-header">
+                <span class="lang-en">Appendix E: List of Primary Policy Documents and Sources</span>
+                <span class="lang-cn">附录E：主要政策文件和来源列表</span>
+            </h2>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="appendix-card">
+                    <h3 class="subappendix-header text-lg mb-3">E.1 BRI-Related Documents</h3>
+                    <div class="text-sm space-y-3">
+                        <div>
+                            <p class="font-semibold text-primary">Vision and Actions on Jointly Building the Silk Road Economic Belt (2015)</p>
+                            <p class="text-xs text-academic-600">National Development and Reform Commission et al. | NDRC official website</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">Guiding Principles on Financing the Belt and Road (2017)</p>
+                            <p class="text-xs text-academic-600">Ministry of Finance of China | Ministry of Finance official website</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">Debt Sustainability Framework for BRI (2019)</p>
+                            <p class="text-xs text-academic-600">Ministry of Finance of China | Ministry of Finance official website</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">AIIB Environmental and Social Framework (2021)</p>
+                            <p class="text-xs text-academic-600">Asian Infrastructure Investment Bank | AIIB official website</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">Silk Road Fund Sustainability Report 2024</p>
+                            <p class="text-xs text-academic-600">Silk Road Fund | silkroadfund.com.cn</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">The "Clean Silk Road" Initiative (2019)</p>
+                            <p class="text-xs text-academic-600">National Development and Reform Commission | Beijing</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="appendix-card">
+                    <h3 class="subappendix-header text-lg mb-3">E.2 Global Gateway-Related Documents</h3>
+                    <div class="text-sm space-y-3">
+                        <div>
+                            <p class="font-semibold text-primary">Global Gateway Strategy (2021)</p>
+                            <p class="text-xs text-academic-600">European Commission | EU official website</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">EFSD+ Regulation (2021)</p>
+                            <p class="text-xs text-academic-600">European Parliament and Council | EUR-Lex</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">EU Taxonomy for Sustainable Finance (2020–2023)</p>
+                            <p class="text-xs text-academic-600">European Commission | EU official website</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">Corporate Sustainability Due Diligence Directive (2024)</p>
+                            <p class="text-xs text-academic-600">Official Journal of the European Union | L series</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">Joint Communication on Strengthening European Economic Security (Dec 2025)</p>
+                            <p class="text-xs text-academic-600">European Commission | JOIN(2025) 45 final</p>
+                        </div>
+                        <div>
+                            <p class="font-semibold text-primary">Global Gateway Mid-term Assessment Report (2025)</p>
+                            <p class="text-xs text-academic-600">European Commission | SWD(2025) 120 final</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <div class="appendix-card">
+                    <h3 class="subappendix-header text-lg mb-3">E.3 Multilateral Institution Documents</h3>
+                    <div class="text-sm space-y-2">
+                        <p>• <strong>World Bank Environmental and Social Framework</strong> (2017) | World Bank official website</p>
+                        <p>• <strong>EBRD Environmental and Social Policy</strong> (2024) | EBRD official website</p>
+                        <p>• <strong>ADB Safeguard Policy Statement</strong> (2009) | ADB official website</p>
+                        <p>• <strong>Equator Principles (EP4)</strong> (2020) | equator-principles.com</p>
+                        <p>• <strong>IMF/World Bank Joint Debt Sustainability Framework</strong> (2018) | Washington, DC</p>
+                    </div>
+                </div>
+
+                <div class="appendix-card">
+                    <h3 class="subappendix-header text-lg mb-3">E.4 Corporate Reports</h3>
+                    <div class="text-sm space-y-2">
+                        <p>• <strong>COSCO Shipping Annual Reports</strong> (Various years) | cosco.com</p>
+                        <p>• <strong>Piraeus Port Authority Annual Reports</strong> (2010–2024) | olp.gr</p>
+                        <p>• <strong>China Exim Bank Annual Reports</strong> | eximbank.gov.cn</p>
+                        <p>• <strong>AIIB Annual Report 2025</strong> | Beijing: AIIB</p>
+                        <p>• <strong>Silk Road Fund "Company Footprint"</strong> (Real-time updated) | silkroadfund.com.cn</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="appendix-card">
+                <h3 class="subappendix-header text-lg mb-3">E.5 Academic and Research Sources</h3>
+                <div class="text-sm grid md:grid-cols-2 gap-4">
+                    <div>
+                        <p class="font-semibold text-primary mb-2">Key Academic Works Cited:</p>
+                        <ul class="list-disc pl-4 space-y-1 text-xs">
+                            <li>Alter, K. J., & Meunier, S. (2009). "The politics of international regime complexity." <em>Perspectives on Politics</em>, 7(1), 13-24.</li>
+                            <li>Brandenburger, A. M., & Nalebuff, B. J. (1996). <em>Co-opetition</em>. New York: Doubleday.</li>
+                            <li>Horn, S., Reinhart, C. M., & Trebesch, C. (2021). "China's overseas lending." <em>NBER Working Paper</em>, No. 29350.</li>
+                            <li>Hoong, K. L., et al. (2024). "BRI and debt sustainability: A PMG-ARDL analysis." <em>Journal of International Development</em>, 36(3), 412-435.</li>
+                            <li>Malik, A., et al. (2021). "Banking on the Belt and Road." <em>AidData</em>, William & Mary.</li>
+                        </ul>
+                    </div>
+                    <div>
+                        <p class="font-semibold text-primary mb-2">Research Institutions & Reports:</p>
+                        <ul class="list-disc pl-4 space-y-1 text-xs">
+                            <li>German Marshall Fund (2026). <em>Corridor politics: Reshaping Eurasia's geostrategy</em>. Washington, DC: GMF.</li>
+                            <li>Foundation for Economic and Industrial Research (IOBE, Greece). "The economic impact of Piraeus port investment" (2025).</li>
+                            <li>World Bank (2023). "From landlocked to land-linked: The economic impact of the China-Laos railway."</li>
+                            <li>European Ombudsman (2024). "Transparency in Global Gateway projects—Own-initiative inquiry OI/3/2024".</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mt-8 p-4 bg-secondary/10 rounded-lg border border-secondary/30 text-sm">
+                <strong>Note on Data Reliability:</strong>
+                <p class="mt-2">This dissertation employs a multi-source triangulation approach. Official documents (government publications, corporate annual reports, international organization databases) are rated ★★★★★ (highest reliability). Media reports and industry analysis are rated ★★★★ (high reliability, cross-verified). Estimates based on reasonable assumptions are rated ★★★ (moderate reliability, clearly noted in text).</p>
+            </div>
+        </section>
+
+        <!-- Pagination -->
+        <div class="pagination">
+            <a href="chapter5.html" class="page-btn">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                <span>Chapter 5: Conclusion</span>
+            </a>
+            <a href="main.html" class="page-btn">
+                <span>Return to Home</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+            </a>
+        </div>
+
+        <!-- Footer -->
+        <footer class="mt-16 pt-8 border-t border-academic-200 text-center text-sm text-academic-500">
+            <p>Appendices A-E | ZHAO JIE | Al-Farabi Kazakh National University | Almaty 2026</p>
+            <p class="mt-2 text-xs">Interactive Dissertation Web Edition | GitHub Hosted</p>
+        </footer>
+    </main>
+
+    <script>
+        function setLang(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('dissertation-lang', lang);
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if(btn.getAttribute('data-lang') === lang) {
+                    btn.classList.add('bg-primary', 'text-white');
+                } else {
+                    btn.classList.remove('bg-primary', 'text-white');
+                }
+            });
+        }
+
+        function toggleNav() {
+            document.getElementById('chapterNav').classList.toggle('open');
+            document.querySelector('.nav-overlay').classList.toggle('open');
+        }
+
+        function scrollToSection(id) {
+            const el = document.getElementById(id);
+            if(el) {
+                el.scrollIntoView({ behavior: 'smooth' });
+                toggleNav();
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedLang = localStorage.getItem('dissertation-lang') || 'en';
+            setLang(savedLang);
+        });
+    </script>
+</body>
+</html>
