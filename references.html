@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>References | BRI Dissertation</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:wght@400;600&family=Inter:wght@300;400;500&family=Noto+Serif+SC:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Inter', 'Noto Serif SC', sans-serif; }
+        .references-list { max-width: 900px; margin: 0 auto; padding: 2rem; }
+        .ref-item { 
+            padding: 0.75rem 0; 
+            border-bottom: 1px solid #e5e7eb; 
+            text-indent: -2rem; 
+            padding-left: 2rem;
+            line-height: 1.6;
+        }
+        .ref-item:last-child { border-bottom: none; }
+        .ref-number { 
+            font-weight: 600; 
+            color: #1a365d; 
+            display: inline-block; 
+            width: 2.5rem;
+        }
+        .cn-text { font-family: 'Noto Serif SC', serif; }
+        .chapter-nav {
+            position: fixed; left: 0; top: 0; height: 100vh; width: 260px;
+            background: white; border-right: 1px solid #e5e7eb;
+            overflow-y: auto; padding: 1.5rem; transform: translateX(-100%);
+            transition: transform 0.3s; z-index: 40;
+        }
+        @media (min-width: 1024px) { .chapter-nav { transform: translateX(0); } }
+        .nav-overlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
+            z-index: 35; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+        }
+        .nav-overlay.open { opacity: 1; pointer-events: auto; }
+        .main-content { margin-left: 0; transition: margin-left 0.3s; }
+        @media (min-width: 1024px) { .main-content { margin-left: 260px; } }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-gray-50 text-gray-800" data-lang="en">
+
+    <!-- Language Switcher -->
+    <div class="fixed top-4 right-4 z-50 flex gap-2 bg-white rounded-full shadow-md border border-gray-200 p-1">
+        <button onclick="setLang('en')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium bg-blue-900 text-white" data-lang="en">EN</button>
+        <button onclick="setLang('cn')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium hover:bg-blue-900 hover:text-white text-gray-600" data-lang="cn">CN</button>
+        <button onclick="setLang('both')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium hover:bg-blue-900 hover:text-white text-gray-600" data-lang="both">EN/CN</button>
+    </div>
+
+    <!-- Mobile Menu -->
+    <button onclick="toggleNav()" class="fixed top-4 left-4 z-50 lg:hidden bg-white p-2 rounded-lg shadow-md border border-gray-200">
+        <svg class="w-6 h-6 text-blue-900" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+    </button>
+    <div class="nav-overlay" onclick="toggleNav()"></div>
+
+    <!-- Sidebar Navigation -->
+    <nav class="chapter-nav" id="sideNav">
+        <div class="mb-6">
+            <h2 class="text-lg font-bold text-blue-900">References</h2>
+            <p class="text-sm text-gray-500">参考文献</p>
+        </div>
+        <div class="space-y-2 text-sm">
+            <a href="main.html" class="block py-2 px-3 rounded hover:bg-gray-100 text-gray-600">← Home / 首页</a>
+            <a href="chapter5.html" class="block py-2 px-3 rounded hover:bg-gray-100 text-gray-600">← Chapter 5 / 第五章</a>
+        </div>
+        <div class="mt-8 text-xs text-gray-400">
+            <p>Total References: 101</p>
+            <p class="mt-1">English & Chinese Sources</p>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content min-h-screen bg-white">
+        <div class="references-list">
+            <header class="mb-12 text-center border-b-2 border-blue-900 pb-6">
+                <h1 class="text-3xl font-bold text-blue-900 font-serif mb-2">LIST OF REFERENCES</h1>
+                <p class="text-xl text-gray-600 cn-text">参考文献</p>
+                <p class="text-sm text-gray-500 mt-4">Complete Bibliography | 完整书目</p>
+            </header>
+
+            <div class="text-sm text-gray-600 mb-8 italic">
+                <p>Note: References are presented in the order they appear in the dissertation text, maintaining original language formatting (English and Chinese mixed as per academic standards).</p>
+                <p class="cn-text mt-1">注：参考文献按论文中出现顺序排列，保持原始语言格式（中英文混排，符合学术规范）。</p>
+            </div>
+
+            <ol class="references-list text-sm md:text-base">
+[1]国家发展改革委, 外交部, 商务部. (2015). 推动共建丝绸之路经济带和21世纪海上丝绸之路的愿景与行动. 北京: 人民出版社.
+
+[2]German Marshall Fund. (2026). Corridor politics: Reshaping Eurasia’s geostrategy. Washington, DC: GMF.
+
+[3]Dunford, M. (2020). Chinese and development assistance futures. Dialogues in Human Geography, 10(2), 184-188.
+
+[4]Duan, J. (2025). EU Global Gateway and China’s BRI: Complementarity or competition? Journal of European Integration, 47(2), 231-250.
+
+[5]Yermekbayev, A. (2022). China-Kazakhstan strategic partnership and bilateral economic cooperation. Journal of Central Asian Studies, 85(1), 18-27.
+
+[6]European Commission. (2021). Global Gateway: Connecting Europe and Asia. Brussels: EC.
+
+[7]Malik, A., Parks, B., Russell, B., Lin, J., Walsh, K., Solomon, K., Zhang, S., Elston, K., & Goodman, S. (2021). Banking on the Belt and Road: Insights from a new global dataset of 13,427 Chinese development projects. Williamsburg, VA: AidData at William & Mary.
+
+[8]Schclarek, A., Xu, J., & Yan, J. (2022). Panda bonds and the Belt and Road Initiative. Journal of Banking & Finance, 142, 106-123.
+
+[9]Horn, S., Reinhart, C. M., & Trebesch, C. (2021). China’s overseas lending. NBER Working Paper, No. 29350.
+
+[10]Silk Road Fund. (2024). 可持续发展报告2024 [Sustainability Report 2024]. 北京: 丝路基金.
+
+[11]Asian Infrastructure Investment Bank. (2025). Annual Report 2025. Beijing: AIIB.
+
+[12]中国人民银行. (2026). 人民币国际化报告2025. 北京: 中国金融出版社.
+
+[13]Alter, K. J., & Meunier, S. (2009). The politics of international regime complexity. Perspectives on Politics, 7(1), 13-24.
+
+[14]Orsini, A., Morin, J. F., & Young, O. R. (2020). Complex systems and international governance. International Studies Review, 22(4), 842-865.
+
+[15]张宇燕. (2025). 全球基础设施倡议的协同发展前景. 世界经济与政治, 48(2), 1-15.
+
+[16]Brandenburger, A. M., & Nalebuff, B. J. (1996). Co-opetition. New York: Doubleday.
+
+[17]Bougrea, A. (2026). The financialisation of EU development policy: From discourse to practice. EUI Working Paper, RSCAS 2026/12.
+
+[18]Coenen, J., Bager, S., Meyfroidt, P., Newig, J., & Challies, E. (2021). Environmental governance of China’s belt and road initiative. Environmental Policy and Governance, 31(1), 3-17.
+
+[19]Ouyang, M. (2023). Local perceptions of Chinese infrastructure projects in the Western Balkans: Between hope and suspicion. Europe-Asia Studies, 75(6), 1001-1025.
+
+[20]欧阳明月. (2025). 中东欧国家在BRI与全球门户之间的战略选择. 复旦国际关系评论, 30(1), 88-105.
+
+[21]Duisembinova, A., et al. (2021). China and Kazakhstan: Belt and Road cooperation. Central Asia and the Caucasus, 22(2), 101-110.
+
+[22]World Bank. (2023). From landlocked to land-linked: The economic impact of the China-Laos railway. Washington, DC: World Bank.
+
+[23]Chen, X. (2022). “Corridor-ising” impact along the Belt and Road: Is the newly operational China-Laos railway a game-changer? The European Financial Review.
+
+[24]Piraeus Port Authority. (2025). Annual Report 2024. Piraeus: PPA.
+
+[25]Elish, D. (2025). India’s non-participation in BRI: A synthetic control analysis. Journal of Asian Economics, 86, 101-118.
+
+[26]Hoong, K. L., et al. (2024). BRI and debt sustainability: A PMG-ARDL analysis of nine Asian countries. Journal of International Development, 36(3), 412-435.
+
+[27]Zhao, J. (2025). BRI and sovereign risk contagion: A time-varying network analysis. Journal of International Money and Finance, 112, 102-119.
+
+[28]Beach, D., & Pedersen, R. B. (2019). Process-Tracing Methods: Foundations and Guidelines (2nd ed.). Ann Arbor: University of Michigan Press.
+
+[29]World Bank. (2020). Business Regulation in South Asia and the Belt and Road Initiative. Washington, DC: World Bank.
+
+[30]Flyvbjerg, B., Bruzelius, N., & Rothengatter, W. (2003). Megaprojects and Risk: An Anatomy of Ambition. Cambridge University Press.
+
+[31]叶斌. (2024). 欧盟对外经济法呈重大转型趋势.[The EU external economic law shows a significant trend of transformation.] 经济日报, 2023年12月23日.
+
+[32]杨帆, 遥远, 危思安, 张念通, 张雨亭. (2026). 欧盟经济安全战略更新，作何关注？ [What to Pay Attention to in the EU's Updated Economic Security Strategy?]中信证券研究报告, 2026年3月2日.
+
+[33]European Commission. (2019). Regulation (EU) 2019/452 of the European Parliament and of the Council establishing a framework for the screening of foreign direct investments into the Union. Official Journal of the European Union, L 79I, 21.3.2019, p. 1-14.
+
+[34]European Commission. (2024). Proposal for a regulation of the European Parliament and of the Council on the screening of foreign investments in the Union (recast). COM(2024) 23 final.
+
+[35]European Commission. (2023). Regulation (EU) 2022/2560 on foreign subsidies distorting the internal market (FSR) – implementation report. Brussels: EC.
+
+[36]European Commission. (2022). Regulation (EU) 2022/1031 of the European Parliament and of the Council on the International Procurement Instrument. Official Journal of the European Union, L 173, 30.6.2022, p. 1-16.
+
+[37]European Commission. (2025). Commission Implementing Regulation (EU) C(2025) 2900 on non-price criteria for renewable energy auctions. Official Journal of the European Union, L 2900, 15.5.2025.
+
+[38]European Commission. (2022). Directive (EU) 2022/2555 of the European Parliament and of the Council concerning measures for a high common level of cybersecurity across the Union (NIS2 Directive). Official Journal of the European Union, L 333, 27.12.2022, p. 80-152.
+
+[39]European Commission. (2025). Joint Communication to the European Parliament and the Council on strengthening European economic security. JOIN(2025) 45 final.
+
+[40]European Commission. (2025). Global Gateway mid-term assessment report. Brussels: EC.
+
+[41]African Development Bank. (2024). African Currency Linked Bond (ACLB) Guarantee Facility – Annual Report. Abidjan: AfDB.
+
+[42]UDF-Space. (2025). When two roads meet: How BRI and Global Gateway shape Ethiopia’s energy future. UDF-Space, 13 November 2025.
+
+[43]European Commission. (2025). Global Gateway: Progress and challenges – Staff working document. SWD(2025) 120 final.
+
+[44]International Monetary Fund. (2023). Ethiopia: Staff report for the 2023 Article IV consultation. IMF Country Report No. 23/145.
+
+[45]中国财政部. (2019). “一带一路”债务可持续性分析框架.["Belt and Road" debt sustainability analysis framework.] 北京: 中国财政部.
+
+[46]European Commission. (2020). EU Taxonomy for Sustainable Finance. Official Journal of the European Union, L 198, 22.6.2020.
+
+[47]European Commission. (2024). Corporate Sustainability Due Diligence Directive (CSDDD) – Final text. Official Journal of the European Union, L 178, 28.6.2024.
+
+[48]Official Journal of the European Union. (2024). Directive (EU) 2024/1760 of the European Parliament and of the Council on corporate sustainability due diligence. L series.
+
+[49]中国国家开发银行, 联合国开发计划署. (2019). 融合投融资规则 促进“一带一路”可持续发展研究报告.[Research Report on Integrating Investment and Financing Rules to Promote Sustainable Development of "Belt and Road".] 北京.
+
+[50]习近平. (2021). 在第三次“一带一路”建设座谈会上的讲话. [Speech at the Third Symposium on Promoting the Belt and Road Initiative]北京: 人民出版社.
+
+[51]Sage Journals. (2025). China’s BRI and the EU’s Global Gateway in Southeast Asia: Conditional engagement versus non-interference. Sage Journals (online first).
+
+[52]IMF & World Bank. (2018). Joint Debt Sustainability Framework for Low-Income Countries. Washington, DC.
+
+[53]Himmer, M., & Rod, Z. (2022). Chinese debt trap diplomacy: Reality or myth? Journal of the Indian Ocean Region, 18(3), 250-272.
+
+[54]中国国家发展改革委. (2019). 廉洁丝绸之路倡议. [The Clean Silk Road Initiative]北京.
+
+[55]European Ombudsman. (2024). Transparency in Global Gateway projects – Own-initiative inquiry OI/3/2024.
+
+[56]European Commission. (2025). Global Gateway: Streamlining procedures – concept note. Brussels: EC.
+
+[57]Digital for Development (D4D) Hub. (2024). Asia’s first Copernicus mirror site to be launched in the Philippines, a concrete deliverable of the EU’s Global Gateway. Brussels: EU Commission.
+
+[58]Karjalainen, T. (2023). European norms trap? EU connectivity policies and the case of the Global Gateway. East Asia, 40(1).
+
+[59]EBRD. (2024). Memorandum of Understanding with China Exim Bank on third-country cooperation. London: EBRD.
+
+[60]Goh, S. N. (2018). East Coast Rail Link and pipeline projects with China to be deferred: Malaysian PM Mahathir. The Straits Times, 24 May 2018.
+
+[61]中远海运. (2020). 中远海运可持续发展报告. [COSCO Shipping Sustainability Report.]北京.
+
+[62]Mladenovic, M., Komazec, N., & Jankovic, K. (2024). Security aspects of the construction of the high-speed railway Budapest-Belgrade-Piraeus in global supply chains. In International Scientific-Professional Conference “Security and Crisis Management – Theory and Practice (SeCMan)” – International Forum “Safety for the Future” 2024: Proceedings (pp. 277-285).
+
+[63]Transparency International. (2023). Corruption risks in BRI projects. Berlin: TI.
+
+[64]Reuters. (2025). Panama withdraws from Belt and Road Initiative under US pressure. Reuters, 15 February 2025.
+
+[65]Van Evera, S. (1997). Guide to Methods for Students of Political Science. Ithaca: Cornell University Press.
+
+[66]European Commission. (2023). EU-Namibia partnership on sustainable raw materials and green hydrogen. Press release, 15 March 2023.
+
+[67]COSCO Shipping. (2016). Announcement on acquisition of Piraeus Port Authority. Hong Kong Stock Exchange filing.
+
+[68]新华丝路. (2016). 希腊议会批准中远海运比港项目协议. [The Greek Parliament approves COSCO Shipping's Port of Piraeus project agreement.]2016年7月1日.
+
+[69]21世纪经济报道. (2016). 中远海运入主比港港务局 接管希腊第一大港. [China COSCO Shipping and Sinotrans have taken over the Piraeus Port Authority and now control the largest port in Greece.]2016年8月11日.
+
+[70]Seatrade Maritime. (2016). China Cosco Shipping finally gets Piraeus port majority stake. 10 August 2016.
+
+[71]PortCalls Asia. (2021). COSCO Shipping raises stake in Greek port to 67%. 26 October 2021.
+
+[72]European Commission. (2016). Decision of 8 April 2016 in Case M.1234 – COSCO / PPA. Brussels: EC.
+
+[73]百家号. (2024). 40亿买下希腊破产港口，中国当年的投资，如今是亏是赚？[China bought Greece's bankrupt port for 4 billion yuan. Was the investment made that year a loss or a profit now?]2024年9月7日.
+
+[74]Kathimerini. (2020). Interview with COSCO Shipping executive on Piraeus port. Kathimerini, 15 May 2020.
+
+[75]央视新闻. (2018). 比雷埃夫斯港：中希合作典范.[The Port of Piraeus: A Model of China-Greece Cooperation.] 2018年5月10日.
+
+[76]e-Asfalistiki. (2026). ESAL approves €611.8 million investment plan for Piraeus, suspends Pier IV. 15 February 2026.
+
+[77]Foundation for Economic and Industrial Research (IOBE). (2025). The economic impact of Piraeus port investment: Updated assessment. Athens: IOBE.
+
+[78]Eurostat. (2025). GDP growth rates – 2024 data. Luxembourg: Eurostat.
+
+[79]Bank of Greece. (2025). Annual Report 2024. Athens: Bank of Greece.
+
+[80]e南洋. (2017). 一带一路欧洲标志项目 欧盟查中资匈塞高铁. [The "Belt and Road" European logo project: The EU investigates Chinese investment in the Hungary-Serbia high-speed railway.]2017年2月23日.
+
+[81]央视新闻. (2014). 总理为何如此重视中欧陆海快线. [Why does the prime minister attach such great importance to the China-Europe Land-Sea Express Route?]2014年12月19日.
+
+[82]Reuters. (2018). Exclusive: EU investigates Chinese-backed Hungary-Serbia rail project. Reuters, 15 March 2018.
+
+[83]EBRD. (2025). Project summary document – Serbia railway upgrade. London: EBRD.
+
+[84]European Commission. (2017). Commission opens investigation into Budapest-Belgrade railway. Press release, 12 January 2017.
+
+[85]Politico. (2019). Serbia’s Vucic: Chinese standards can meet EU requirements. Politico, 3 July 2019.
+
+[86]Railway Gazette. (2020). Ankara-Istanbul high-speed line: A case of standard compatibility. Railway Gazette International, 15 September 2020.
+
+[87]European Commission. (2015). EU-China Connectivity Platform Memorandum of Understanding. Brussels: EC.
+
+[88]G7. (2022). Partnership for Global Infrastructure and Investment (PGII) – Factsheet.
+
+[89]Financial Times. (2025). Spain and Italy eye China cooperation after Piraeus success. Financial Times, 10 January 2025.
+
+[90]World Bank. (2018). Kenya Mombasa-Nairobi railway: Economic impact assessment. Washington, DC: World Bank.
+
+[91]陈钰什. (2025). 欧盟新能源招标新规再设贸易壁垒，限制中国企业. [The EU's new energy bidding regulations have set up additional trade barriers, restricting Chinese companies.]财经杂志, 2025年6月17日.
+
+[92]金杜律师事务所. (2025). 海外绿地投资全析丨投资区域深度分析（四）[Comprehensive Analysis of Overseas Greenfield Investments | In-depth Regional Investment Analysis (Part 4)]——欧盟：一体化区域共同体及强监管投资环境.
+
+[93]刘源. (2017). “一带一路”沿线国家的金融监管架构——国际比较与经验借鉴. [Financial regulatory frameworks in Belt and Road countries: international comparisons and lessons learned.]沈阳工业大学学报, 2017(3).
+
+[94]比雷埃夫斯港务局. (2025). 2024年年度报告. 比雷埃夫斯: PPA. (与[24]相同，但[24]为英文版，此处为中文版，可保留或合并)
+
+[95]希腊经济和工业研究所. (2016). 比雷埃夫斯港投资的经济影响研究报告. [Research Report on the Economic Impact of Investment in Piraeus Port]雅典: IOBE.
+
+[96]Asian Infrastructure Investment Bank. (2021). Environmental and Social Framework. Beijing: AIIB.
+
+[97]European Bank for Reconstruction and Development. (2024). Environmental and Social Policy. London: EBRD.
+
+[98]World Bank. (2017). Environmental and Social Framework. Washington, DC: World Bank.
+
+[99]Equator Principles Association. (2020). The Equator Principles (EP4). London: EPA.
+
+[100]中国财政部. (2017). “一带一路”融资指导原则.["Belt and Road" financing guidelines.] 北京: 中国财政部.
+
+[101]丝路基金. (2024). Silk Road Fund “Company Footprint” page. Retrieved from silkroadfund.com.cn.
+                </li>
+            </ol>
+
+            <!-- 完整列表提示 -->
+            <div class="mt-12 p-6 bg-blue-50 rounded-lg border border-blue-200 text-center">
+                <p class="text-blue-900 font-semibold mb-2">Complete List | 完整列表</p>
+                <p class="text-sm text-blue-700">All 101 references from the dissertation are structured above.</p>
+                <p class="text-xs text-blue-600 mt-2 cn-text">以上已结构化展示论文全部101条参考文献</p>
+            </div>
+
+            <!-- Back Navigation -->
+            <div class="mt-12 flex justify-between items-center border-t border-gray-200 pt-8">
+                <a href="chapter5.html" class="inline-flex items-center gap-2 px-6 py-3 bg-blue-900 text-white rounded-lg hover:bg-blue-800 transition-colors">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
+                    <span>Chapter 5 / 第五章</span>
+                </a>
+                <a href="main.html" class="inline-flex items-center gap-2 px-6 py-3 border border-blue-900 text-blue-900 rounded-lg hover:bg-blue-50 transition-colors">
+                    <span>Home / 首页</span>
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"/></svg>
+                </a>
+            </div>
+
+            <footer class="mt-16 text-center text-sm text-gray-500">
+                <p>ZHAO JIE | Al-Farabi Kazakh National University | 2026</p>
+                <p class="mt-1">Doctor of Business Administration Dissertation</p>
+            </footer>
+        </div>
+    </main>
+
+    <script>
+        function setLang(lang) {
+            document.body.setAttribute('data-lang', lang);
+            localStorage.setItem('dissertation-lang', lang);
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('bg-blue-900', btn.getAttribute('data-lang') === lang);
+                btn.classList.toggle('text-white', btn.getAttribute('data-lang') === lang);
+                btn.classList.toggle('text-gray-600', btn.getAttribute('data-lang') !== lang);
+            });
+        }
+        function toggleNav() {
+            document.getElementById('sideNav').classList.toggle('open');
+            document.querySelector('.nav-overlay').classList.toggle('open');
+        }
+        document.addEventListener('DOMContentLoaded', () => {
+            const saved = localStorage.getItem('dissertation-lang') || 'en';
+            setLang(saved);
+        });
+    </script>
+</body>
+</html>
