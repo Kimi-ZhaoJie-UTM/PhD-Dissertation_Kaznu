@@ -142,7 +142,42 @@
         ::-webkit-scrollbar-thumb:hover {
             background: #555;
         }
+
+        /* Sidebar toggle button positioning */
+        .sidebar-toggle-btn {
+            position: absolute;
+            right: -12px;
+            top: 20px;
+            width: 24px;
+            height: 48px;
+            background: white;
+            border: 1px solid #dee2e6;
+            border-left: none;
+            border-radius: 0 8px 8px 0;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 2px 0 8px rgba(0,0,0,0.1);
+            z-index: 60;
+            transition: all 0.3s ease;
+        }
+        
+        .sidebar-toggle-btn:hover {
+            background: #f8f9fa;
+            width: 28px;
+            right: -16px;
+        }
+
+        /* Collapsed state indicator */
+        .sidebar-collapsed .sidebar-toggle-btn {
+            right: -36px;
+            border-radius: 0 8px 8px 0;
+            border: 1px solid #dee2e6;
+            border-left: none;
+        }
     </style>
+<base target="_blank">
 </head>
 <body class="bg-academic-50 text-academic-800 antialiased font-sans" data-lang="en">
 
@@ -156,26 +191,41 @@
         <button onclick="setLanguage('both')" class="lang-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white" data-active="both">EN/CN</button>
     </div>
 
-    <!-- Navigation (Fixed Left Side on Desktop) -->
-    <nav class="fixed left-0 top-0 h-full w-64 bg-white border-r border-academic-200 transform -translate-x-full md:translate-x-0 transition-transform duration-300 z-40 overflow-y-auto hidden md:block no-print" id="sideNav">
+    <!-- Navigation (Collapsible Sidebar) -->
+    <nav class="fixed left-0 top-0 h-full w-64 bg-white border-r border-academic-200 transform transition-transform duration-300 z-40 overflow-y-auto no-print shadow-lg" id="sideNav">
+        <!-- Sidebar Toggle Button (Desktop) -->
+        <button onclick="toggleSidebar()" class="sidebar-toggle-btn hidden md:flex" id="sidebarToggleBtn" title="Toggle Sidebar (Shortcut: [ or b)">
+            <svg id="sidebarToggleIcon" class="w-4 h-4 text-primary transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+            </svg>
+        </button>
+
         <div class="p-8">
-            <div class="mb-8">
-                <div class="h-12 w-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center text-white font-serif text-xl font-bold mb-4">
-                    DBA
+            <div class="mb-8 flex items-center justify-between">
+                <div>
+                    <div class="h-12 w-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center text-white font-serif text-xl font-bold mb-4">
+                        DBA
+                    </div>
+                    <h2 class="text-sm font-semibold text-academic-600 uppercase tracking-wider mb-1">Navigation</h2>
                 </div>
-                <h2 class="text-sm font-semibold text-academic-600 uppercase tracking-wider mb-1">Navigation</h2>
+                <!-- Mobile Close Button -->
+                <button onclick="toggleMobileNav()" class="md:hidden text-academic-500 hover:text-primary p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
             </div>
             
             <ul class="space-y-2 text-sm">
                 <li>
-                    <a href="#home" onclick="showSection('home')" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-700 hover:text-primary font-medium border-l-2 border-transparent hover:border-secondary">
+                    <a href="#home" onclick="showSection('home'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-700 hover:text-primary font-medium border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Home</span>
                         <span class="lang-cn">首页</span>
                         <span class="lang-both">Home / 首页</span>
                     </a>
                 </li>
                 <li>
-                    <a href="#abstract" onclick="showSection('abstract')" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 hover:text-primary border-l-2 border-transparent hover:border-secondary">
+                    <a href="#abstract" onclick="showSection('abstract'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 hover:text-primary border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Abstract</span>
                         <span class="lang-cn">摘要</span>
                         <span class="lang-both">Abstract / 摘要</span>
@@ -188,26 +238,25 @@
                         <span class="lang-both">Chapters / 章节</span>
                     </h3>
                 </li>
-                <li><a href="chapter1.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 1: Introduction</a></li>
-                <li><a href="#chapter2" onclick="showSection('chapter2')" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 2: Financial Opportunities</a></li>
-                <li><a href="#chapter3" onclick="showSection('chapter3')" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 3: Prospects and Risks</a></li>
-                <li><a href="#chapter4" onclick="showSection('chapter4')" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 4: EU Strategy & Cases</a></li>
-                <li><a href="#chapter5" onclick="showSection('chapter5')" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 5: Conclusion</a></li>
+                <li><a href="#chapter1" onclick="showSection('chapter1'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 1: Introduction</a></li>
+                <li><a href="#chapter2" onclick="showSection('chapter2'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 2: Financial Opportunities</a></li>
+                <li><a href="#chapter3" onclick="showSection('chapter3'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 3: Prospects and Risks</a></li>
+                <li><a href="#chapter4" onclick="showSection('chapter4'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 4: EU Strategy & Cases</a></li>
+                <li><a href="#chapter5" onclick="showSection('chapter5'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">Ch. 5: Conclusion</a></li>
                 <li class="pt-4 border-t border-academic-200">
-                  <li>
-    <a href="appendices.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
-        <span class="lang-en">Appendices</span>
-        <span class="lang-cn">附录</span>
-        <span class="lang-both">Appendices / 附录</span>
-    </a>
-</li>
-<li>
-    <a href="references.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
-        <span class="lang-en">References</span>
-        <span class="lang-cn">参考文献</span>
-        <span class="lang-both">References / 参考文献</span>
-    </a>
-</li>
+                    <a href="#appendices" onclick="showSection('appendices'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
+                        <span class="lang-en">Appendices</span>
+                        <span class="lang-cn">附录</span>
+                        <span class="lang-both">Appendices / 附录</span>
+                    </a>
+                </li>
+                <li>
+                    <a href="#references" onclick="showSection('references'); closeMobileNav();" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
+                        <span class="lang-en">References</span>
+                        <span class="lang-cn">参考文献</span>
+                        <span class="lang-both">References / 参考文献</span>
+                    </a>
+                </li>
             </ul>
         </div>
     </nav>
@@ -219,8 +268,8 @@
         </svg>
     </button>
 
-    <!-- Main Content Area -->
-    <main class="md:ml-64 min-h-screen relative">
+    <!-- Main Content Area (Dynamic Margin) -->
+    <main class="min-h-screen relative transition-all duration-300 ease-in-out md:ml-64" id="mainContent">
         
         <!-- SECTION: HOME / HERO -->
         <section id="home" class="active min-h-screen flex flex-col justify-center relative overflow-hidden">
@@ -251,6 +300,7 @@
                     <h1 class="dissertation-title text-4xl md:text-6xl font-serif font-bold text-primary leading-tight mb-6">
                         <span class="lang-en block">BRI as a factor of financial opportunities and challenges for European and Asian countries: prospects and risks</span>
                         <span class="lang-cn block mt-4 text-3xl md:text-5xl">"一带一路"作为欧亚国家金融机遇与挑战的因素：前景与风险</span>
+                        <span class="lang-both block">BRI as a factor of financial opportunities and challenges<br>「一带一路」作为欧亚国家金融机遇与挑战的因素</span>
                     </h1>
                     
                     <div class="h-1 w-24 bg-secondary mx-auto my-8"></div>
@@ -258,6 +308,7 @@
                     <p class="text-xl md:text-2xl text-academic-600 font-serif italic">
                         <span class="lang-en">Doctor of Business Administration (DBA) Dissertation</span>
                         <span class="lang-cn">工商管理博士(DBA)学位论文</span>
+                        <span class="lang-both">Doctor of Business Administration (DBA) Dissertation / 工商管理博士(DBA)学位论文</span>
                     </p>
                 </div>
 
@@ -267,6 +318,7 @@
                         <p class="text-sm text-academic-500 uppercase tracking-wider mb-1">
                             <span class="lang-en">Author</span>
                             <span class="lang-cn">作者</span>
+                            <span class="lang-both">Author / 作者</span>
                         </p>
                         <p class="text-2xl font-serif font-bold text-primary">ZHAO JIE</p>
                     </div>
@@ -277,6 +329,7 @@
                         <p class="text-sm text-academic-500 uppercase tracking-wider mb-1">
                             <span class="lang-en">Year</span>
                             <span class="lang-cn">年份</span>
+                            <span class="lang-both">Year / 年份</span>
                         </p>
                         <p class="text-2xl font-serif font-bold text-primary">2026</p>
                     </div>
@@ -287,9 +340,16 @@
                     <button onclick="showSection('abstract')" class="group inline-flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-accent transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                         <span class="lang-en">Enter Dissertation</span>
                         <span class="lang-cn">进入论文</span>
+                        <span class="lang-both">Enter Dissertation / 进入论文</span>
                         <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
+                    </button>
+                    <p class="mt-4 text-sm text-academic-500">
+                        <span class="lang-en">Interactive Web Edition • GitHub Hosted</span>
+                        <span class="lang-cn">交互式网页版 • GitHub托管</span>
+                        <span class="lang-both">Interactive Web Edition / 交互式网页版 • GitHub Hosted / GitHub托管</span>
+                    </p>
                 </div>
 
                 <!-- Quick Stats -->
@@ -406,7 +466,7 @@
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Chapter 1 -->
-                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="window.location.href='chapter1.html'">
+                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="showSection('chapter1')">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">01</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -526,7 +586,7 @@
                     </div>
 
                     <!-- Appendices -->
-                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="window.location.href='appendices.html'">
+                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="showSection('appendices')">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">A-E</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -553,6 +613,7 @@
         </section>
 
         <!-- Placeholder Sections for Chapters (Content to be expanded) -->
+        <section id="chapter1" class="py-16 bg-white hidden">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
                     <button onclick="showSection('chapters')" class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2">
@@ -640,6 +701,69 @@
             }
         }
 
+        // Sidebar Management
+        let sidebarCollapsed = false;
+        
+        function toggleSidebar() {
+            sidebarCollapsed = !sidebarCollapsed;
+            updateSidebarState();
+        }
+        
+        function updateSidebarState() {
+            const nav = document.getElementById('sideNav');
+            const main = document.getElementById('mainContent');
+            const icon = document.getElementById('sidebarToggleIcon');
+            
+            if (sidebarCollapsed) {
+                // Collapse sidebar
+                nav.classList.add('-translate-x-full');
+                main.classList.remove('md:ml-64');
+                main.classList.add('md:ml-0');
+                if (icon) {
+                    icon.style.transform = 'rotate(180deg)';
+                }
+                localStorage.setItem('sidebar-collapsed', 'true');
+            } else {
+                // Expand sidebar
+                nav.classList.remove('-translate-x-full');
+                main.classList.add('md:ml-64');
+                main.classList.remove('md:ml-0');
+                if (icon) {
+                    icon.style.transform = 'rotate(0deg)';
+                }
+                localStorage.setItem('sidebar-collapsed', 'false');
+            }
+        }
+
+        function initSidebar() {
+            const savedState = localStorage.getItem('sidebar-collapsed');
+            if (savedState === 'true') {
+                sidebarCollapsed = true;
+            }
+            
+            // Only apply collapsed state on desktop
+            if (window.innerWidth >= 768) {
+                updateSidebarState();
+            } else {
+                // Mobile default: collapsed
+                const nav = document.getElementById('sideNav');
+                nav.classList.add('-translate-x-full');
+            }
+        }
+
+        // Mobile Navigation
+        function toggleMobileNav() {
+            const nav = document.getElementById('sideNav');
+            nav.classList.toggle('-translate-x-full');
+        }
+        
+        function closeMobileNav() {
+            if (window.innerWidth < 768) {
+                const nav = document.getElementById('sideNav');
+                nav.classList.add('-translate-x-full');
+            }
+        }
+
         // Section Navigation
         function showSection(sectionId) {
             // Hide all sections
@@ -652,7 +776,6 @@
             const target = document.getElementById(sectionId);
             if(target) {
                 target.style.display = 'block';
-                // Small delay to allow display:block to apply before opacity transition
                 setTimeout(() => {
                     target.classList.add('active');
                 }, 10);
@@ -660,28 +783,33 @@
                 // Scroll to top
                 window.scrollTo(0, 0);
                 
-                // Update progress bar (simulate based on section)
+                // Update progress bar
                 const sections = ['home', 'abstract', 'chapters', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'appendices', 'references'];
                 const index = sections.indexOf(sectionId);
                 const progress = ((index + 1) / sections.length) * 100;
                 document.getElementById('progressBar').style.width = progress + '%';
+                
+                // Update URL hash without jumping
+                history.pushState({section: sectionId}, '', '#' + sectionId);
             }
-        }
-
-        // Mobile Navigation Toggle
-        function toggleMobileNav() {
-            const nav = document.getElementById('sideNav');
-            nav.classList.toggle('-translate-x-full');
         }
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            // Check for saved language preference
+            // Initialize language
             const savedLang = localStorage.getItem('dissertation-lang') || 'en';
             setLanguage(savedLang);
             
-            // Ensure home is visible on load
-            showSection('home');
+            // Initialize sidebar
+            initSidebar();
+            
+            // Show initial section based on hash or default to home
+            const hash = window.location.hash.replace('#', '');
+            if (hash && document.getElementById(hash)) {
+                showSection(hash);
+            } else {
+                showSection('home');
+            }
             
             // Handle browser back button
             window.addEventListener('popstate', function(e) {
@@ -689,12 +817,24 @@
                     showSection(e.state.section);
                 }
             });
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (window.innerWidth >= 768) {
+                    updateSidebarState();
+                } else {
+                    // Reset for mobile
+                    const nav = document.getElementById('sideNav');
+                    nav.classList.add('-translate-x-full');
+                }
+            });
         });
 
-        // Keyboard navigation
+        // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
+            // Arrow navigation between sections
             if(e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
-                const sections = ['home', 'abstract', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'appendices', 'references'];
+                const sections = ['home', 'abstract', 'chapters', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'appendices', 'references'];
                 const current = document.querySelector('section.active');
                 if(current) {
                     const currentId = current.id;
@@ -705,6 +845,12 @@
                         showSection(sections[index - 1]);
                     }
                 }
+            }
+            
+            // Toggle sidebar with '[' or 'b' key (desktop only)
+            if((e.key === '[' || e.key === 'b') && window.innerWidth >= 768) {
+                e.preventDefault();
+                toggleSidebar();
             }
         });
     </script>
