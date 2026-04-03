@@ -1,318 +1,460 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="en" class="scroll-smooth">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第3章 8维度制度对比 | BRI vs Global Gateway</title>
+    <title>Chapter 3: Institutional Comparison | BRI vs Global Gateway</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://d3js.org/d3.v7.min.js"></script>
-    <script>
-        tailwind.config = {
-            darkMode: 'class',
-            theme: {
-                extend: {
-                    colors: {
-                        'bri-red': '#C41E3A',
-                        'gg-blue': '#003399',
-                        'academic': '#1a365d',
-                    }
-                }
-            }
-        }
-    </script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+    
     <style>
-        @media print {
-            .no-print { display: none !important; }
-            body { font-size: 12pt; }
-            nav { display: none; }
+        .lang-en, .lang-cn { display: none; }
+        html[lang-mode="en"] .lang-en { display: block; }
+        html[lang-mode="cn"] .lang-cn { display: block; }
+        html[lang-mode="both"] .lang-en, html[lang-mode="both"] .lang-cn { 
+            display: block; font-size: 0.95em; line-height: 1.5; 
         }
-        input[type="range"] {
-            -webkit-appearance: none;
-            width: 100%;
-            height: 4px;
-            background: #e2e8f0;
-            border-radius: 2px;
-            outline: none;
+        html[lang-mode="both"] .lang-cn {
+            color: #6B7280; font-family: 'Noto Sans SC', sans-serif;
+            border-left: 2px solid #E5E7EB; padding-left: 0.75rem; margin: 0.25rem 0;
         }
-        input[type="range"]::-webkit-slider-thumb {
-            -webkit-appearance: none;
-            width: 16px;
-            height: 16px;
-            background: currentColor;
-            border-radius: 50%;
-            cursor: pointer;
-        }
+        .dark html[lang-mode="both"] .lang-cn { color: #9CA3AF; border-left-color: #374151; }
+        
+        .lang-switcher { display: flex; background: rgba(229, 231, 235, 0.5); border-radius: 9999px; padding: 0.25rem; gap: 0.25rem; }
+        .dark .lang-switcher { background: rgba(55, 65, 81, 0.5); }
+        .lang-btn { padding: 0.375rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; transition: all 0.2s; font-family: 'JetBrains Mono', monospace; cursor: pointer; }
+        .lang-btn.active { background: white; color: '#C41E3A'; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .dark .lang-btn.active { background: #1F2937; color: #60A5FA; }
+        
+        .dimension-card { transition: all 0.3s; cursor: pointer; }
+        .dimension-card:hover { transform: translateX(10px); border-left-width: 4px; }
+        .dimension-card.active { background: #FEF3C7; border-left-color: #D4AF37; dark:bg: #78350F; }
+        
+        .mechanism-path { stroke-dasharray: 10; animation: dash 30s linear infinite; }
+        @keyframes dash { to { stroke-dashoffset: -1000; } }
+        
+        .matrix-cell { transition: all 0.3s; }
+        .matrix-cell:hover { transform: scale(1.05); z-index: 10; box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1); }
     </style>
 </head>
-<body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-all duration-300">
-    
-    <nav class="fixed top-0 w-full bg-white/95 dark:bg-gray-800/95 backdrop-blur shadow-sm z-50 border-b border-gray-200 dark:border-gray-700 no-print">
+<body class="bg-gray-50 dark:bg-slate-900 text-gray-900 dark:text-white font-sans antialiased">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border-b border-gray-200 dark:border-slate-700">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="flex justify-between h-16 items-center">
-                <a href="index.html" class="font-bold text-lg text-academic dark:text-blue-300">← 返回首页</a>
-                <div class="flex space-x-1">
-                    <a href="chapter2.html" class="px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded">← 第2章</a>
-                    <span class="px-3 py-2 text-sm font-bold text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded">第3章</span>
-                    <a href="chapter4.html" class="px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded">第4章 →</a>
+                <div class="flex items-center gap-4">
+                    <a href="main.html" class="text-gray-500 hover:text-gray-900 dark:hover:text-white">
+                        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                    </a>
+                    <span class="font-serif text-lg font-bold">Chapter 03</span>
+                    <span class="px-2 py-1 bg-eu-gold/20 text-eu-gold text-xs font-bold rounded">CORE</span>
                 </div>
-                <button onclick="toggleDarkMode()" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
-                    <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
-                </button>
+                
+                <div class="flex items-center gap-4">
+                    <div class="lang-switcher">
+                        <button onclick="setLanguage('en')" class="lang-btn" id="btn-en">EN</button>
+                        <button onclick="setLanguage('cn')" class="lang-btn" id="btn-cn">CN</button>
+                        <button onclick="setLanguage('both')" class="lang-btn" id="btn-both">EN/CN</button>
+                    </div>
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800">
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                </div>
             </div>
         </div>
     </nav>
 
-    <div class="fixed top-16 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 z-40 no-print">
-        <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-300" style="width: 0%"></div>
-    </div>
-
-    <main class="pt-24 pb-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        
-        <header class="mb-12 text-center">
-            <div class="inline-block px-4 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm mb-4">Chapter 03</div>
-            <h1 class="text-4xl font-bold mb-4">8维度制度对比框架</h1>
-            <p class="text-xl text-gray-600 dark:text-gray-400 italic">8-Dimensional Institutional Comparison Framework</p>
-            <p class="mt-4 text-sm text-gray-500 max-w-2xl mx-auto">
-                本章节提供交互式可视化工具，量化对比BRI与Global Gateway在制度密度、融资机制、技术标准等8个核心维度的差异，并计算制度套利空间。
-            </p>
-        </header>
-
-        <section class="mb-12 bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6">
-            <div class="grid lg:grid-cols-2 gap-8">
-                <div>
-                    <h2 class="text-xl font-bold mb-4 text-center">制度复杂性雷达图 | Institutional Complexity Radar</h2>
-                    <div id="radar-chart" class="w-full h-96 flex justify-center items-center"></div>
-                    <div class="mt-4 flex justify-center gap-6 text-sm">
-                        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-red-500 opacity-60"></span>BRI (灵活-速度型)</span>
-                        <span class="flex items-center gap-2"><span class="w-3 h-3 rounded-full bg-blue-600 opacity-60"></span>Global Gateway (规范-质量型)</span>
-                    </div>
+    <!-- Hero -->
+    <section class="pt-32 pb-16 bg-gradient-to-br from-bri-red/5 to-eu-blue/5 dark:from-bri-red/10 dark:to-eu-blue/10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="max-w-4xl">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="px-3 py-1 bg-eu-gold/20 text-eu-gold text-xs font-bold rounded uppercase">03</span>
+                    <span class="text-sm text-gray-500 dark:text-gray-400 font-mono">Analytical Core</span>
                 </div>
-
-                <div class="space-y-4">
-                    <h2 class="text-xl font-bold mb-4">维度指标控制 | Dimension Controls</h2>
-                    <p class="text-sm text-gray-600 dark:text-gray-400 mb-4">调整以下参数查看制度套利空间变化：</p>
-                    
-                    <div id="dimension-controls" class="space-y-3 max-h-80 overflow-y-auto pr-2"></div>
-
-                    <div class="mt-6 p-4 bg-purple-50 dark:bg-purple-900/20 rounded-lg border border-purple-200 dark:border-purple-800">
-                        <h3 class="font-semibold text-purple-800 dark:text-purple-300 mb-2">制度套利空间分析 | Arbitrage Analysis</h3>
-                        <div class="flex items-center justify-between">
-                            <span class="text-sm">套利可行性指数：</span>
-                            <span id="arbitrage-score" class="text-2xl font-bold text-purple-600">65%</span>
-                        </div>
-                        <div class="mt-2 w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                            <div id="arbitrage-bar" class="bg-purple-600 h-2 rounded-full transition-all duration-500" style="width: 65%"></div>
-                        </div>
-                    </div>
-                </div>
+                
+                <h1 class="font-serif text-4xl md:text-5xl font-bold mb-6 lang-both-container">
+                    <span class="lang-en block">Institutional Comparison: BRI vs Global Gateway</span>
+                    <span class="lang-cn block text-3xl md:text-4xl mt-2 text-gray-700 dark:text-gray-300">制度比较：一带一路 vs 全球门户</span>
+                </h1>
+                
+                <p class="text-xl text-gray-600 dark:text-gray-300 lang-both-container">
+                    <span class="lang-en">Systematic eight-dimensional analysis revealing the fundamental divergences in development philosophy between Chinese and European governance models.</span>
+                    <span class="lang-cn block mt-2 text-lg">系统性八维度分析，揭示中欧治理模式在发展哲学上的根本差异。</span>
+                </p>
             </div>
-        </section>
-
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">8维度详细对比 | Detailed Comparison</h2>
-            <div class="overflow-x-auto bg-white dark:bg-gray-800 rounded-xl shadow-lg">
-                <table class="w-full text-sm">
-                    <thead class="bg-gray-100 dark:bg-gray-700">
-                        <tr>
-                            <th class="p-4 text-left font-bold">维度</th>
-                            <th class="p-4 text-left text-red-600 font-bold">BRI特征</th>
-                            <th class="p-4 text-left text-blue-600 font-bold">GG特征</th>
-                            <th class="p-4 text-left">冲突点</th>
-                        </tr>
-                    </thead>
-                    <tbody id="comparison-table" class="divide-y divide-gray-200 dark:divide-gray-700"></tbody>
-                </table>
-            </div>
-        </section>
-
-        <div class="mt-16 flex justify-between items-center no-print">
-            <a href="chapter2.html" class="px-6 py-3 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">← 第2章</a>
-            <a href="chapter4.html" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-lg">第4章：案例分析 →</a>
         </div>
+    </section>
 
-    </main>
+    <!-- Radar Chart Section -->
+    <section class="py-16 bg-white dark:bg-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <h2 class="font-serif text-3xl font-bold mb-6 lang-both-container">
+                        <span class="lang-en">Eight-Dimensional Radar Comparison</span>
+                        <span class="lang-cn block text-2xl mt-2 text-gray-600">八维度雷达图比较</span>
+                    </h2>
+                    <p class="text-gray-600 dark:text-gray-300 mb-8 lang-both-container">
+                        <span class="lang-en">The radar chart visualizes the systemic differences across financing mechanisms, environmental standards, procurement rules, debt sustainability, transparency, implementation efficiency, rule applicability, and cooperation modalities.</span>
+                        <span class="lang-cn block mt-2">雷达图可视化展示了融资机制、环境标准、采购规则、债务可持续性、透明度、实施效率、规则适用性和合作方式八个维度的系统性差异。</span>
+                    </p>
+                    
+                    <div class="space-y-3">
+                        <div class="flex items-center gap-3 p-3 bg-bri-red/10 rounded-lg border-l-4 border-bri-red">
+                            <div class="w-4 h-4 rounded-full bg-bri-red"></div>
+                            <div class="lang-both-container">
+                                <span class="lang-en font-semibold">BRI: State-led, Flexibility, Speed</span>
+                                <span class="lang-cn text-sm text-gray-600 block">一带一路：国家主导、灵活性、速度</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3 p-3 bg-eu-blue/10 rounded-lg border-l-4 border-eu-blue">
+                            <div class="w-4 h-4 rounded-full bg-eu-blue"></div>
+                            <div class="lang-both-container">
+                                <span class="lang-en font-semibold">Global Gateway: Market-oriented, Mandatory, Standards</span>
+                                <span class="lang-cn text-sm text-gray-600 block">全球门户：市场导向、强制性、标准</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-50 dark:bg-slate-700 p-6 rounded-2xl">
+                    <canvas id="radarChart" width="400" height="400"></canvas>
+                    <div class="mt-4 text-center text-sm text-gray-500 lang-both-container">
+                        <span class="lang-en">Scale: 1-10 (Higher = More characteristic of regime)</span>
+                        <span class="lang-cn block">量表：1-10（越高越体现该制度特征）</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Detailed Dimensions -->
+    <section class="py-16 bg-gray-50 dark:bg-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-serif text-3xl font-bold mb-12 text-center lang-both-container">
+                <span class="lang-en">Detailed Dimension Analysis</span>
+                <span class="lang-cn block text-2xl mt-2 text-gray-600">详细维度分析</span>
+            </h2>
+
+            <div class="grid gap-6">
+                <!-- Dimension 1: Financing -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-md border-l-4 border-bri-red dimension-card" onclick="toggleDetail('dim1')">
+                    <div class="flex justify-between items-start">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-2">
+                                <span class="text-2xl">💰</span>
+                                <h3 class="font-serif text-xl font-bold lang-both-container">
+                                    <span class="lang-en">1. Financing Mechanisms: State-Led vs Market-Oriented</span>
+                                    <span class="lang-cn block text-lg mt-1 text-gray-600">融资机制：国家主导 vs 市场导向</span>
+                                </h3>
+                            </div>
+                            <div class="grid md:grid-cols-2 gap-4 mt-4 text-sm">
+                                <div class="bg-bri-red/5 p-4 rounded-lg">
+                                    <div class="font-bold text-bri-red mb-2 lang-both-container">
+                                        <span class="lang-en">BRI Characteristics</span>
+                                        <span class="lang-cn block">一带一路特征</span>
+                                    </div>
+                                    <ul class="space-y-1 text-gray-600 dark:text-gray-400 lang-both-container">
+                                        <li class="lang-en">• Policy-based lending (CDB, Exim Bank)</li>
+                                        <li class="lang-cn">• 政策性贷款（国开行、进出口银行）</li>
+                                        <li class="lang-en">• Silk Road Fund equity investment</li>
+                                        <li class="lang-cn">• 丝路基金股权投资</li>
+                                        <li class="lang-en">• 15-20 year maturities, concessional rates</li>
+                                        <li class="lang-cn">• 15-20年期，优惠利率</li>
+                                    </ul>
+                                </div>
+                                <div class="bg-eu-blue/5 p-4 rounded-lg">
+                                    <div class="font-bold text-eu-blue mb-2 lang-both-container">
+                                        <span class="lang-en">Global Gateway Characteristics</span>
+                                        <span class="lang-cn block">全球门户特征</span>
+                                    </div>
+                                    <ul class="space-y-1 text-gray-600 dark:text-gray-400 lang-both-container">
+                                        <li class="lang-en">• Blended finance (EFSD+)</li>
+                                        <li class="lang-cn">• 混合融资（EFSD+）</li>
+                                        <li class="lang-en">• Private capital mobilization</li>
+                                        <li class="lang-cn">• 私人资本动员</li>
+                                        <li class="lang-en">• Grants + concessional + commercial credit</li>
+                                        <li class="lang-cn">• 赠款+优惠贷款+商业信贷</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dimension 2: Environmental -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-md border-l-4 border-green-500 dimension-card" onclick="toggleDetail('dim2')">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">🌱</span>
+                        <h3 class="font-serif text-xl font-bold lang-both-container">
+                            <span class="lang-en">2. Environmental Standards: Flexibility vs Mandatory</span>
+                            <span class="lang-cn block text-lg mt-1 text-gray-600">环境标准：灵活性 vs 强制性</span>
+                        </h3>
+                    </div>
+                    <div class="mt-4 p-4 bg-green-50 dark:bg-green-900/20 rounded-lg text-sm text-gray-600 dark:text-gray-300 lang-both-container">
+                        <p class="lang-en"><strong>Key Conflict:</strong> BRI's "host-country law applicability" vs Global Gateway's mandatory EU Taxonomy alignment and Paris Agreement compliance.</p>
+                        <p class="lang-cn mt-2"><strong>关键冲突：</strong>一带一路的"东道国法律适用"原则 vs 全球门户强制性的欧盟分类标准对齐和《巴黎协定》合规要求。</p>
+                    </div>
+                </div>
+
+                <!-- Dimension 3: Procurement -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-md border-l-4 border-blue-500 dimension-card" onclick="toggleDetail('dim3')">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span class="text-2xl">📋</span>
+                        <h3 class="font-serif text-xl font-bold lang-both-container">
+                            <span class="lang-en">3. Procurement Rules: EPC vs International Competitive Bidding</span>
+                            <span class="lang-cn block text-lg mt-1 text-gray-600">采购规则：工程总承包 vs 国际竞争性招标</span>
+                        </h3>
+                    </div>
+                    <div class="mt-4 grid md:grid-cols-2 gap-4 text-sm">
+                        <div class="p-3 bg-gray-100 dark:bg-slate-700 rounded">
+                            <span class="font-bold text-bri-red lang-en">BRI: EPC Model</span>
+                            <span class="font-bold text-bri-red lang-cn block">一带一路：EPC模式</span>
+                            <p class="mt-2 text-gray-600 dark:text-gray-400 lang-en">Turnkey engineering with Chinese equipment priority</p>
+                            <p class="mt-2 text-gray-600 dark:text-gray-400 lang-cn">交钥匙工程，中国设备优先</p>
+                        </div>
+                        <div class="p-3 bg-gray-100 dark:bg-slate-700 rounded">
+                            <span class="font-bold text-eu-blue lang-en">Gateway: IPI/PCR</span>
+                            <span class="font-bold text-eu-blue lang-cn block">全球门户：IPI/公共采购指令</span>
+                            <p class="mt-2 text-gray-600 dark:text-gray-400 lang-en">International competitive bidding, EU enterprise priority</p>
+                            <p class="mt-2 text-gray-600 dark:text-gray-400 lang-cn">国际竞争性招标，欧盟企业优先</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dimension 4-8 Summaries -->
+                <div class="grid md:grid-cols-2 gap-6">
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-md border-l-4 border-purple-500">
+                        <h3 class="font-serif text-lg font-bold mb-3 lang-both-container">
+                            <span class="lang-en">4. Debt Sustainability</span>
+                            <span class="lang-cn block text-base mt-1 text-gray-600">债务可持续性</span>
+                        </h3>
+                        <div class="text-sm space-y-2 lang-both-container">
+                            <p class="lang-en"><span class="text-bri-red font-bold">BRI:</span> Development-first, acknowledges long-term growth effects</p>
+                            <p class="lang-cn"><span class="text-bri-red font-bold">一带一路：</span>发展优先，承认长期增长效应</p>
+                            <p class="lang-en"><span class="text-eu-blue font-bold">Gateway:</span> Fiscal prudence, IMF/World Bank Joint DSF</p>
+                            <p class="lang-cn"><span class="text-eu-blue font-bold">全球门户：</span>财政审慎，IMF/世行联合债务可持续性框架</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-md border-l-4 border-orange-500">
+                        <h3 class="font-serif text-lg font-bold mb-3 lang-both-container">
+                            <span class="lang-en">5. Transparency</span>
+                            <span class="lang-cn block text-base mt-1 text-gray-600">透明度</span>
+                        </h3>
+                        <div class="text-sm space-y-2 lang-both-container">
+                            <p class="lang-en"><span class="text-bri-red font-bold">BRI:</span> Bilateral confidentiality, commercial sensitivity</p>
+                            <p class="lang-cn"><span class="text-bri-red font-bold">一带一路：</span>双边保密性，商业敏感性</p>
+                            <p class="lang-en"><span class="text-eu-blue font-bold">Gateway:</span> Mandatory disclosure, European Ombudsman oversight</p>
+                            <p class="lang-cn"><span class="text-eu-blue font-bold">全球门户：</span>强制披露，欧洲监察员监督</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Transformation Mechanisms -->
+    <section class="py-16 bg-white dark:bg-slate-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <h2 class="font-serif text-3xl font-bold mb-12 text-center lang-both-container">
+                <span class="lang-en">Three Causal Pathways: From Rule Differences to Effects</span>
+                <span class="lang-cn block text-2xl mt-2 text-gray-600">三种因果路径：从规则差异到效应</span>
+            </h2>
+
+            <div class="grid lg:grid-cols-3 gap-8">
+                <!-- Mechanism I -->
+                <div class="bg-gradient-to-br from-blue-50 to-white dark:from-slate-700 dark:to-slate-800 p-6 rounded-2xl shadow-lg border border-blue-200 dark:border-blue-800">
+                    <div class="w-12 h-12 bg-blue-500 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4">I</div>
+                    <h3 class="font-serif text-xl font-bold mb-4 text-blue-700 dark:text-blue-400 lang-both-container">
+                        <span class="lang-en">Institutional Arbitrage</span>
+                        <span class="lang-cn block text-lg mt-1">制度套利</span>
+                    </h3>
+                    <div class="space-y-3 text-sm text-gray-600 dark:text-gray-300 lang-both-container">
+                        <p class="lang-en"><strong>Logic:</strong> Difference creates space. Host states optimize financing by cherry-picking advantageous rules.</p>
+                        <p class="lang-cn"><strong>逻辑：</strong>差异创造空间。东道国通过挑选有利规则优化融资。</p>
+                        
+                        <div class="bg-white dark:bg-slate-900 p-3 rounded border border-blue-200 dark:border-blue-800 mt-4">
+                            <div class="text-xs font-bold text-blue-600 mb-2 lang-both-container">
+                                <span class="lang-en">Example: Kazakhstan</span>
+                                <span class="lang-cn">案例：哈萨克斯坦</span>
+                            </div>
+                            <p class="text-xs lang-en">• Transport → BRI (speed)</p>
+                            <p class="text-xs lang-cn">• 交通→一带一路（速度）</p>
+                            <p class="text-xs lang-en">• Green energy → Gateway (standards)</p>
+                            <p class="text-xs lang-cn">• 绿色能源→全球门户（标准）</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mechanism II -->
+                <div class="bg-gradient-to-br from-red-50 to-white dark:from-slate-700 dark:to-slate-800 p-6 rounded-2xl shadow-lg border border-red-200 dark:border-red-800">
+                    <div class="w-12 h-12 bg-red-500 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4">II</div>
+                    <h3 class="font-serif text-xl font-bold mb-4 text-red-700 dark:text-red-400 lang-both-container">
+                        <span class="lang-en">Compliance Cost Stacking</span>
+                        <span class="lang-cn block text-lg mt-1">合规成本叠加</span>
+                    </h3>
+                    <div class="space-y-3 text-sm text-gray-600 dark:text-gray-300 lang-both-container">
+                        <p class="lang-en"><strong>Threshold Effect:</strong> When rule-setting parties exceed 3, costs increase exponentially rather than linearly.</p>
+                        <p class="lang-cn"><strong>阈值效应：</strong>当规则制定方超过3个时，成本呈指数级而非线性增长。</p>
+                        
+                        <div class="bg-white dark:bg-slate-900 p-3 rounded border border-red-200 dark:border-red-800 mt-4">
+                            <div class="text-xs font-bold text-red-600 mb-2 lang-both-container">
+                                <span class="lang-en">Case: Budapest-Belgrade</span>
+                                <span class="lang-cn">案例：布达佩斯-贝尔格莱德铁路</span>
+                            </div>
+                            <p class="text-xs lang-en">5 financing parties → Rule mutual exclusivity</p>
+                            <p class="text-xs lang-cn">5个融资方→规则互斥</p>
+                            <p class="text-xs lang-en">Cost overrun: +50-100%</p>
+                            <p class="text-xs lang-cn">成本超支：+50-100%</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Mechanism III -->
+                <div class="bg-gradient-to-br from-purple-50 to-white dark:from-slate-700 dark:to-slate-800 p-6 rounded-2xl shadow-lg border border-purple-200 dark:border-purple-800">
+                    <div class="w-12 h-12 bg-purple-500 text-white rounded-full flex items-center justify-center text-xl font-bold mb-4">III</div>
+                    <h3 class="font-serif text-xl font-bold mb-4 text-purple-700 dark:text-purple-400 lang-both-container">
+                        <span class="lang-en">Signaling & Reputation</span>
+                        <span class="lang-cn block text-lg mt-1">信号与声誉</span>
+                    </h3>
+                    <div class="space-y-3 text-sm text-gray-600 dark:text-gray-300 lang-both-container">
+                        <p class="lang-en"><strong>Effect:</strong> Rule differences shape market expectations. Signal confusion leads to wait-and-see paralysis.</p>
+                        <p class="lang-cn"><strong>效应：</strong>规则差异塑造市场预期。信号混乱导致观望瘫痪。</p>
+                        
+                        <div class="bg-white dark:bg-slate-900 p-3 rounded border border-purple-200 dark:border-purple-800 mt-4">
+                            <div class="text-xs font-bold text-purple-600 mb-2 lang-both-container">
+                                <span class="lang-en">Management Strategy</span>
+                                <span class="lang-cn">管理策略</span>
+                            </div>
+                            <p class="text-xs lang-en">Piraeus: Coordinated speed + standards signals</p>
+                            <p class="text-xs lang-cn">比雷埃夫斯：协调速度+标准信号</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-8">
+        <div class="max-w-7xl mx-auto px-4 flex justify-between items-center">
+            <a href="chapter1.html" class="text-gray-400 hover:text-white flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18"></path></svg>
+                <span class="lang-en">Prev: Theory</span>
+                <span class="lang-cn font-cnsans">上一章：理论</span>
+            </a>
+            <span class="text-sm text-gray-500">Chapter 3 of 5</span>
+            <a href="chapter4.html" class="text-eu-gold hover:text-yellow-300 flex items-center gap-2">
+                <span class="lang-en">Next: Case Studies</span>
+                <span class="lang-cn font-cnsans">下一章：案例研究</span>
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </a>
+        </div>
+    </footer>
 
     <script>
-        const dimensions = [
-            { id: 'density', zh: '制度密度', bri: 35, gg: 85, briDesc: '双边协议，制度约束低', ggDesc: '多边规则，制度密度高', conflict: 'EU补贴审查 vs 中方优惠融资' },
-            { id: 'finance', zh: '融资机制', bri: 90, gg: 40, briDesc: '混合融资，中方优惠贷款', ggDesc: '多边开发银行+私人投资', conflict: '优惠融资 vs 商业标准' },
-            { id: 'standards', zh: '技术标准', bri: 60, gg: 95, briDesc: '中国标准(GB)+东道国标准', ggDesc: '欧盟标准(EN)+国际标准', conflict: 'GB vs EN标准冲突' },
-            { id: 'procurement', zh: '采购规则', bri: 85, gg: 50, briDesc: 'EPC模式，中方企业优先', ggDesc: '国际公开招标', conflict: 'EPC vs 国际招标' },
-            { id: 'environment', zh: '环境标准', bri: 45, gg: 90, briDesc: '东道国国内标准', ggDesc: 'EU分类法规+巴黎协定', conflict: '国内环评 vs EU Taxonomy' },
-            { id: 'transparency', zh: '透明度', bri: 40, gg: 80, briDesc: '双边协商，有限披露', ggDesc: '全面披露，第三方审计', conflict: '有限披露 vs 全面透明' },
-            { id: 'speed', zh: '执行速度', bri: 95, gg: 30, briDesc: '快速决策，政治推动', ggDesc: '程序严格，周期较长', conflict: '速度 vs 合规' },
-            { id: 'flexibility', zh: '灵活性', bri: 90, gg: 35, briDesc: '高度灵活，一事一议', ggDesc: '规则统一，灵活度低', conflict: '灵活 vs 标准化' }
-        ];
-
-        function initRadarChart() {
-            const width = 400, height = 350;
-            const svg = d3.select('#radar-chart').append('svg')
-                .attr('width', width).attr('height', height)
-                .append('g').attr('transform', `translate(${width/2},${height/2})`);
-            
-            const angleSlice = Math.PI * 2 / dimensions.length;
-            const radius = 140;
-            const rScale = d3.scaleLinear().range([0, radius]).domain([0, 100]);
-            const isDark = document.documentElement.classList.contains('dark');
-            
-            [0.2, 0.4, 0.6, 0.8, 1].forEach(level => {
-                svg.append('circle').attr('r', radius * level)
-                    .style('fill', 'none')
-                    .style('stroke', isDark ? '#4a5568' : '#e2e8f0')
-                    .style('stroke-dasharray', '3,3');
-            });
-            
-            dimensions.forEach((d, i) => {
-                const angle = i * angleSlice - Math.PI / 2;
-                svg.append('line')
-                    .attr('x1', 0).attr('y1', 0)
-                    .attr('x2', rScale(100) * Math.cos(angle))
-                    .attr('y2', rScale(100) * Math.sin(angle))
-                    .style('stroke', isDark ? '#4a5568' : '#cbd5e0');
-                
-                svg.append('text')
-                    .attr('x', rScale(115) * Math.cos(angle))
-                    .attr('y', rScale(115) * Math.sin(angle))
-                    .attr('text-anchor', 'middle')
-                    .style('font-size', '10px')
-                    .style('fill', isDark ? '#a0aec0' : '#4a5568')
-                    .text(d.zh);
-            });
-            
-            drawData(svg, angleSlice, rScale);
+        // Language
+        let currentLang = localStorage.getItem('lang-mode') || 'en';
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.setAttribute('lang-mode', lang);
+            localStorage.setItem('lang-mode', lang);
+            document.querySelectorAll('.lang-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(`btn-${lang}`).classList.add('active');
         }
-
-        function drawData(svg, angleSlice, rScale) {
-            svg.selectAll('.radar-area').remove();
-            
-            const line = d3.lineRadial().curve(d3.curveLinearClosed)
-                .angle((d, i) => i * angleSlice - Math.PI / 2)
-                .radius(d => rScale(d));
-            
-            svg.append('path').datum(dimensions.map(d => d.bri))
-                .attr('class', 'radar-area')
-                .style('fill', 'rgba(196, 30, 58, 0.3)')
-                .style('stroke', '#C41E3A')
-                .style('stroke-width', 2)
-                .attr('d', line);
-            
-            svg.append('path').datum(dimensions.map(d => d.gg))
-                .attr('class', 'radar-area')
-                .style('fill', 'rgba(0, 51, 153, 0.3)')
-                .style('stroke', '#003399')
-                .style('stroke-width', 2)
-                .attr('d', line);
-        }
-
-        function initControls() {
-            const container = document.getElementById('dimension-controls');
-            dimensions.forEach((dim, index) => {
-                const div = document.createElement('div');
-                div.className = 'bg-gray-50 dark:bg-gray-700 p-3 rounded-lg';
-                div.innerHTML = `
-                    <div class="flex justify-between items-center mb-2">
-                        <span class="font-medium text-sm">${dim.zh}</span>
-                    </div>
-                    <div class="space-y-2">
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs text-red-600 w-8">BRI</span>
-                            <input type="range" class="w-full text-red-600" 
-                                   min="0" max="100" value="${dim.bri}"
-                                   oninput="updateValue(${index}, 'bri', this.value)">
-                            <span class="text-xs w-8 text-right" id="bri-${index}">${dim.bri}</span>
-                        </div>
-                        <div class="flex items-center gap-2">
-                            <span class="text-xs text-blue-600 w-8">GG</span>
-                            <input type="range" class="w-full text-blue-600" 
-                                   min="0" max="100" value="${dim.gg}"
-                                   oninput="updateValue(${index}, 'gg', this.value)">
-                            <span class="text-xs w-8 text-right" id="gg-${index}">${dim.gg}</span>
-                        </div>
-                    </div>
-                `;
-                container.appendChild(div);
-            });
-        }
-
-        function updateValue(index, type, value) {
-            dimensions[index][type] = parseInt(value);
-            document.getElementById(`${type}-${index}`).textContent = value;
-            
-            d3.select('#radar-chart svg g').selectAll('.radar-area').remove();
-            const angleSlice = Math.PI * 2 / dimensions.length;
-            const radius = 140;
-            const rScale = d3.scaleLinear().range([0, radius]).domain([0, 100]);
-            
-            const line = d3.lineRadial().curve(d3.curveLinearClosed)
-                .angle((d, i) => i * angleSlice - Math.PI / 2)
-                .radius(d => rScale(d));
-            
-            d3.select('#radar-chart svg g').append('path')
-                .datum(dimensions.map(d => d.bri))
-                .attr('class', 'radar-area')
-                .style('fill', 'rgba(196, 30, 58, 0.3)')
-                .style('stroke', '#C41E3A').style('stroke-width', 2)
-                .attr('d', line);
-            
-            d3.select('#radar-chart svg g').append('path')
-                .datum(dimensions.map(d => d.gg))
-                .attr('class', 'radar-area')
-                .style('fill', 'rgba(0, 51, 153, 0.3)')
-                .style('stroke', '#003399').style('stroke-width', 2)
-                .attr('d', line);
-            
-            updateArbitrage();
-        }
-
-        function updateArbitrage() {
-            let score = 0;
-            dimensions.forEach(d => {
-                score += Math.abs(d.bri - d.gg) / 100;
-            });
-            score = (score / dimensions.length) * 100;
-            
-            document.getElementById('arbitrage-score').textContent = Math.round(score) + '%';
-            document.getElementById('arbitrage-bar').style.width = score + '%';
-        }
-
-        function initTable() {
-            const tbody = document.getElementById('comparison-table');
-            dimensions.forEach(dim => {
-                const tr = document.createElement('tr');
-                tr.innerHTML = `
-                    <td class="p-4 font-semibold">${dim.zh}</td>
-                    <td class="p-4 text-sm">${dim.briDesc}<br><span class="text-xs text-gray-500">评分: ${dim.bri}/100</span></td>
-                    <td class="p-4 text-sm">${dim.ggDesc}<br><span class="text-xs text-gray-500">评分: ${dim.gg}/100</span></td>
-                    <td class="p-4 text-sm text-gray-600">${dim.conflict}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
+        setLanguage(currentLang);
+        
+        // Dark Mode
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
-            d3.select('#radar-chart').html('');
-            initRadarChart();
         }
+        if (localStorage.getItem('theme') === 'dark') document.documentElement.classList.add('dark');
 
-        document.addEventListener('DOMContentLoaded', () => {
-            initRadarChart();
-            initControls();
-            initTable();
-            updateArbitrage();
-            
-            window.addEventListener('scroll', () => {
-                const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-                document.getElementById('progress-bar').style.width = (winScroll / height) * 100 + '%';
-            });
-            
-            if (localStorage.getItem('theme') === 'dark') {
-                document.documentElement.classList.add('dark');
+        // Radar Chart
+        const ctx = document.getElementById('radarChart').getContext('2d');
+        const radarChart = new Chart(ctx, {
+            type: 'radar',
+            data: {
+                labels: [
+                    'Financing Mechanisms', 
+                    'Environmental Standards', 
+                    'Procurement', 
+                    'Debt Sustainability', 
+                    'Transparency', 
+                    'Implementation Speed',
+                    'Rule Applicability',
+                    'Cooperation Modalities'
+                ],
+                datasets: [{
+                    label: 'BRI (State-led)',
+                    data: [9, 4, 9, 6, 3, 9, 8, 7],
+                    backgroundColor: 'rgba(196, 30, 58, 0.2)',
+                    borderColor: 'rgba(196, 30, 58, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(196, 30, 58, 1)'
+                }, {
+                    label: 'Global Gateway (Market-oriented)',
+                    data: [5, 9, 5, 9, 9, 4, 6, 8],
+                    backgroundColor: 'rgba(0, 51, 153, 0.2)',
+                    borderColor: 'rgba(0, 51, 153, 1)',
+                    borderWidth: 2,
+                    pointBackgroundColor: 'rgba(0, 51, 153, 1)'
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    r: {
+                        beginAtZero: true,
+                        max: 10,
+                        ticks: {
+                            stepSize: 2,
+                            color: document.documentElement.classList.contains('dark') ? '#9CA3AF' : '#6B7280'
+                        },
+                        grid: {
+                            color: document.documentElement.classList.contains('dark') ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)'
+                        },
+                        pointLabels: {
+                            color: document.documentElement.classList.contains('dark') ? '#E5E7EB' : '#374151',
+                            font: { size: 11, family: "'Source Sans Pro', sans-serif" }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: {
+                        position: 'bottom',
+                        labels: {
+                            color: document.documentElement.classList.contains('dark') ? '#E5E7EB' : '#374151',
+                            padding: 20,
+                            font: { size: 12 }
+                        }
+                    }
+                }
             }
         });
+
+        // Update chart colors on dark mode toggle
+        function updateChartColors() {
+            const isDark = document.documentElement.classList.contains('dark');
+            radarChart.options.scales.r.ticks.color = isDark ? '#9CA3AF' : '#6B7280';
+            radarChart.options.scales.r.grid.color = isDark ? 'rgba(255,255,255,0.1)' : 'rgba(0,0,0,0.1)';
+            radarChart.options.scales.r.pointLabels.color = isDark ? '#E5E7EB' : '#374151';
+            radarChart.options.plugins.legend.labels.color = isDark ? '#E5E7EB' : '#374151';
+            radarChart.update();
+        }
+        
+        // Hook into dark mode toggle
+        const originalToggle = toggleDarkMode;
+        toggleDarkMode = function() {
+            originalToggle();
+            updateChartColors();
+        }
     </script>
 </body>
 </html>
