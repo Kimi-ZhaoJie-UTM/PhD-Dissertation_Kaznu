@@ -189,6 +189,12 @@
         html {
             scroll-behavior: smooth;
         }
+        
+        /* Abstract section specific styles */
+        .abstract-content p {
+            margin-bottom: 1rem;
+            line-height: 1.75;
+        }
     </style>
 <base target="_blank">
 </head>
@@ -441,9 +447,9 @@
             </div>
         </section>
 
-        <!-- SECTION: ABSTRACT -->
+        <!-- SECTION: ABSTRACT - Fixed Content Consistency -->
         <section id="abstract" class="py-16 bg-white">
-            <div class="container mx-auto px-8 max-w-4xl">
+            <div class="container mx-auto px-8 max-w-6xl">
                 <div class="mb-12 border-b border-academic-200 pb-8">
                     <h2 class="text-3xl font-serif font-bold text-primary mb-4">
                         <span class="lang-en">Abstract</span>
@@ -458,63 +464,128 @@
                     </div>
                 </div>
 
-                <div class="prose prose-lg max-w-none text-academic-700 leading-relaxed">
-                    <div class="lang-en">
-                        <p class="mb-6 text-xl font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
-                            Imagine you are a finance minister in Astana or Athens. On your desk lie two proposals. One, from Beijing, promises rapid construction, no political strings attached, and financing that arrives before the feasibility study is fully printed. The other, from Brussels, comes with a thick binder of environmental safeguards, procurement protocols, and transparency requirements—conditions that will take years to satisfy, but once met, confer a seal of international legitimacy.
-                        </p>
-                        <p class="mb-4">
-                            This is not a hypothetical. Since 2021, the Eurasian infrastructure space has become an unlikely theater of institutional competition between China's Belt and Road Initiative (BRI) and the European Union's Global Gateway. For participating countries, this is not merely a choice between two funding sources; it is a navigation between two distinct institutional logics, each carrying its own promises and perils.
-                        </p>
-                        <p class="mb-4">
-                            This dissertation asks a deceptively simple question: how do these rule divergences translate into financial reality on the ground? Moving beyond the tired "China-versus-EU" geopolitics, I conceptualize the BRI–Global Gateway nexus as a case of regime coopetition—a space where competition and complementarity coexist. Drawing on institutional complexity theory, I construct a novel typology of regulatory interaction, distinguishing between three ideal-typical outcomes: adaptive coordination, where rules harmonize; structural confrontation, where they collide; and institutional arbitrage, where actors strategically navigate the interstices.
-                        </p>
-                        <p class="mb-4">
-                            The analysis unfolds in two moves. First, I systematically dissect both regimes across six institutional dimensions—financing mechanisms, environmental standards, procurement rules, debt sustainability, transparency, and implementation efficiency—revealing not just surface differences but deep-seated contradictions in developmental philosophy. Second, I put this framework to the test through theory-guided process tracing of two polar cases: the Port of Piraeus (a textbook example of adaptive coordination) and the Budapest–Belgrade railway (a cautionary tale of structural gridlock).
-                        </p>
+                <!-- English Version -->
+                <div class="lang-en abstract-content max-w-4xl mx-auto">
+                    <p class="mb-6 text-xl font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
+                        Imagine you are a finance minister in Astana or Athens. On your desk lie two proposals. One, from Beijing, promises rapid construction, no political strings attached, and financing that arrives before the feasibility study is fully printed. The other, from Brussels, comes with a thick binder of environmental safeguards, procurement protocols, and transparency requirements—conditions that will take years to satisfy, but once met, confer a seal of international legitimacy.
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        This is not a hypothetical. Since 2021, the Eurasian infrastructure space has become an unlikely theater of institutional competition between China's Belt and Road Initiative (BRI) and the European Union's Global Gateway. For participating countries, this is not merely a choice between two funding sources; it is a navigation between two distinct institutional logics, each carrying its own promises and perils.
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        This dissertation asks a deceptively simple question: how do these rule divergences translate into financial reality on the ground? Moving beyond the tired "China-versus-EU" geopolitics, I conceptualize the BRI–Global Gateway nexus as a case of regime coopetition—a space where competition and complementarity coexist. Drawing on institutional complexity theory, I construct a novel typology of regulatory interaction, distinguishing between three ideal-typical outcomes: adaptive coordination, where rules harmonize; structural confrontation, where they collide; and institutional arbitrage, where actors strategically navigate the interstices.
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        The analysis unfolds in two moves. First, I systematically dissect both regimes across six institutional dimensions—financing mechanisms, environmental standards, procurement rules, debt sustainability, transparency, and implementation efficiency—revealing not just surface differences but deep-seated contradictions in developmental philosophy. Second, I put this framework to the test through theory-guided process tracing of two polar cases: the Port of Piraeus (a textbook example of adaptive coordination) and the Budapest–Belgrade railway (a cautionary tale of structural gridlock).
+                    </p>
+                    
+                    <div class="mt-8 pt-8 border-t border-academic-200">
+                        <h3 class="text-xl font-bold text-primary mb-4">Three Key Findings</h3>
+                        <ol class="list-decimal pl-6 space-y-3 text-academic-700">
+                            <li><strong>Institutional Arbitrage:</strong> Institutional overlap creates genuine arbitrage opportunities, enabling savvy host states to optimize financing by cherry-picking advantageous rules.</li>
+                            <li><strong>Adaptive Compliance:</strong> The morphology of rule interaction is not fate but choice: Piraeus's success hinged on investors' proactive adaptive compliance.</li>
+                            <li><strong>Regulatory Bricolage:</strong> Through pragmatic recombination of rules, Pareto improvements reconciling efficiency and compliance are achievable.</li>
+                        </ol>
                     </div>
 
-                    <div class="lang-cn mt-8">
-                        <p class="mb-6 text-xl font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
-                            想象一下，您是阿斯塔纳或雅典的财政部长。桌上摆着两份提案。一份来自北京，承诺快速建设、不附加政治条件，且在可行性研究报告尚未完全打印完毕之前资金就已到位。另一份来自布鲁塞尔，附带厚厚一叠环境保障措施、采购协议和透明度要求——这些条件需要数年才能满足，但一旦满足，就会赋予国际合法性的印章。
-                        </p>
-                        <p class="mb-4">
-                            这并非虚构。自2021年以来，欧亚基础设施领域已成为中国"一带一路"倡议(BRI)与欧盟"全球门户"(Global Gateway)之间制度竞争的意想不到的剧场。对于参与国而言，这不仅仅是两个资金来源之间的选择；而是在两种截然不同的制度逻辑之间航行，每种逻辑都带有其自身的承诺与风险。
-                        </p>
-                        <p class="mb-4">
-                            本论文提出了一个看似简单的问题：这些规则差异如何转化为现实的金融结果？超越陈旧的"中国对阵欧盟"地缘政治叙事，我将BRI-全球门户关系概念化为制度竞合(regime coopetition)的案例——一个竞争与互补共存的空间。借鉴制度复杂性理论，我构建了一种新的监管互动类型学，区分了三种理想类型结果：适应性协调(adaptive coordination)，即规则协调一致；结构性对抗(structural confrontation)，即规则相互碰撞；以及制度套利(institutional arbitrage)，即行为者策略性地在间隙中航行。
-                        </p>
-                    </div>
-
-                    <div class="lang-both bilingual-grid mt-8 border-t border-academic-200 pt-8">
-                        <div class="lang-en">
-                            <h3 class="text-xl font-bold text-primary mb-4">Three Key Findings</h3>
-                            <ol class="list-decimal pl-6 space-y-3">
-                                <li><strong>Institutional Arbitrage:</strong> Institutional overlap creates genuine arbitrage opportunities, enabling savvy host states to optimize financing by cherry-picking advantageous rules.</li>
-                                <li><strong>Adaptive Compliance:</strong> The morphology of rule interaction is not fate but choice: Piraeus's success hinged on investors' proactive adaptive compliance.</li>
-                                <li><strong>Regulatory Bricolage:</strong> Through pragmatic recombination of rules, Pareto improvements reconciling efficiency and compliance are achievable.</li>
-                            </ol>
-                        </div>
-                        <div class="lang-cn">
-                            <h3 class="text-xl font-bold text-primary mb-4">三项主要发现</h3>
-                            <ol class="list-decimal pl-6 space-y-3">
-                                <li><strong>制度套利：</strong>制度重叠创造了真正的套利机会，使精明的主机国能够通过挑选有利规则来优化融资。</li>
-                                <li><strong>适应性合规：</strong>规则互动的形态并非宿命而是选择：比雷埃夫斯的成功取决于投资者的主动适应性强合规。</li>
-                                <li><strong>监管拼凑：</strong>通过规则的实用主义重组，可以实现协调效率与合规性的帕累托改进。</li>
-                            </ol>
-                        </div>
-                    </div>
-
-                    <div class="mt-12 p-6 bg-academic-50 rounded-xl border border-academic-200">
-                        <h3 class="font-bold text-primary mb-3">
-                            <span class="lang-en">Keywords</span>
-                            <span class="lang-cn">关键词</span>
-                            <span class="lang-both">Keywords / 关键词</span>
-                        </h3>
+                    <div class="mt-8 p-6 bg-academic-50 rounded-xl border border-academic-200">
+                        <h3 class="font-bold text-primary mb-3">Keywords</h3>
                         <p class="text-sm text-academic-600 font-mono">
-                            <span class="lang-en">Belt and Road Initiative; BRI; institutional complexity; regime coopetition; regulatory interaction; infrastructure finance; debt sustainability; adaptive compliance; Global Gateway; process tracing; regulatory bricolage.</span>
-                            <span class="lang-cn">一带一路倡议；制度复杂性；制度竞合；监管互动；基础设施融资；债务可持续性；适应性合规；全球门户；过程追踪；监管拼凑。</span>
-                            <span class="lang-both">Belt and Road Initiative / 一带一路倡议; institutional complexity / 制度复杂性; regime coopetition / 制度竞合; regulatory interaction / 监管互动; infrastructure finance / 基础设施融资; debt sustainability / 债务可持续性; adaptive compliance / 适应性合规; Global Gateway / 全球门户; regulatory bricolage / 监管拼凑.</span>
+                            Belt and Road Initiative; BRI; institutional complexity; regime coopetition; regulatory interaction; infrastructure finance; debt sustainability; adaptive compliance; Global Gateway; process tracing; regulatory bricolage.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Chinese Version -->
+                <div class="lang-cn abstract-content max-w-4xl mx-auto">
+                    <p class="mb-6 text-xl font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
+                        想象一下，您是阿斯塔纳或雅典的财政部长。桌上摆着两份提案。一份来自北京，承诺快速建设、不附加政治条件，且在可行性研究报告尚未完全打印完毕之前资金就已到位。另一份来自布鲁塞尔，附带厚厚一叠环境保障措施、采购协议和透明度要求——这些条件需要数年才能满足，但一旦满足，就会赋予国际合法性的印章。
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        这并非虚构。自2021年以来，欧亚基础设施领域已成为中国"一带一路"倡议(BRI)与欧盟"全球门户"(Global Gateway)之间制度竞争的意想不到的剧场。对于参与国而言，这不仅仅是两个资金来源之间的选择；而是在两种截然不同的制度逻辑之间航行，每种逻辑都带有其自身的承诺与风险。
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        本论文提出了一个看似简单的问题：这些规则差异如何转化为现实的金融结果？超越陈旧的"中国对阵欧盟"地缘政治叙事，我将BRI-全球门户关系概念化为制度竞合(regime coopetition)的案例——一个竞争与互补共存的空间。借鉴制度复杂性理论，我构建了一种新的监管互动类型学，区分了三种理想类型结果：适应性协调(adaptive coordination)，即规则协调一致；结构性对抗(structural confrontation)，即规则相互碰撞；以及制度套利(institutional arbitrage)，即行为者策略性地在间隙中航行。
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        分析分两步展开。首先，我系统地剖析了两个制度体系的六个制度维度——融资机制、环境标准、采购规则、债务可持续性、透明度和实施效率——揭示的不仅是表面差异，更是发展哲学上的深层次矛盾。其次，我通过理论引导的过程追踪，对两个极端案例进行了检验：比雷埃夫斯港(适应性协调的教科书式范例)和布达佩斯-贝尔格莱德铁路(结构性僵局的警示故事)。
+                    </p>
+                    
+                    <div class="mt-8 pt-8 border-t border-academic-200">
+                        <h3 class="text-xl font-bold text-primary mb-4">三项主要发现</h3>
+                        <ol class="list-decimal pl-6 space-y-3 text-academic-700">
+                            <li><strong>制度套利：</strong>制度重叠创造了真正的套利机会，使精明的主机国能够通过挑选有利规则来优化融资。</li>
+                            <li><strong>适应性合规：</strong>规则互动的形态并非宿命而是选择：比雷埃夫斯的成功取决于投资者的主动适应性强合规。</li>
+                            <li><strong>监管拼凑：</strong>通过规则的实用主义重组，可以实现协调效率与合规性的帕累托改进。</li>
+                        </ol>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-academic-50 rounded-xl border border-academic-200">
+                        <h3 class="font-bold text-primary mb-3">关键词</h3>
+                        <p class="text-sm text-academic-600 font-mono">
+                            一带一路倡议；制度复杂性；制度竞合；监管互动；基础设施融资；债务可持续性；适应性合规；全球门户；过程追踪；监管拼凑。
+                        </p>
+                    </div>
+                </div>
+
+                <!-- Bilingual Version (Side by Side) -->
+                <div class="lang-both abstract-content">
+                    <div class="bilingual-grid">
+                        <!-- Left Column: English -->
+                        <div>
+                            <p class="mb-6 text-lg font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
+                                Imagine you are a finance minister in Astana or Athens. On your desk lie two proposals. One, from Beijing, promises rapid construction, no political strings attached, and financing that arrives before the feasibility study is fully printed. The other, from Brussels, comes with a thick binder of environmental safeguards, procurement protocols, and transparency requirements—conditions that will take years to satisfy, but once met, confer a seal of international legitimacy.
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                This is not a hypothetical. Since 2021, the Eurasian infrastructure space has become an unlikely theater of institutional competition between China's Belt and Road Initiative (BRI) and the European Union's Global Gateway. For participating countries, this is not merely a choice between two funding sources; it is a navigation between two distinct institutional logics, each carrying its own promises and perils.
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                This dissertation asks a deceptively simple question: how do these rule divergences translate into financial reality on the ground? Moving beyond the tired "China-versus-EU" geopolitics, I conceptualize the BRI–Global Gateway nexus as a case of regime coopetition—a space where competition and complementarity coexist. Drawing on institutional complexity theory, I construct a novel typology of regulatory interaction, distinguishing between three ideal-typical outcomes: adaptive coordination, where rules harmonize; structural confrontation, where they collide; and institutional arbitrage, where actors strategically navigate the interstices.
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                The analysis unfolds in two moves. First, I systematically dissect both regimes across six institutional dimensions—financing mechanisms, environmental standards, procurement rules, debt sustainability, transparency, and implementation efficiency—revealing not just surface differences but deep-seated contradictions in developmental philosophy. Second, I put this framework to the test through theory-guided process tracing of two polar cases: the Port of Piraeus (a textbook example of adaptive coordination) and the Budapest–Belgrade railway (a cautionary tale of structural gridlock).
+                            </p>
+                            
+                            <div class="mt-6 pt-6 border-t border-academic-200">
+                                <h3 class="text-lg font-bold text-primary mb-3">Three Key Findings</h3>
+                                <ol class="list-decimal pl-5 space-y-2 text-sm text-academic-700">
+                                    <li><strong>Institutional Arbitrage:</strong> Institutional overlap creates genuine arbitrage opportunities, enabling savvy host states to optimize financing by cherry-picking advantageous rules.</li>
+                                    <li><strong>Adaptive Compliance:</strong> The morphology of rule interaction is not fate but choice: Piraeus's success hinged on investors' proactive adaptive compliance.</li>
+                                    <li><strong>Regulatory Bricolage:</strong> Through pragmatic recombination of rules, Pareto improvements reconciling efficiency and compliance are achievable.</li>
+                                </ol>
+                            </div>
+                        </div>
+
+                        <!-- Right Column: Chinese -->
+                        <div>
+                            <p class="mb-6 text-lg font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
+                                想象一下，您是阿斯塔纳或雅典的财政部长。桌上摆着两份提案。一份来自北京，承诺快速建设、不附加政治条件，且在可行性研究报告尚未完全打印完毕之前资金就已到位。另一份来自布鲁塞尔，附带厚厚一叠环境保障措施、采购协议和透明度要求——这些条件需要数年才能满足，但一旦满足，就会赋予国际合法性的印章。
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                这并非虚构。自2021年以来，欧亚基础设施领域已成为中国"一带一路"倡议(BRI)与欧盟"全球门户"(Global Gateway)之间制度竞争的意想不到的剧场。对于参与国而言，这不仅仅是两个资金来源之间的选择；而是在两种截然不同的制度逻辑之间航行，每种逻辑都带有其自身的承诺与风险。
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                本论文提出了一个看似简单的问题：这些规则差异如何转化为现实的金融结果？超越陈旧的"中国对阵欧盟"地缘政治叙事，我将BRI-全球门户关系概念化为制度竞合(regime coopetition)的案例——一个竞争与互补共存的空间。借鉴制度复杂性理论，我构建了一种新的监管互动类型学，区分了三种理想类型结果：适应性协调(adaptive coordination)，即规则协调一致；结构性对抗(structural confrontation)，即规则相互碰撞；以及制度套利(institutional arbitrage)，即行为者策略性地在间隙中航行。
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                分析分两步展开。首先，我系统地剖析了两个制度体系的六个制度维度——融资机制、环境标准、采购规则、债务可持续性、透明度和实施效率——揭示的不仅是表面差异，更是发展哲学上的深层次矛盾。其次，我通过理论引导的过程追踪，对两个极端案例进行了检验：比雷埃夫斯港(适应性协调的教科书式范例)和布达佩斯-贝尔格莱德铁路(结构性僵局的警示故事)。
+                            </p>
+                            
+                            <div class="mt-6 pt-6 border-t border-academic-200">
+                                <h3 class="text-lg font-bold text-primary mb-3">三项主要发现</h3>
+                                <ol class="list-decimal pl-5 space-y-2 text-sm text-academic-700">
+                                    <li><strong>制度套利：</strong>制度重叠创造了真正的套利机会，使精明的主机国能够通过挑选有利规则来优化融资。</li>
+                                    <li><strong>适应性合规：</strong>规则互动的形态并非宿命而是选择：比雷埃夫斯的成功取决于投资者的主动适应性强合规。</li>
+                                    <li><strong>监管拼凑：</strong>通过规则的实用主义重组，可以实现协调效率与合规性的帕累托改进。</li>
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="mt-8 p-6 bg-academic-50 rounded-xl border border-academic-200 max-w-4xl mx-auto">
+                        <h3 class="font-bold text-primary mb-3">Keywords / 关键词</h3>
+                        <p class="text-sm text-academic-600 font-mono">
+                            Belt and Road Initiative / 一带一路倡议; institutional complexity / 制度复杂性; regime coopetition / 制度竞合; regulatory interaction / 监管互动; infrastructure finance / 基础设施融资; debt sustainability / 债务可持续性; adaptive compliance / 适应性合规; Global Gateway / 全球门户; process tracing / 过程追踪; regulatory bricolage / 监管拼凑.
                         </p>
                     </div>
                 </div>
