@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>第4章 案例分析 | BRI vs Global Gateway</title>
+    <title>第4章 双案例对比 | Piraeus vs Budapest</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -11,242 +11,234 @@
             theme: {
                 extend: {
                     colors: {
-                        'academic': '#1a365d',
+                        'piraeus': '#10b981',
+                        'budapest': '#ef4444',
                     }
                 }
             }
         }
     </script>
     <style>
-        @media print {
-            .no-print { display: none !important; }
-            body { font-size: 12pt; }
-            nav { display: none; }
-        }
-        .timeline-item {
-            position: relative;
-            padding-left: 2rem;
-            padding-bottom: 2rem;
-            border-left: 2px solid #e2e8f0;
-        }
-        .dark .timeline-item {
-            border-left-color: #4a5568;
-        }
-        .timeline-item::before {
-            content: '';
+        @media print { .no-print { display: none !important; } }
+        .timeline-track { position: relative; }
+        .timeline-thumb {
             position: absolute;
-            left: -6px;
-            top: 0;
-            width: 10px;
-            height: 10px;
+            width: 20px;
+            height: 20px;
+            background: #3b82f6;
             border-radius: 50%;
-            background: white;
-            border: 2px solid currentColor;
+            cursor: grab;
+            top: -8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
         }
-        .timeline-item.success::before { border-color: #10b981; background: #10b981; }
-        .timeline-item.warning::before { border-color: #f59e0b; background: #f59e0b; }
-        .timeline-item.error::before { border-color: #ef4444; background: #ef4444; }
+        .sync-scroll { scroll-behavior: smooth; }
+        .evidence-smoking::before { content: "🚬 "; font-size: 0.8em; }
+        .evidence-hoop::before { content: "🎯 "; font-size: 0.8em; }
+        .evidence-straw::before { content: "🌾 "; font-size: 0.8em; }
     </style>
 </head>
 <body class="bg-gray-50 text-gray-900 dark:bg-gray-900 dark:text-gray-100 transition-all duration-300">
-    
+
+    <!-- 顶部控制栏 -->
     <nav class="fixed top-0 w-full bg-white/95 dark:bg-gray-800/95 backdrop-blur shadow-sm z-50 border-b border-gray-200 dark:border-gray-700 no-print">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div class="flex justify-between h-16 items-center">
-                <a href="index.html" class="font-bold text-lg text-academic dark:text-blue-300">← 返回首页</a>
-                <div class="flex space-x-1">
-                    <a href="chapter3.html" class="px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded">← 第3章</a>
-                    <span class="px-3 py-2 text-sm font-bold text-blue-600 bg-blue-50 dark:bg-blue-900/30 rounded">第4章</span>
-                    <a href="chapter5.html" class="px-3 py-2 text-sm hover:bg-gray-100 dark:hover:bg-gray-700 rounded">第5章 →</a>
-                </div>
-                <button onclick="toggleDarkMode()" class="p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-700">
-                    <svg class="w-4 h-4 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
-                    <svg class="w-4 h-4 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
+        <div class="max-w-[1920px] mx-auto px-4 h-16 flex items-center justify-between">
+            <div class="flex items-center gap-4">
+                <a href="main.html" class="font-bold text-lg hover:text-blue-600">← 理论框架</a>
+                <div class="h-6 w-px bg-gray-300 dark:bg-gray-600"></div>
+                <h1 class="font-semibold hidden md:block">Most Similar Systems Design · 过程追踪</h1>
+            </div>
+            
+            <!-- 时间轴控制器 -->
+            <div class="flex items-center gap-4 bg-gray-100 dark:bg-gray-700 px-4 py-2 rounded-lg">
+                <span class="text-sm font-medium">时间轴:</span>
+                <input type="range" id="timeSlider" min="2008" max="2026" value="2024" 
+                       class="w-48 accent-blue-600 cursor-pointer" oninput="syncTime(this.value)">
+                <span id="yearDisplay" class="text-lg font-bold text-blue-600 w-16 text-center">2024</span>
+            </div>
+
+            <div class="flex items-center gap-2">
+                <button onclick="toggleSync()" id="syncBtn" class="px-3 py-1.5 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded text-sm font-medium">
+                    联动: 开
+                </button>
+                <button onclick="toggleDarkMode()" class="p-2 rounded hover:bg-gray-200 dark:hover:bg-gray-700">
+                    <svg class="w-5 h-5 hidden dark:block" fill="currentColor" viewBox="0 0 20 20"><path d="M10 2a1 1 0 011 1v1a1 1 0 11-2 0V3a1 1 0 011-1zm4 8a4 4 0 11-8 0 4 4 0 018 0zm-.464 4.95l.707.707a1 1 0 001.414-1.414l-.707-.707a1 1 0 00-1.414 1.414zm2.12-10.607a1 1 0 010 1.414l-.706.707a1 1 0 11-1.414-1.414l.707-.707a1 1 0 011.414 0zM17 11a1 1 0 100-2h-1a1 1 0 100 2h1zm-7 4a1 1 0 011 1v1a1 1 0 11-2 0v-1a1 1 0 011-1zM5.05 6.464A1 1 0 106.465 5.05l-.708-.707a1 1 0 00-1.414 1.414l.707.707zm1.414 8.486l-.707.707a1 1 0 01-1.414-1.414l.707-.707a1 1 0 011.414 1.414zM4 11a1 1 0 100-2H3a1 1 0 000 2h1z"/></svg>
+                    <svg class="w-5 h-5 block dark:hidden" fill="currentColor" viewBox="0 0 20 20"><path d="M17.293 13.293A8 8 0 016.707 2.707a8.001 8.001 0 1010.586 10.586z"/></svg>
                 </button>
             </div>
         </div>
     </nav>
 
-    <div class="fixed top-16 left-0 w-full h-1 bg-gray-200 dark:bg-gray-700 z-40 no-print">
-        <div id="progress-bar" class="h-full bg-blue-600 transition-all duration-300" style="width: 0%"></div>
-    </div>
-
-    <main class="pt-24 pb-12 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- 双屏对比主体 -->
+    <main class="pt-20 h-screen flex flex-col md:flex-row overflow-hidden">
         
-        <header class="mb-12 text-center">
-            <div class="inline-block px-4 py-1 bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 rounded-full text-sm mb-4">Chapter 04</div>
-            <h1 class="text-4xl font-bold mb-4">典型案例对比分析</h1>
-            <p class="text-xl text-gray-600 dark:text-gray-400 italic">Case Study Comparison: Piraeus Port vs Budapest-Belgrade Railway</p>
-            <p class="mt-4 text-sm text-gray-500 max-w-3xl mx-auto">
-                采用"最相似系统设计"(MSSD)，对比分析Piraeus港（和谐协调型）与Budapest-Belgrade铁路（冲突对抗型）的制度互动过程。
-            </p>
-        </header>
+        <!-- 左侧：Piraeus（成功案例） -->
+        <div class="flex-1 h-full overflow-y-auto sync-scroll border-r border-gray-200 dark:border-gray-700 bg-green-50/30 dark:bg-green-900/10" id="piraeusPanel">
+            <div class="p-6 space-y-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-green-700 dark:text-green-400">Piraeus Port</h2>
+                    <span class="px-3 py-1 bg-green-100 dark:bg-green-900/30 text-green-800 dark:text-green-200 rounded-full text-sm font-bold">
+                        Mechanism I ✓
+                    </span>
+                </div>
 
-        <section class="mb-12 bg-blue-50 dark:bg-blue-900/20 p-6 rounded-xl border border-blue-200 dark:border-blue-800">
-            <h2 class="text-xl font-bold mb-4">方法论：最相似系统设计 (MSSD)</h2>
-            <div class="grid md:grid-cols-2 gap-6 text-sm">
-                <div>
-                    <h3 class="font-semibold mb-2">控制变量（相似性）</h3>
-                    <ul class="space-y-1 text-gray-700 dark:text-gray-300">
-                        <li>✓ 地理位置：欧洲大陆（地中海/中东欧）</li>
-                        <li>✓ 项目类型：交通运输基础设施</li>
-                        <li>✓ 投资者类型：中国国有企业（COSCO/CRRC）</li>
-                        <li>✓ 时间背景：2010年代初期启动</li>
+                <!-- MSSD控制变量 -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border-l-4 border-green-500">
+                    <h3 class="font-bold text-sm mb-3 text-gray-500 uppercase">控制变量（与Budapest相同）</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 地理位置：欧洲大陆</li>
+                        <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 项目类型：交通运输基础设施</li>
+                        <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 投资者：中国国有企业</li>
+                        <li class="flex items-center gap-2"><span class="text-green-500">✓</span> 时间窗口：2010年代初期</li>
                     </ul>
                 </div>
-                <div>
-                    <h3 class="font-semibold mb-2">解释变量（差异性）</h3>
-                    <ul class="space-y-1 text-gray-700 dark:text-gray-300">
-                        <li>✗ 制度密度：低（港口特许权）vs 高（跨境铁路EU法规）</li>
-                        <li>✗ 融资结构：单一来源 vs 多元化（中+欧+国际）</li>
-                        <li>✗ 技术标准：港口设备 vs 铁路信号系统（安全关键）</li>
-                        <li>✗ 结果：和谐协调 vs 冲突对抗</li>
-                    </ul>
+
+                <!-- 动态时间轴内容 -->
+                <div id="piraeus-timeline" class="space-y-4">
+                    <!-- 内容由JS根据年份动态生成 -->
                 </div>
             </div>
-        </section>
-
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-8 text-center">双时间轴对比 | Dual Timeline Comparison</h2>
-            
-            <div class="grid lg:grid-cols-2 gap-8">
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border-t-4 border-green-500">
-                    <div class="flex items-center justify-between mb-6">
-                        <div>
-                            <h3 class="text-2xl font-bold text-green-600">Piraeus Port 比雷埃夫斯港</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">希腊 · 地中海最大港口</p>
-                        </div>
-                        <span class="px-3 py-1 bg-green-100 dark:bg-green-900 text-green-800 dark:text-green-200 rounded-full text-sm font-semibold">
-                            Harmonious Coordination
-                        </span>
-                    </div>
-                    
-                    <div class="space-y-0">
-                        <div class="timeline-item success">
-                            <div class="font-bold text-green-700 dark:text-green-400">2008年11月</div>
-                            <p class="text-sm mt-1">COSCO获得Piraeus港II、III号集装箱码头<strong>35年特许经营权</strong>（经营权，非所有权）</p>
-                        </div>
-                        <div class="timeline-item success">
-                            <div class="font-bold text-green-700 dark:text-green-400">2009-2010年</div>
-                            <p class="text-sm mt-1">希腊债务危机爆发，COSCO逆势投资。2010年6月正式接管码头运营。</p>
-                        </div>
-                        <div class="timeline-item success">
-                            <div class="font-bold text-green-700 dark:text-green-400">2016年4月</div>
-                            <p class="text-sm mt-1">以3.685亿欧元收购Piraeus Port Authority 67%股权，正式控股（分阶段合规，避开FSR审查）。</p>
-                        </div>
-                        <div class="timeline-item success">
-                            <div class="font-bold text-green-700 dark:text-green-400">2021-2022年</div>
-                            <p class="text-sm mt-1">成为地中海第一、欧洲第四大港口。年吞吐量超500万TEU。</p>
-                        </div>
-                        <div class="timeline-item success" style="border-left-color: transparent;">
-                            <div class="font-bold text-green-700 dark:text-green-400">结果</div>
-                            <p class="text-sm mt-1 text-green-600 dark:text-green-400 font-semibold">✓ 项目成功 · 无重大延误 · 无EU审查</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 border-t-4 border-red-500">
-                    <div class="flex items-center justify-between mb-6">
-                        <div>
-                            <h3 class="text-2xl font-bold text-red-600">Budapest-Belgrade Railway 匈塞铁路</h3>
-                            <p class="text-sm text-gray-600 dark:text-gray-400 mt-1">匈牙利-塞尔维亚 · 中欧陆海快线</p>
-                        </div>
-                        <span class="px-3 py-1 bg-red-100 dark:bg-red-900 text-red-800 dark:text-red-200 rounded-full text-sm font-semibold">
-                            Conflictual Confrontation
-                        </span>
-                    </div>
-                    
-                    <div class="space-y-0">
-                        <div class="timeline-item success">
-                            <div class="font-bold text-gray-700 dark:text-gray-400">2014年12月</div>
-                            <p class="text-sm mt-1">中匈塞三国签署合作备忘录，规划350公里高速铁路。</p>
-                        </div>
-                        <div class="timeline-item warning">
-                            <div class="font-bold text-yellow-700 dark:text-yellow-400">2016年11月</div>
-                            <p class="text-sm mt-1">项目正式公布，引发EU担忧。欧委会启动<strong>IPI（国际采购工具）</strong>调查。</p>
-                        </div>
-                        <div class="timeline-item error">
-                            <div class="font-bold text-red-700 dark:text-red-400">2020年4月</div>
-                            <p class="text-sm mt-1">欧委会拒绝匈牙利申请CEF资金，认定项目违反EU公共采购规则。</p>
-                        </div>
-                        <div class="timeline-item error">
-                            <div class="font-bold text-red-700 dark:text-red-400">2022年10月</div>
-                            <p class="text-sm mt-1">EU针对匈牙利启动<strong>FSR（外国补贴条例）</strong>深度调查。</p>
-                        </div>
-                        <div class="timeline-item error" style="border-left-color: transparent;">
-                            <div class="font-bold text-red-700 dark:text-red-400">2024-2025年</div>
-                            <p class="text-sm mt-1">项目严重延迟，成本超支。原计划2018年完工，实际进度不足50%。<strong>结果：持续审查中</strong></p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <section class="mb-12">
-            <h2 class="text-2xl font-bold mb-6">因果机制分析 | Causal Mechanism Analysis</h2>
-            
-            <div class="grid md:grid-cols-3 gap-6">
-                <div class="bg-green-50 dark:bg-green-900/20 p-6 rounded-xl border-l-4 border-green-500">
-                    <h3 class="font-bold text-green-800 dark:text-green-300 mb-3">Mechanism I: Piraeus</h3>
-                    <p class="text-sm font-semibold mb-2">Proactive Adaptive Compliance</p>
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                        主动适应性合规机制：通过分阶段投资（先经营权后股权）、单一边协议（中希双边）、非安全领域（港口vs铁路信号）降低制度冲突。
-                    </p>
-                    <ul class="text-xs space-y-1 text-green-700 dark:text-green-400">
-                        <li>• 制度密度：低（成员国自主）</li>
-                        <li>• 融资方：单一（中方主导）</li>
-                        <li>• 技术规范：非安全关键</li>
-                        <li>• 战略：渐进式合规</li>
-                    </ul>
-                </div>
-
-                <div class="bg-red-50 dark:bg-red-900/20 p-6 rounded-xl border-l-4 border-red-500">
-                    <h3 class="font-bold text-red-800 dark:text-red-300 mb-3">Mechanism II: Budapest-Belgrade</h3>
-                    <p class="text-sm font-semibold mb-2">Compliance Cost Stacking</p>
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                        合规成本叠加机制：FSR（2023生效）+ IPI（2022生效）+ CEF规则三重叠加，导致非线性成本递增与项目延迟。
-                    </p>
-                    <ul class="text-xs space-y-1 text-red-700 dark:text-red-400">
-                        <li>• 制度密度：极高（EU跨境法规）</li>
-                        <li>• 融资方：多元化（中+EU+国际）</li>
-                        <li>• 技术规范：安全关键（信号系统）</li>
-                        <li>• 战略：冲突对抗</li>
-                    </ul>
-                </div>
-
-                <div class="bg-purple-50 dark:bg-purple-900/20 p-6 rounded-xl border-l-4 border-purple-500">
-                    <h3 class="font-bold text-purple-800 dark:text-purple-300 mb-3">关键差异点</h3>
-                    <p class="text-sm text-gray-700 dark:text-gray-300 mb-3">
-                        制度密度差异决定项目成败。Piraeus利用港口成员国自治属性避开EU审查，而Budapest-Belgrade因跨境性质触发多重EU监管工具。
-                    </p>
-                    <div class="mt-4 p-3 bg-white dark:bg-gray-800 rounded text-xs">
-                        <p class="font-semibold mb-1">制度套利空间：</p>
-                        <p>Piraeus: <span class="text-green-600 font-bold">高（利用制度缝隙）</span></p>
-                        <p>Budapest: <span class="text-red-600 font-bold">低（制度密度过高）</span></p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <div class="mt-16 flex justify-between items-center no-print">
-            <a href="chapter3.html" class="px-6 py-3 bg-gray-200 dark:bg-gray-700 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-600 transition">← 第3章</a>
-            <a href="chapter5.html" class="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition shadow-lg">第5章：决策支持系统 →</a>
         </div>
 
+        <!-- 中央：对比条 -->
+        <div class="w-full md:w-16 bg-gray-100 dark:bg-gray-800 flex flex-col items-center py-4 gap-2 no-print">
+            <div class="text-xs font-bold text-gray-400 rotate-90 whitespace-nowrap mt-4">VS</div>
+            <div class="flex-1 w-px bg-gray-300 dark:bg-gray-600 my-4"></div>
+            
+            <!-- 条件对照 -->
+            <div class="px-2 py-2 bg-white dark:bg-gray-700 rounded shadow text-xs text-center w-14 leading-tight">
+                <div class="font-bold text-green-600 mb-1">低</div>
+                <div class="text-gray-500 scale-75">制度密度</div>
+                <div class="font-bold text-red-600 mt-1">高</div>
+            </div>
+        </div>
+
+        <!-- 右侧：Budapest（失败案例） -->
+        <div class="flex-1 h-full overflow-y-auto sync-scroll bg-red-50/30 dark:bg-red-900/10" id="budapestPanel">
+            <div class="p-6 space-y-6">
+                <div class="flex items-center justify-between mb-4">
+                    <h2 class="text-2xl font-bold text-red-700 dark:text-red-400">Budapest-Belgrade Railway</h2>
+                    <span class="px-3 py-1 bg-red-100 dark:bg-red-900/30 text-red-800 dark:text-red-200 rounded-full text-sm font-bold">
+                        Mechanism II ⚠
+                    </span>
+                </div>
+
+                <!-- MSSD控制变量（相同） -->
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border-l-4 border-red-500">
+                    <h3 class="font-bold text-sm mb-3 text-gray-500 uppercase">控制变量（与Piraeus相同）</h3>
+                    <ul class="space-y-2 text-sm opacity-75">
+                        <li class="flex items-center gap-2"><span class="text-gray-400">=</span> 地理位置：欧洲大陆</li>
+                        <li class="flex items-center gap-2"><span class="text-gray-400">=</span> 项目类型：交通运输基础设施</li>
+                        <li class="flex items-center gap-2"><span class="text-gray-400">=</span> 投资者：中国国有企业</li>
+                        <li class="flex items-center gap-2"><span class="text-gray-400">=</span> 时间窗口：2014-2017启动</li>
+                    </ul>
+                </div>
+
+                <!-- 解释变量（差异性） -->
+                <div class="bg-red-100 dark:bg-red-900/20 rounded-lg p-4 border border-red-200 dark:border-red-800">
+                    <h3 class="font-bold text-sm mb-3 text-red-800 dark:text-red-300 uppercase">解释变量（关键差异）</h3>
+                    <ul class="space-y-2 text-sm">
+                        <li class="flex items-center gap-2"><span class="text-red-600 font-bold">✗</span> 制度密度：极高（EU跨境法规）</li>
+                        <li class="flex items-center gap-2"><span class="text-red-600 font-bold">✗</span> 融资方：5方（中+EU+EBRD+俄）</li>
+                        <li class="flex items-center gap-2"><span class="text-red-600 font-bold">✗</span> 技术标准：安全关键（信号系统）</li>
+                        <li class="flex items-center gap-2"><span class="text-red-600 font-bold">✗</span> 结果：8-9年延迟 · 成本+78%</li>
+                    </ul>
+                </div>
+
+                <!-- 动态时间轴内容 -->
+                <div id="budapest-timeline" class="space-y-4">
+                    <!-- 内容由JS根据年份动态生成 -->
+                </div>
+            </div>
+        </div>
     </main>
 
+    <!-- 底部信息栏 -->
+    <div class="fixed bottom-0 w-full bg-white/90 dark:bg-gray-800/90 backdrop-blur border-t border-gray-200 dark:border-gray-700 py-2 px-4 text-center text-xs no-print">
+        <span class="mr-4">🚬 Smoking-gun证据: 直接证明因果链</span>
+        <span class="mr-4">🎯 Hoop证据: 基本测试通过</span>
+        <span>🌾 Straw-in-the-wind: 辅助性证据</span>
+    </div>
+
     <script>
+        // 时间轴数据库
+        const timelineData = {
+            piraeus: [
+                {year: 2008, event: "获得35年特许经营权", evidence: "smoking", mechanism: "制度密度低，避开所有权审查"},
+                {year: 2010, event: "正式接管Piers II/III", evidence: "hoop", mechanism: "经营权模式降低合规成本"},
+                {year: 2015, event: "希腊政府暂停审查后重启", evidence: "smoking", mechanism: "东道国政府作为制度桥梁"},
+                {year: 2016, event: "3.685亿欧元收购67%股权", evidence: "smoking", mechanism: "分阶段合规策略成功"},
+                {year: 2022, event: "吞吐量+640%（6.5M TEU）", evidence: "smoking", mechanism: "Mechanism I验证成功"},
+                {year: 2026, event: "Pier IV审批暂停（持续合规）", evidence: "hoop", mechanism: "制度约束持续存在"}
+            ],
+            budapest: [
+                {year: 2014, event: "签署三国合作备忘录", evidence: "hoop", mechanism: "初始政治意愿强烈"},
+                {year: 2016, event: "欧委会启动IPI调查", evidence: "smoking", mechanism: "制度密度触发审查"},
+                {year: 2017, event: "中国进出口银行签署贷款（85%）", evidence: "smoking", mechanism: "融资结构复杂化"},
+                {year: 2020, event: "EU拒绝CEF资金申请", evidence: "smoking", mechanism: "规则互斥性显现"},
+                {year: 2022, event: "FSR深度调查启动", evidence: "smoking", mechanism: "Mechanism II全面触发"},
+                {year: 2024, event: "塞尔维亚段开通，匈牙利段停滞", evidence: "smoking", mechanism: "制度密度梯度效应验证"}
+            ]
+        };
+
+        let isSync = true;
+
+        function syncTime(year) {
+            document.getElementById('yearDisplay').textContent = year;
+            renderTimeline('piraeus', year);
+            renderTimeline('budapest', year);
+        }
+
+        function renderTimeline(caseType, year) {
+            const container = document.getElementById(`${caseType}-timeline`);
+            const data = timelineData[caseType].filter(d => d.year <= year);
+            
+            if (data.length === 0) {
+                container.innerHTML = '<div class="text-gray-400 text-sm italic p-4">该年份尚无关键事件</div>';
+                return;
+            }
+
+            container.innerHTML = data.map((d, i) => `
+                <div class="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-sm border-l-4 ${caseType === 'piraeus' ? 'border-green-500' : 'border-red-500'} relative">
+                    <div class="absolute -left-3 top-4 w-6 h-6 rounded-full ${caseType === 'piraeus' ? 'bg-green-500' : 'bg-red-500'} text-white flex items-center justify-center text-xs font-bold">
+                        ${d.year.toString().substr(2)}
+                    </div>
+                    <div class="flex justify-between items-start mb-2">
+                        <h4 class="font-bold ${caseType === 'piraeus' ? 'text-green-700' : 'text-red-700'} dark:text-white">${d.year}</h4>
+                        <span class="evidence-${d.evidence} text-xs bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded">${d.evidence.toUpperCase()}</span>
+                    </div>
+                    <p class="font-medium mb-2 dark:text-gray-200">${d.event}</p>
+                    <p class="text-xs text-gray-600 dark:text-gray-400 bg-gray-50 dark:bg-gray-900/50 p-2 rounded">
+                        ${caseType === 'piraeus' ? '✓' : '⚠'} ${d.mechanism}
+                    </p>
+                </div>
+            `).join('');
+        }
+
+        function toggleSync() {
+            isSync = !isSync;
+            document.getElementById('syncBtn').textContent = `联动: ${isSync ? '开' : '关'}`;
+        }
+
         function toggleDarkMode() {
             document.documentElement.classList.toggle('dark');
             localStorage.setItem('theme', document.documentElement.classList.contains('dark') ? 'dark' : 'light');
         }
-        window.addEventListener('scroll', () => {
-            const winScroll = document.body.scrollTop || document.documentElement.scrollTop;
-            const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
-            document.getElementById('progress-bar').style.width = (winScroll / height) * 100 + '%';
-        });
+
+        // 初始化
         if (localStorage.getItem('theme') === 'dark') {
             document.documentElement.classList.add('dark');
+        }
+
+        // 检查URL参数跳转到特定案例
+        const urlParams = new URLSearchParams(window.location.search);
+        const caseType = urlParams.get('case');
+        
+        // 初始化显示
+        syncTime(2024);
+        
+        // 如果是特定案例，滚动到对应位置
+        if (caseType === 'budapest') {
+            document.getElementById('budapestPanel').scrollIntoView({behavior: 'smooth'});
         }
     </script>
 </body>
