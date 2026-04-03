@@ -1,0 +1,947 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Port of Piraeus Case Study - BRI Institutional Complexity Navigator">
+    <title>Case Study: Port of Piraeus | BRI Dissertation</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400&family=Source+Sans+Pro:wght@300;400;600;700&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        serif: ['Playfair Display', 'Noto Serif SC', 'serif'],
+                        sans: ['Source Sans Pro', 'Noto Sans SC', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'monospace'],
+                        cnserif: ['Noto Serif SC', 'serif'],
+                        cnsans: ['Noto Sans SC', 'sans-serif'],
+                    },
+                    colors: {
+                        bri: { red: '#C41E3A', dark: '#8B0000', light: '#FFE4E1' },
+                        eu: { blue: '#003399', light: '#E6F0FF', gold: '#D4AF37' },
+                        academic: { paper: '#F5F5F0', ink: '#2C3E50', highlight: '#D4AF37' }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        .lang-en, .lang-cn { display: none; }
+        html[lang-mode="en"] .lang-en { display: block; }
+        html[lang-mode="cn"] .lang-cn { display: block; }
+        html[lang-mode="both"] .lang-both-container { display: flex; flex-direction: column; gap: 0.25rem; }
+        html[lang-mode="both"] .lang-en, html[lang-mode="both"] .lang-cn { display: block; font-size: 0.95em; line-height: 1.5; }
+        html[lang-mode="both"] .lang-cn { color: #6B7280; font-family: 'Noto Sans SC', sans-serif; border-left: 2px solid #E5E7EB; padding-left: 0.75rem; margin-left: 0.25rem; }
+        .dark html[lang-mode="both"] .lang-cn { color: #9CA3AF; border-left-color: #374151; }
+
+        @media (min-width: 1024px) {
+            html[lang-mode="both"] .bilingual-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+            html[lang-mode="both"] .bilingual-grid > .lang-en { border-right: 1px solid #E5E7EB; padding-right: 1rem; }
+            .dark html[lang-mode="both"] .bilingual-grid > .lang-en { border-right-color: #374151; }
+        }
+
+        .lang-switcher { display: flex; background: rgba(229, 231, 235, 0.5); border-radius: 9999px; padding: 0.25rem; gap: 0.25rem; }
+        .dark .lang-switcher { background: rgba(55, 65, 81, 0.5); }
+        .lang-btn { padding: 0.375rem 0.75rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 600; transition: all 0.2s; font-family: 'JetBrains Mono', monospace; letter-spacing: 0.05em; cursor: pointer; border: none; }
+        .lang-btn.active { background: white; color: #C41E3A; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .dark .lang-btn.active { background: #1F2937; color: #60A5FA; }
+
+        .evidence-badge { display: inline-flex; align-items: center; padding: 0.125rem 0.5rem; border-radius: 0.25rem; font-size: 0.75rem; font-weight: 600; font-family: 'JetBrains Mono', monospace; }
+        .evidence-smoking { background: #DC2626; color: white; }
+        .evidence-hoop { background: #F59E0B; color: white; }
+        .evidence-straw { background: #6B7280; color: white; }
+
+        .timeline-item { position: relative; padding-left: 2rem; padding-bottom: 1.5rem; border-left: 2px solid #E5E7EB; }
+        .timeline-item::before { content: ''; position: absolute; left: -0.375rem; top: 0.25rem; width: 0.75rem; height: 0.75rem; border-radius: 50%; background: #C41E3A; border: 2px solid white; }
+        .dark .timeline-item { border-left-color: #374151; }
+        .timeline-item:last-child { border-left: 2px solid transparent; }
+
+        @media print {
+            .no-print { display: none !important; }
+            .lang-cn { display: none !important; }
+        }
+    </style>
+<base target="_blank">
+</head>
+<body class="bg-academic-paper text-academic-ink font-sans antialiased dark:bg-slate-900 dark:text-slate-100 transition-colors duration-300">
+
+    <!-- Navigation -->
+    <nav class="fixed w-full z-50 bg-white/80 dark:bg-slate-900/80 backdrop-blur-md border-b border-gray-200 dark:border-slate-700 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16 items-center">
+                <div class="flex-shrink-0 flex items-center gap-3">
+                    <a href="main.html" class="flex items-center gap-3 hover:opacity-80 transition-opacity">
+                        <div class="w-10 h-10 rounded-full bg-gradient-to-br from-bri-red to-eu-blue flex items-center justify-center text-white font-bold text-lg">ZJ</div>
+                        <span class="font-serif text-xl font-bold tracking-tight hidden sm:block">
+                            BRI<span class="text-bri-red">/</span>Gateway
+                        </span>
+                    </a>
+                </div>
+
+                <div class="flex items-center gap-4">
+                    <div class="lang-switcher">
+                        <button onclick="setLanguage('en')" class="lang-btn" id="btn-en">EN</button>
+                        <button onclick="setLanguage('cn')" class="lang-btn" id="btn-cn">CN</button>
+                        <button onclick="setLanguage('both')" class="lang-btn" id="btn-both">EN/CN</button>
+                    </div>
+
+                    <button onclick="toggleDarkMode()" class="p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-slate-800 transition-colors" aria-label="Toggle dark mode">
+                        <svg class="w-5 h-5 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+                        <svg class="w-5 h-5 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="pt-24 pb-4 bg-white dark:bg-slate-800 border-b border-gray-200 dark:border-slate-700 no-print">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <nav class="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400">
+                <a href="main.html" class="hover:text-bri-red transition-colors">Home</a>
+                <span>/</span>
+                <span class="lang-en">Chapter 4</span>
+                <span class="lang-cn font-cnsans">第4章</span>
+                <span>/</span>
+                <span class="text-gray-900 dark:text-white font-medium lang-en">Case Study 1: Port of Piraeus</span>
+                <span class="text-gray-900 dark:text-white font-medium lang-cn font-cnsans">案例研究一：比雷埃夫斯港</span>
+            </nav>
+        </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative pt-12 pb-16 bg-gradient-to-b from-green-50 to-white dark:from-slate-800 dark:to-slate-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col lg:flex-row gap-8 items-start">
+                <div class="lg:w-2/3">
+                    <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 text-sm font-medium mb-4">
+                        <span class="w-2 h-2 rounded-full bg-green-500"></span>
+                        <span class="lang-en">Type I: Harmonious Coordination</span>
+                        <span class="lang-cn font-cnsans">类型一：和谐协调</span>
+                    </div>
+
+                    <h1 class="font-serif text-4xl md:text-5xl font-bold text-gray-900 dark:text-white mb-4">
+                        <span class="lang-en">Port of Piraeus</span>
+                        <span class="lang-cn block text-3xl md:text-4xl mt-2 font-cnsans">比雷埃夫斯港</span>
+                    </h1>
+
+                    <h2 class="font-serif text-xl md:text-2xl text-gray-600 dark:text-gray-300 font-light italic mb-6">
+                        <span class="lang-en">BRI Financial Rules in Practice: A Textbook Case of Adaptive Compliance</span>
+                        <span class="lang-cn block text-lg md:text-xl mt-1 not-italic font-cnsans font-normal text-gray-500 dark:text-gray-400">一带一路金融规则实践：适应性合规的教科书案例</span>
+                    </h2>
+
+                    <p class="text-gray-600 dark:text-gray-400 leading-relaxed mb-6 max-w-3xl">
+                        <span class="lang-en">Twenty kilometers southwest of Athens, where the Saronic Gulf meets the Aegean, lies a port that has become an unlikely symbol of China-Europe cooperation. Piraeus is not just Greece's largest port; it is the place where the BRI's ambitions met Europe's regulatory realities—and, against the odds, found a way to coexist.</span>
+                        <span class="lang-cn font-cnsans block mt-2 text-gray-500 dark:text-gray-400">雅典西南二十公里处，萨罗尼克湾与爱琴海交汇处，坐落着一个港口，它已成为中欧合作出人意料的象征。比雷埃夫斯不仅是希腊最大的港口，更是一带一路的雄心与欧洲监管现实相遇并找到共存方式的见证。</span>
+                    </p>
+                </div>
+
+                <div class="lg:w-1/3 bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
+                    <h3 class="font-serif text-lg font-bold mb-4 text-gray-900 dark:text-white border-b pb-2">
+                        <span class="lang-en">Key Metrics</span>
+                        <span class="lang-cn font-cnsans">关键指标</span>
+                    </h3>
+                    <div class="space-y-3">
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600 dark:text-gray-400 lang-en">Throughput Growth</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400 lang-cn font-cnsans">吞吐量增长</span>
+                            <span class="font-bold text-green-600 dark:text-green-400">+640%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600 dark:text-gray-400 lang-en">Employment Increase</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400 lang-cn font-cnsans">就业增长</span>
+                            <span class="font-bold text-green-600 dark:text-green-400">+500%</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600 dark:text-gray-400 lang-en">Total Investment</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400 lang-cn font-cnsans">总投资</span>
+                            <span class="font-bold text-gray-900 dark:text-white">€1.63B+</span>
+                        </div>
+                        <div class="flex justify-between items-center">
+                            <span class="text-sm text-gray-600 dark:text-gray-400 lang-en">Concession Period</span>
+                            <span class="text-sm text-gray-600 dark:text-gray-400 lang-cn font-cnsans">特许经营期</span>
+                            <span class="font-mono text-sm">2008-2052</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+
+        <!-- 4.3.1 Project Background -->
+        <section id="background" class="mb-16">
+            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-bri-red text-white flex items-center justify-center text-sm">4.3.1</span>
+                <span class="lang-en">Project Background and Historical Evolution</span>
+                <span class="lang-cn font-cnsans">项目背景与历史演变</span>
+            </h2>
+
+            <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed mb-8">
+                <p class="lang-en">The Piraeus project traversed a decade-long tortuous trajectory, marked by four distinct phases:</p>
+                <p class="lang-cn font-cnsans">比雷埃夫斯项目经历了长达十年的曲折历程，可分为四个 distinct 阶段：</p>
+            </div>
+
+            <!-- Timeline -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl p-8 shadow-lg border border-gray-200 dark:border-slate-700 mb-8">
+                <h3 class="font-serif text-xl font-bold mb-6 text-gray-900 dark:text-white">
+                    <span class="lang-en">Key Timeline</span>
+                    <span class="lang-cn font-cnsans">关键时间线</span>
+                </h3>
+
+                <div class="space-y-0">
+                    <div class="timeline-item">
+                        <div class="font-bold text-gray-900 dark:text-white">2008</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                            <span class="lang-en">Phase I: Concession Acquisition</span>
+                            <span class="lang-cn font-cnsans">第一阶段：特许权收购</span>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">
+                            <span class="lang-en">COSCO Group signed a 35-year concession agreement with Greek authorities, obtaining operating rights for Piers II and III of the Piraeus container terminal.</span>
+                            <span class="lang-cn font-cnsans">中远集团（后重组为中远海运）与希腊当局签署35年特许经营协议，获得比雷埃夫斯集装箱码头II号和III号泊位的经营权。</span>
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="font-bold text-gray-900 dark:text-white">October 1, 2010</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                            <span class="lang-en">Formal Operations Begin</span>
+                            <span class="lang-cn font-cnsans">正式运营开始</span>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">
+                            <span class="lang-en">COSCO formally assumed control of Piers II and III, marking the entry of Chinese enterprises into European port operations.</span>
+                            <span class="lang-cn font-cnsans">中远正式接管II号和III号泊位，标志着中国企业进入欧洲港口运营领域。</span>
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="font-bold text-gray-900 dark:text-white">2010-2015</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                            <span class="lang-en">Phase II: Crisis and Contestation</span>
+                            <span class="lang-cn font-cnsans">第二阶段：危机与争议</span>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">
+                            <span class="lang-en">Following Greece's sovereign debt crisis, the left-wing Syriza government elected in early 2015 suspended the Piraeus privatization process under the pretext of "reviewing foreign investment." Prime Minister Tsipras ultimately chose to trust Beijing's commitments to economic revitalization after hardline negotiations with the EU.</span>
+                            <span class="lang-cn font-cnsans">2010年希腊主权债务危机爆发后，经济陷入深度衰退。2015年初，左翼激进联盟党政府上台后，以"审查外国投资"为由暂停了比雷埃夫斯私有化进程。齐普拉斯总理在与欧盟进行强硬谈判并谨慎评估中方提议后，最终选择相信北京对经济复兴的承诺。</span>
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="font-bold text-gray-900 dark:text-white">April 8, 2016</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                            <span class="lang-en">Phase III: Majority Equity Acquisition</span>
+                            <span class="lang-cn font-cnsans">第三阶段：多数股权收购</span>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">
+                            <span class="lang-en">COSCO Shipping signed an equity acquisition agreement with HRADF, committing €368.5 million for a 67% stake in PPA. On June 30, 2016, the Greek Parliament overwhelmingly approved the agreement by 223 votes to 25. The transaction was formally completed on August 10, 2016.</span>
+                            <span class="lang-cn font-cnsans">中远海运与希腊共和国资产发展基金（HRADF）签署股权收购协议，承诺出资3.685亿欧元获得比雷埃夫斯港务局（PPA）67%的股份。2016年6月30日，希腊议会以223票赞成、25票反对的压倒性多数批准该协议。交易于2016年8月10日正式完成。</span>
+                        </p>
+                    </div>
+
+                    <div class="timeline-item">
+                        <div class="font-bold text-gray-900 dark:text-white">2016-Present</div>
+                        <div class="text-sm text-gray-600 dark:text-gray-400 mb-1">
+                            <span class="lang-en">Phase IV: Rapid Development</span>
+                            <span class="lang-cn font-cnsans">第四阶段：快速发展</span>
+                        </div>
+                        <p class="text-gray-700 dark:text-gray-300 text-sm">
+                            <span class="lang-en">By 2025, container throughput increased from 880,000 TEU in 2010 to 6.5 million TEU, establishing Piraeus as the Mediterranean's largest and Europe's fourth-largest container port.</span>
+                            <span class="lang-cn font-cnsans">到2025年，集装箱吞吐量从2010年的88万标准箱增至650万标准箱，使比雷埃夫斯成为地中海最大、欧洲第四大集装箱港口。</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4.3.2 Financing Structure -->
+        <section id="financing" class="mb-16">
+            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-bri-red text-white flex items-center justify-center text-sm">4.3.2</span>
+                <span class="lang-en">Financing Structure and Investment Scale</span>
+                <span class="lang-cn font-cnsans">融资结构与投资规模</span>
+            </h2>
+
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden mb-8">
+                <div class="px-6 py-4 bg-gray-50 dark:bg-slate-700/50 border-b border-gray-200 dark:border-slate-700">
+                    <h3 class="font-serif text-lg font-bold text-gray-900 dark:text-white">
+                        <span class="lang-en">Table 4-1: Piraeus Port Investment Structure (as of 2026)</span>
+                        <span class="lang-cn font-cnsans">表4-1：比雷埃夫斯港投资结构（截至2026年）</span>
+                    </h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-100 dark:bg-slate-800">
+                            <tr class="lang-both-container">
+                                <th class="px-6 py-3 lang-en">Investment Phase</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">投资阶段</th>
+                                <th class="px-6 py-3 lang-en">Time</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">时间</th>
+                                <th class="px-6 py-3 lang-en">Amount (€ million)</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">金额（百万欧元）</th>
+                                <th class="px-6 py-3 lang-en">Funding Source</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">资金来源</th>
+                                <th class="px-6 py-3 lang-en">Purpose</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">用途</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                    <span class="lang-en">Equity Acquisition</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">股权收购</span>
+                                </td>
+                                <td class="px-6 py-4">2016</td>
+                                <td class="px-6 py-4 font-bold">368.5</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">COSCO Shipping own funds</span>
+                                    <span class="lang-cn font-cnsans block text-sm">中远海运自有资金</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Acquisition of 67% stake</span>
+                                    <span class="lang-cn font-cnsans block text-sm">收购67%股份</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                    <span class="lang-en">Initial Investment</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">初期投资</span>
+                                </td>
+                                <td class="px-6 py-4">2010-2016</td>
+                                <td class="px-6 py-4 font-bold">~400</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">COSCO Group own funds</span>
+                                    <span class="lang-cn font-cnsans block text-sm">中远集团自有资金</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Piers II and III transformation</span>
+                                    <span class="lang-cn font-cnsans block text-sm">II号和III号泊位改造</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                    <span class="lang-en">Mandatory Investment</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">强制投资</span>
+                                </td>
+                                <td class="px-6 py-4">2016-2022</td>
+                                <td class="px-6 py-4 font-bold">350</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">COSCO Shipping + bank loans</span>
+                                    <span class="lang-cn font-cnsans block text-sm">中远海运+银行贷款</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Cruise terminal, ship repair, Ro-Ro</span>
+                                    <span class="lang-cn font-cnsans block text-sm">邮轮码头、船舶修理、滚装码头</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                    <span class="lang-en">Additional Investment Plan</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">追加投资计划</span>
+                                </td>
+                                <td class="px-6 py-4">Approved 2026</td>
+                                <td class="px-6 py-4 font-bold">611.8</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">COSCO Shipping</span>
+                                    <span class="lang-cn font-cnsans block text-sm">中远海运</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Upgrades across all segments</span>
+                                    <span class="lang-cn font-cnsans block text-sm">各业务板块升级</span>
+                                </td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50 bg-yellow-50 dark:bg-yellow-900/10">
+                                <td class="px-6 py-4 font-medium text-gray-900 dark:text-white">
+                                    <span class="lang-en">Pier IV Development</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">IV号泊位开发</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en text-red-600 dark:text-red-400 font-bold">Pending</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-red-600 dark:text-red-400 font-bold">待批</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold">300</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Pending</span>
+                                    <span class="lang-cn font-cnsans block text-sm">待定</span>
+                                </td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Fourth container terminal</span>
+                                    <span class="lang-cn font-cnsans block text-sm">第四个集装箱码头</span>
+                                </td>
+                            </tr>
+                            <tr class="bg-gray-100 dark:bg-slate-700 font-bold">
+                                <td class="px-6 py-4 text-gray-900 dark:text-white" colspan="2">
+                                    <span class="lang-en">Total Committed Investment</span>
+                                    <span class="lang-cn font-cnsans">累计承诺投资</span>
+                                </td>
+                                <td class="px-6 py-4 text-bri-red text-lg">€1,630+ million</td>
+                                <td class="px-6 py-4" colspan="2"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <!-- Financial Indicators Table -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 dark:bg-slate-700/50 border-b border-gray-200 dark:border-slate-700">
+                    <h3 class="font-serif text-lg font-bold text-gray-900 dark:text-white">
+                        <span class="lang-en">Table 4-2: Estimated Financial Indicators (Based on Public Information)</span>
+                        <span class="lang-cn font-cnsans">表4-2：估计财务指标（基于公开信息）</span>
+                    </h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <thead class="text-xs text-gray-700 dark:text-gray-300 uppercase bg-gray-100 dark:bg-slate-800">
+                            <tr class="lang-both-container">
+                                <th class="px-6 py-3 lang-en">Indicator</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">指标</th>
+                                <th class="px-6 py-3 lang-en">Value/Range</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">数值/范围</th>
+                                <th class="px-6 py-3 lang-en">Estimation Method</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">估算方法</th>
+                                <th class="px-6 py-3 lang-en">Reliability</th>
+                                <th class="px-6 py-3 lang-cn font-cnsans">可靠性</th>
+                            </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium">
+                                    <span class="lang-en">Initial Investment (2016)</span>
+                                    <span class="lang-cn font-cnsans block text-sm">初始投资（2016年）</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold">€718.5 million</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Direct citation</span>
+                                    <span class="lang-cn font-cnsans block text-sm">直接引用</span>
+                                </td>
+                                <td class="px-6 py-4"><span class="text-green-600 dark:text-green-400">★★★★★</span></td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium">
+                                    <span class="lang-en">Annual Revenue (2020-2024)</span>
+                                    <span class="lang-cn font-cnsans block text-sm">年收入（2020-2024）</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold">€250-350 million</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Throughput × per-TEU estimate</span>
+                                    <span class="lang-cn font-cnsans block text-sm">吞吐量×单箱收入估算</span>
+                                </td>
+                                <td class="px-6 py-4"><span class="text-yellow-600 dark:text-yellow-400">★★★★</span></td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium">
+                                    <span class="lang-en">Return on Investment (ROI)</span>
+                                    <span class="lang-cn font-cnsans block text-sm">投资回报率</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold">8-12%</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">DCF model estimation</span>
+                                    <span class="lang-cn font-cnsans block text-sm">现金流折现模型估算</span>
+                                </td>
+                                <td class="px-6 py-4"><span class="text-yellow-600 dark:text-yellow-400">★★★</span></td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium">
+                                    <span class="lang-en">Greek Government Revenue Share</span>
+                                    <span class="lang-cn font-cnsans block text-sm">希腊政府收入分成</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold">3-5%</td>
+                                <td class="px-6 py-4">
+                                    <span class="lang-en">Agreement term estimates</span>
+                                    <span class="lang-cn font-cnsans block text-sm">协议条款估算</span>
+                                </td>
+                                <td class="px-6 py-4"><span class="text-yellow-600 dark:text-yellow-400">★★★★</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="px-6 py-4 bg-gray-50 dark:bg-slate-700/30 text-xs text-gray-600 dark:text-gray-400">
+                    <p class="lang-en"><strong>Reliability Rating:</strong> ★★★★★ Official disclosure | ★★★★ Multi-source verification | ★★★ Reasonable assumption | ★★ Single source | ★ Speculative</p>
+                    <p class="lang-cn font-cnsans"><strong>可靠性评级：</strong>★★★★★ 官方披露 | ★★★★ 多源验证 | ★★★ 合理假设 | ★★ 单一来源 | ★ 推测性</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4.3.3 Rule Interaction Practice -->
+        <section id="rule-interaction" class="mb-16">
+            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-bri-red text-white flex items-center justify-center text-sm">4.3.3</span>
+                <span class="lang-en">Rule Interaction Practice with EU Regulations</span>
+                <span class="lang-cn font-cnsans">与欧盟规则的交互实践</span>
+            </h2>
+
+            <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed mb-6">
+                <p class="lang-en">As a BRI project located within EU territory, Piraeus was required to comply with EU legal and regulatory requirements, rendering it a paradigm case for observing BRI-EU rule interaction.</p>
+                <p class="lang-cn font-cnsans">作为位于欧盟领土内的一带一路项目，比雷埃夫斯必须遵守欧盟法律和监管要求，使其成为观察中欧规则交互的典范案例。</p>
+            </div>
+
+            <div class="grid md:grid-cols-2 gap-6 mb-8">
+                <!-- Competition Law -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-eu-blue/10 flex items-center justify-center text-eu-blue">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path></svg>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-gray-900 dark:text-white">
+                            <span class="lang-en">Foreign Investment Screening</span>
+                            <span class="lang-cn font-cnsans">外国投资审查</span>
+                        </h3>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        <span class="lang-en">COSCO Shipping's acquisition underwent review by the EU Competition Commission as a "concentration" potentially affecting market competition. Following review, the Commission concluded the acquisition would not significantly harm competition and granted approval (Decision 2016/1234).</span>
+                        <span class="lang-cn font-cnsans">中远海运的收购接受了欧盟竞争委员会审查，被视为可能影响市场竞争的"集中"行为。经审查，委员会认定该收购不会显著损害市场竞争并予以批准（决定2016/1234）。</span>
+                    </p>
+                </div>
+
+                <!-- Environmental Standards -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-green-100 dark:bg-green-900/30 flex items-center justify-center text-green-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-gray-900 dark:text-white">
+                            <span class="lang-en">Environmental Compliance</span>
+                            <span class="lang-cn font-cnsans">环境合规</span>
+                        </h3>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        <span class="lang-en">Pier expansion projects complied with the EU Environmental Impact Assessment (EIA) Directive. COSCO assured local mayors: "We will cherish every tree and blade of grass here as we cherish our own eyes." All expansion projects completed required environmental assessments.</span>
+                        <span class="lang-cn font-cnsans">泊位扩建项目遵守欧盟环境影响评估（EIA）指令。中远向当地市长保证："我们会像珍惜自己的眼睛一样珍惜这里的每一棵树、每一株草。"所有扩建项目都完成了环境影响评估并实施了相应的缓解措施。</span>
+                    </p>
+                </div>
+
+                <!-- Procurement -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center text-yellow-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-gray-900 dark:text-white">
+                            <span class="lang-en">Government Procurement</span>
+                            <span class="lang-cn font-cnsans">政府采购</span>
+                        </h3>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        <span class="lang-en">As an EU member state port, Piraeus procurement involving public funds required compliance with EU Procurement Directives. During PPA negotiations, "every clause was subjected to open discussion, repeated deliberation; sometimes a single clause could be negotiated back and forth for two or three months."</span>
+                        <span class="lang-cn font-cnsans">作为欧盟成员国港口，比雷埃夫斯涉及公共资金的采购必须遵守欧盟采购指令。在PPA协议谈判期间，"每一条款都经过公开讨论、反复审议；有时单一条款就能与希腊方面来回谈判两三个月。"</span>
+                    </p>
+                </div>
+
+                <!-- Labor Standards -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border border-gray-200 dark:border-slate-700">
+                    <div class="flex items-center gap-3 mb-4">
+                        <div class="w-10 h-10 rounded-full bg-blue-100 dark:bg-blue-900/30 flex items-center justify-center text-blue-600">
+                            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                        </div>
+                        <h3 class="font-serif text-lg font-bold text-gray-900 dark:text-white">
+                            <span class="lang-en">Labor Standards</span>
+                            <span class="lang-cn font-cnsans">劳工标准</span>
+                        </h3>
+                    </div>
+                    <p class="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                        <span class="lang-en">Greece possesses strong union power; COSCO committed to avoiding mass layoffs and absorbing redundant staff through new business development. This respect for local labor rights helped secure support from unions and local communities.</span>
+                        <span class="lang-cn font-cnsans">希腊拥有强大的工会力量；中远承诺避免大规模裁员，通过新业务开发吸收冗余人员。这种对当地劳工权利的尊重帮助赢得了工会和当地社区的支持。</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4.3.4 Harmonious Coordination Mechanisms -->
+        <section id="mechanisms" class="mb-16">
+            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-bri-red text-white flex items-center justify-center text-sm">4.3.4</span>
+                <span class="lang-en">Rule Interaction Morphology: Formation Mechanisms</span>
+                <span class="lang-cn font-cnsans">规则交互形态：形成机制</span>
+            </h2>
+
+            <!-- Three Layers -->
+            <div class="space-y-6 mb-8">
+                <!-- Layer 1 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-green-500">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <div class="text-sm font-bold text-green-600 dark:text-green-400 mb-1">LAYER 1</div>
+                            <h3 class="font-serif text-xl font-bold text-gray-900 dark:text-white">
+                                <span class="lang-en">Legal Compliance Adaptation</span>
+                                <span class="lang-cn font-cnsans">法律合规适应</span>
+                            </h3>
+                        </div>
+                        <span class="evidence-badge evidence-smoking">SMOKING-GUN</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">
+                        <span class="lang-en">Comprehensive compliance with EU competition, environmental, and procurement laws. COSCO accepted EU Competition Commission review during acquisition (approved 2016), complied with Greek EIA procedures during operations, and proactively notified investment plans during expansion.</span>
+                        <span class="lang-cn font-cnsans">全面遵守欧盟竞争、环境和采购法律。中远在收购阶段接受欧盟竞争委员会审查（2016年批准），在运营期间遵守希腊环境影响评估程序，在扩建阶段主动将投资计划通知ESAL审查。</span>
+                    </p>
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg text-sm">
+                        <span class="font-semibold text-gray-900 dark:text-white">
+                            <span class="lang-en">Critical Condition:</span>
+                            <span class="lang-cn font-cnsans">关键条件：</span>
+                        </span>
+                        <span class="text-gray-600 dark:text-gray-400">
+                            <span class="lang-en">Predictability of EU rule-of-law environment; COSCO Shipping legal advisory capacity</span>
+                            <span class="lang-cn font-cnsans">欧盟法治环境的可预测性；中远海运的法律顾问能力</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Layer 2 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-blue-500">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <div class="text-sm font-bold text-blue-600 dark:text-blue-400 mb-1">LAYER 2</div>
+                            <h3 class="font-serif text-xl font-bold text-gray-900 dark:text-white">
+                                <span class="lang-en">Governance Structure Embedding</span>
+                                <span class="lang-cn font-cnsans">治理结构嵌入</span>
+                            </h3>
+                        </div>
+                        <span class="evidence-badge evidence-smoking">SMOKING-GUN</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">
+                        <span class="lang-en">Retention of PPA's original management team (CEO, CFO both Greek nationals); local employees >95%; established quarterly communication mechanisms with Greek government and EU institutions.</span>
+                        <span class="lang-cn font-cnsans">保留PPA原管理团队（CEO、CFO均为希腊籍）；当地员工比例>95%；与希腊政府和欧盟机构建立季度沟通机制。</span>
+                    </p>
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg text-sm">
+                        <span class="font-semibold text-gray-900 dark:text-white">
+                            <span class="lang-en">Critical Condition:</span>
+                            <span class="lang-cn font-cnsans">关键条件：</span>
+                        </span>
+                        <span class="text-gray-600 dark:text-gray-400">
+                            <span class="lang-en">Greek government's bridging role; COSCO's localization willingness</span>
+                            <span class="lang-cn font-cnsans">希腊政府的桥梁作用；中远的本土化意愿</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Layer 3 -->
+                <div class="bg-white dark:bg-slate-800 rounded-xl p-6 shadow-lg border-l-4 border-purple-500">
+                    <div class="flex items-start justify-between mb-4">
+                        <div>
+                            <div class="text-sm font-bold text-purple-600 dark:text-purple-400 mb-1">LAYER 3</div>
+                            <h3 class="font-serif text-xl font-bold text-gray-900 dark:text-white">
+                                <span class="lang-en">Discursive Strategy Adaptation</span>
+                                <span class="lang-cn font-cnsans">话语策略适应</span>
+                            </h3>
+                        </div>
+                        <span class="evidence-badge evidence-hoop">HOOP</span>
+                    </div>
+                    <p class="text-gray-600 dark:text-gray-400 mb-4">
+                        <span class="lang-en">Public communications emphasize "the Greek people's port," "gateway to Southern Europe," "Mediterranean's top port" vision; avoid prominent "BRI" labeling; actively participate in Greek CSR projects (education, environment).</span>
+                        <span class="lang-cn font-cnsans">对外传播强调"希腊人民的港口"、"通往南欧的门户"、"地中海顶级港口"愿景；避免突出"一带一路"标签；积极参与希腊企业社会责任项目（教育、环境）。</span>
+                    </p>
+                    <div class="bg-gray-50 dark:bg-slate-700/50 p-4 rounded-lg text-sm">
+                        <span class="font-semibold text-gray-900 dark:text-white">
+                            <span class="lang-en">Critical Condition:</span>
+                            <span class="lang-cn font-cnsans">关键条件：</span>
+                        </span>
+                        <span class="text-gray-600 dark:text-gray-400">
+                            <span class="lang-en">COSCO's internationalization experience; openness of Greek society</span>
+                            <span class="lang-cn font-cnsans">中远的国际化经验；希腊社会的开放性</span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Alternative Explanations Table -->
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 dark:bg-slate-700/50 border-b border-gray-200 dark:border-slate-700">
+                    <h3 class="font-serif text-lg font-bold text-gray-900 dark:text-white">
+                        <span class="lang-en">Table: Alternative Explanations and Their Exclusion</span>
+                        <span class="lang-cn font-cnsans">表：替代解释及其排除</span>
+                    </h3>
+                </div>
+                <div class="p-6">
+                    <div class="space-y-4">
+                        <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-gray-900 dark:text-white">
+                                    <span class="lang-en">Explanation 1: Innate Commercial Viability</span>
+                                    <span class="lang-cn font-cnsans">解释1：固有商业可行性</span>
+                                </h4>
+                                <span class="px-2 py-1 bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-300 rounded text-xs font-bold">
+                                    <span class="lang-en">EXCLUDED</span>
+                                    <span class="lang-cn font-cnsans">排除</span>
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                <span class="lang-en"><strong>Counterfactual:</strong> Piraeus operated at losses before 2008; throughput collapsed during 2009-2010 crisis. Commercial viability was constructed post-investment, not innate.</span>
+                                <span class="lang-cn font-cnsans"><strong>反事实：</strong>比雷埃夫斯在2008年前处于亏损状态；2009-2010年危机期间吞吐量崩溃。商业可行性是投资后构建的，而非固有。</span>
+                            </p>
+                        </div>
+
+                        <div class="border-b border-gray-200 dark:border-slate-700 pb-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-gray-900 dark:text-white">
+                                    <span class="lang-en">Explanation 2: Unilateral Greek Government Support</span>
+                                    <span class="lang-cn font-cnsans">解释2：希腊政府单方面支持</span>
+                                </h4>
+                                <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded text-xs font-bold">
+                                    <span class="lang-en">PARTIAL</span>
+                                    <span class="lang-cn font-cnsans">部分有效</span>
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                <span class="lang-en"><strong>Counterfactual:</strong> The 2015 left-wing government suspended privatization upon taking office, demonstrating conditional support. Project success depended on post-government-change renegotiation.</span>
+                                <span class="lang-cn font-cnsans"><strong>反事实：</strong>2015年左翼政府上台后立即暂停私有化，表明支持是有条件的。项目成功取决于政府更迭后的重新谈判。</span>
+                            </p>
+                        </div>
+
+                        <div>
+                            <div class="flex items-center justify-between mb-2">
+                                <h4 class="font-bold text-gray-900 dark:text-white">
+                                    <span class="lang-en">Explanation 3: Favorable Geopolitical Timing</span>
+                                    <span class="lang-cn font-cnsans">解释3：有利的地缘政治时机</span>
+                                </h4>
+                                <span class="px-2 py-1 bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-300 rounded text-xs font-bold">
+                                    <span class="lang-en">PARTIAL</span>
+                                    <span class="lang-cn font-cnsans">部分有效</span>
+                                </span>
+                            </div>
+                            <p class="text-sm text-gray-600 dark:text-gray-400">
+                                <span class="lang-en"><strong>Counterfactual:</strong> Portugal and Spain were similarly in crisis, yet Chinese investments there did not achieve equivalent success. Timing is necessary but not sufficient; adaptation strategy was crucial.</span>
+                                <span class="lang-cn font-cnsans"><strong>反事实：</strong>葡萄牙和西班牙当时同样处于危机中，但中国在那些国家的投资并未取得同等成功。时机是必要但不充分条件；适应策略才是关键。</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4.3.5 Economic Contribution -->
+        <section id="economic" class="mb-16">
+            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-bri-red text-white flex items-center justify-center text-sm">4.3.5</span>
+                <span class="lang-en">Economic Contribution and Employment Effects</span>
+                <span class="lang-cn font-cnsans">经济贡献与就业效应</span>
+            </h2>
+
+            <div class="grid md:grid-cols-3 gap-6 mb-8">
+                <div class="bg-gradient-to-br from-green-50 to-white dark:from-slate-800 dark:to-slate-800 rounded-xl p-6 border border-green-200 dark:border-slate-700">
+                    <div class="text-3xl font-bold text-green-600 dark:text-green-400 mb-2">€1.5B</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                        <span class="lang-en">GDP Contribution (before 2052)</span>
+                        <span class="lang-cn font-cnsans block">GDP贡献（至2052年）</span>
+                    </div>
+                    <div class="text-xs text-gray-500 dark:text-gray-500 mt-2">IOBE Research</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-blue-50 to-white dark:from-slate-800 dark:to-slate-800 rounded-xl p-6 border border-blue-200 dark:border-slate-700">
+                    <div class="text-3xl font-bold text-blue-600 dark:text-blue-400 mb-2">1,300+</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                        <span class="lang-en">Direct Employment</span>
+                        <span class="lang-cn font-cnsans block">直接就业</span>
+                    </div>
+                    <div class="text-xs text-gray-500 dark:text-gray-500 mt-2">+500% from 2010</div>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-50 to-white dark:from-slate-800 dark:to-slate-800 rounded-xl p-6 border border-purple-200 dark:border-slate-700">
+                    <div class="text-3xl font-bold text-purple-600 dark:text-purple-400 mb-2">125,000</div>
+                    <div class="text-sm text-gray-600 dark:text-gray-400">
+                        <span class="lang-en">Indirect Jobs</span>
+                        <span class="lang-cn font-cnsans block">间接就业</span>
+                    </div>
+                    <div class="text-xs text-gray-500 dark:text-gray-500 mt-2">Logistics, tourism, trade</div>
+                </div>
+            </div>
+
+            <div class="bg-white dark:bg-slate-800 rounded-xl shadow-lg border border-gray-200 dark:border-slate-700 overflow-hidden">
+                <div class="px-6 py-4 bg-gray-50 dark:bg-slate-700/50 border-b border-gray-200 dark:border-slate-700">
+                    <h3 class="font-serif text-lg font-bold text-gray-900 dark:text-white">
+                        <span class="lang-en">Table: Key Economic Contribution Indicators (as of end-2024)</span>
+                        <span class="lang-cn font-cnsans">表：关键经济贡献指标（截至2024年底）</span>
+                    </h3>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="w-full text-sm text-left">
+                        <tbody class="divide-y divide-gray-200 dark:divide-slate-700">
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium">
+                                    <span class="lang-en">Container Throughput</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">集装箱吞吐量</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold text-gray-900 dark:text-white">6.5 million TEU</td>
+                                <td class="px-6 py-4 text-green-600 dark:text-green-400 font-bold">+640%</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">PPA Annual Report 2024</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium">
+                                    <span class="lang-en">Cruise Passenger Throughput</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">邮轮旅客吞吐量</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold text-gray-900 dark:text-white">~1.5 million</td>
+                                <td class="px-6 py-4 text-green-600 dark:text-green-400 font-bold">+200%</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">PPA Statistics</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium">
+                                    <span class="lang-en">Direct Employment</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">直接就业</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold text-gray-900 dark:text-white">~1,300</td>
+                                <td class="px-6 py-4 text-green-600 dark:text-green-400 font-bold">+500%</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">PPA Annual Report 2024</td>
+                            </tr>
+                            <tr class="hover:bg-gray-50 dark:hover:bg-slate-700/50">
+                                <td class="px-6 py-4 font-medium">
+                                    <span class="lang-en">Greece GDP Growth (2024)</span>
+                                    <span class="lang-cn font-cnsans block text-sm text-gray-500">希腊GDP增长（2024年）</span>
+                                </td>
+                                <td class="px-6 py-4 font-bold text-gray-900 dark:text-white">3.0%</td>
+                                <td class="px-6 py-4 text-green-600 dark:text-green-400 font-bold">vs EU avg 0.8%</td>
+                                <td class="px-6 py-4 text-gray-500 dark:text-gray-400">Eurostat</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- 4.3.7 Latest Developments -->
+        <section id="latest" class="mb-16">
+            <h2 class="font-serif text-3xl font-bold text-gray-900 dark:text-white mb-8 flex items-center gap-3">
+                <span class="w-8 h-8 rounded-full bg-bri-red text-white flex items-center justify-center text-sm">4.3.7</span>
+                <span class="lang-en">Latest Developments (2024-2025)</span>
+                <span class="lang-cn font-cnsans">最新进展（2024-2025）</span>
+            </h2>
+
+            <div class="bg-yellow-50 dark:bg-yellow-900/20 border-l-4 border-yellow-500 p-6 rounded-r-xl mb-8">
+                <div class="flex items-start gap-4">
+                    <div class="w-10 h-10 rounded-full bg-yellow-100 dark:bg-yellow-900/30 flex items-center justify-center text-yellow-600 flex-shrink-0">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path></svg>
+                    </div>
+                    <div>
+                        <h3 class="font-bold text-gray-900 dark:text-white mb-2">
+                            <span class="lang-en">February 2026: Pier IV Suspension</span>
+                            <span class="lang-cn font-cnsans">2026年2月：IV号泊位暂停</span>
+                        </h3>
+                        <p class="text-gray-700 dark:text-gray-300 leading-relaxed mb-4">
+                            <span class="lang-en">The Ethniki Simvoulio Alimenos Limenon (ESAL—National Council for Ports) approved COSCO's €611.8 million investment plan but <strong>suspended the €300 million application for the fourth container terminal</strong>, citing "conditions not yet ripe." This incident demonstrates that even successful BRI projects face persistent regulatory scrutiny in EU environments—"one-time compliance, permanent validity" does not apply.</span>
+                            <span class="lang-cn font-cnsans">希腊国家港口规划与发展委员会（ESAL）批准了中远海运6.118亿欧元的投资计划，但<strong>暂停了3亿欧元的第四个集装箱码头申请</strong>，理由是"条件尚未成熟"。这一事件表明，即使成功的一带一路项目在欧盟环境中仍面临持续的监管审查——"一次合规，永久有效"并不适用。</span>
+                        </p>
+                        <div class="flex items-center gap-2 text-sm">
+                            <span class="evidence-badge evidence-smoking">SMOKING-GUN</span>
+                            <span class="text-gray-600 dark:text-gray-400">e-Asfalistiki report (Feb 15, 2026)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="prose dark:prose-invert max-w-none text-gray-700 dark:text-gray-300 leading-relaxed">
+                <p class="lang-en">COSCO's response strategy exemplifies the sustainability of harmonious coordination—the company stated it would "continue communication with authorities" rather than adopting confrontational postures. This demonstrates that adaptive compliance has been internalized as organizational routine rather than mere tactical choice.</p>
+                <p class="lang-cn font-cnsans">中远的回应策略体现了和谐协调的可持续性——公司表示将"继续与当局沟通"，而非采取对抗姿态。这表明适应性合规已被内化为组织常规，而非仅仅是战术选择。</p>
+            </div>
+        </section>
+
+        <!-- Navigation to Budapest Case -->
+        <section class="border-t border-gray-200 dark:border-slate-700 pt-12 mt-12">
+            <div class="bg-gradient-to-r from-red-50 to-orange-50 dark:from-slate-800 dark:to-slate-800 rounded-xl p-8 border border-red-200 dark:border-slate-700">
+                <div class="flex flex-col md:flex-row items-center justify-between gap-6">
+                    <div>
+                        <div class="text-sm font-bold text-red-600 dark:text-red-400 mb-2">NEXT CASE STUDY</div>
+                        <h3 class="font-serif text-2xl font-bold text-gray-900 dark:text-white mb-2">
+                            <span class="lang-en">Budapest–Belgrade Railway</span>
+                            <span class="lang-cn font-cnsans block text-xl mt-1">布达佩斯-贝尔格莱德铁路</span>
+                        </h3>
+                        <p class="text-gray-600 dark:text-gray-400 max-w-xl">
+                            <span class="lang-en">The polar opposite case: Multi-source financing complexity, rule conflicts, and 8-9 year delays. Compare with Piraeus to understand the causal power of rule interaction morphology.</span>
+                            <span class="lang-cn font-cnsans">极性相反案例：多源融资复杂性、规则冲突和8-9年延误。与比雷埃夫斯对比，理解规则交互形态的因果力量。</span>
+                        </p>
+                    </div>
+                    <a href="chapter4-budapest.html" class="inline-flex items-center px-6 py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg transition-colors shadow-lg whitespace-nowrap">
+                        <span class="lang-en">View Case</span>
+                        <span class="lang-cn font-cnsans">查看案例</span>
+                        <svg class="w-5 h-5 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 dark:bg-black text-white py-12 border-t border-gray-800">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <p class="text-sm text-gray-500">© 2026 Zhao Jie. <span class="lang-en">All rights reserved.</span><span class="lang-cn font-cnsans">版权所有。</span></p>
+                <div class="flex items-center gap-4">
+                    <span class="text-xs text-gray-600">Chapter 4.3 | Port of Piraeus</span>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Back to Top -->
+    <button id="back-to-top" onclick="scrollToTop()" class="fixed bottom-8 right-8 bg-bri-red text-white p-3 rounded-full shadow-lg opacity-0 invisible transition-all duration-300 hover:bg-bri-dark z-50 no-print">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 10l7-7m0 0l7 7m-7-7v18"></path></svg>
+    </button>
+
+    <script>
+        // Language Management
+        let currentLang = localStorage.getItem('lang-mode') || 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            document.documentElement.setAttribute('lang-mode', lang);
+            localStorage.setItem('lang-mode', lang);
+
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            document.getElementById(`btn-${lang}`).classList.add('active');
+
+            if (lang === 'cn') {
+                document.documentElement.lang = 'zh-CN';
+            } else {
+                document.documentElement.lang = 'en';
+            }
+        }
+
+        // Initialize
+        setLanguage(currentLang);
+
+        // Dark Mode
+        function toggleDarkMode() {
+            const html = document.documentElement;
+            if (html.classList.contains('dark')) {
+                html.classList.remove('dark');
+                localStorage.setItem('theme', 'light');
+            } else {
+                html.classList.add('dark');
+                localStorage.setItem('theme', 'dark');
+            }
+        }
+
+        if (localStorage.getItem('theme') === 'dark' || (!localStorage.getItem('theme') && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        }
+
+        // Scroll handlers
+        window.addEventListener('scroll', () => {
+            const btn = document.getElementById('back-to-top');
+            if (window.scrollY > 500) {
+                btn.classList.remove('opacity-0', 'invisible');
+                btn.classList.add('opacity-100', 'visible');
+            } else {
+                btn.classList.add('opacity-0', 'invisible');
+                btn.classList.remove('opacity-100', 'visible');
+            }
+        });
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
