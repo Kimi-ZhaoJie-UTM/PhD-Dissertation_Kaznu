@@ -374,8 +374,7 @@
         
         // ==================== 业务逻辑 ====================
         
-        // 密码验证 - kz2026
-        const _0x6b = ["\x6b\x7a\x32\x30\x32\x36"]; // kz2026
+        const _0x6b = ["\x6b\x7a\x32\x30\x32\x36"]; 
         
         function check() {
             const input = document.getElementById('pwd');
@@ -383,7 +382,6 @@
             const mainContainer = document.getElementById('main-container');
             
             if (input.value === _0x6b[0]) {
-                // 验证通过
                 gate.style.opacity = '0';
                 setTimeout(function() {
                     gate.style.display = 'none';
@@ -391,7 +389,6 @@
                     console.log("✓ Authorized access at: " + new Date().toLocaleString());
                 }, 500);
             } else {
-                // 验证失败
                 input.classList.add('error-shake');
                 input.value = '';
                 input.placeholder = 'Incorrect password | 密码错误';
