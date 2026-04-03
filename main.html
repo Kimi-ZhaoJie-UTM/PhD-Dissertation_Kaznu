@@ -185,6 +185,20 @@
             -webkit-tap-highlight-color: transparent;
         }
         
+        /* External link styling */
+        .external-link {
+            position: relative;
+        }
+        .external-link::after {
+            content: '→';
+            margin-left: 0.25rem;
+            opacity: 0;
+            transition: opacity 0.2s;
+        }
+        .external-link:hover::after {
+            opacity: 1;
+        }
+        
         /* Smooth scroll behavior for the whole page */
         html {
             scroll-behavior: smooth;
@@ -258,49 +272,49 @@
                     </h3>
                 </li>
                 <li>
-                    <a class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter1', event)">
+                    <a href="chapter1.html" class="nav-link external-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 1: Introduction</span>
                         <span class="lang-cn">第1章：引言</span>
                         <span class="lang-both">Ch. 1 / 第1章</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter2', event)">
+                    <a href="chapter2.html" class="nav-link external-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 2: Financial Opportunities</span>
                         <span class="lang-cn">第2章：金融机遇</span>
                         <span class="lang-both">Ch. 2 / 第2章</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter3', event)">
+                    <a href="chapter3.html" class="nav-link external-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 3: Prospects and Risks</span>
                         <span class="lang-cn">第3章：前景与风险</span>
                         <span class="lang-both">Ch. 3 / 第3章</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter4', event)">
+                    <a href="chapter4.html" class="nav-link external-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 4: EU Strategy & Cases</span>
                         <span class="lang-cn">第4章：欧盟战略与案例</span>
                         <span class="lang-both">Ch. 4 / 第4章</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter5', event)">
+                    <a href="chapter5.html" class="nav-link external-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 5: Conclusion</span>
                         <span class="lang-cn">第5章：结论</span>
                         <span class="lang-both">Ch. 5 / 第5章</span>
                     </a>
                 </li>
                 <li class="pt-4 border-t border-academic-200">
-                    <a class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('appendices', event)">
+                    <a href="appendices.html" class="nav-link external-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Appendices</span>
                         <span class="lang-cn">附录</span>
                         <span class="lang-both">Appendices / 附录</span>
                     </a>
                 </li>
                 <li>
-                    <a class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('references', event)">
+                    <a href="references.html" class="nav-link external-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">References</span>
                         <span class="lang-cn">参考文献</span>
                         <span class="lang-both">References / 参考文献</span>
@@ -603,7 +617,7 @@
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
                     <!-- Chapter 1 -->
-                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="showSection('chapter1', event)">
+                    <a href="chapter1.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer block hover:no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">01</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -624,10 +638,10 @@
                             <span>• 1.1 BRI / 评估</span>
                             <span>• 1.2 Financial / 金融机制</span>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- Chapter 2 -->
-                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="showSection('chapter2', event)">
+                    <a href="chapter2.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer block hover:no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">02</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -648,10 +662,10 @@
                             <span>• 2.1 Investment / 投资分析</span>
                             <span>• 2.3 EU / 欧盟法规</span>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- Chapter 3 -->
-                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="showSection('chapter3', event)">
+                    <a href="chapter3.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer block hover:no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">03</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -672,10 +686,10 @@
                             <span>• 3.1 Rules / 规则比较</span>
                             <span>• 3.3 Risks / 风险机制</span>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- Chapter 4 -->
-                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="showSection('chapter4', event)">
+                    <a href="chapter4.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer block hover:no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">04</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -696,10 +710,10 @@
                             <span>• Case 1: Coordination / 协调</span>
                             <span>• Case 2: Confrontation / 对抗</span>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- Chapter 5 -->
-                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="showSection('chapter5', event)">
+                    <a href="chapter5.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer block hover:no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">05</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -720,10 +734,10 @@
                             <span>• 5.1 Summary / 总结</span>
                             <span>• 5.2 Policy / 政策启示</span>
                         </div>
-                    </div>
+                    </a>
 
                     <!-- Appendices -->
-                    <div class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer" onclick="showSection('appendices', event)">
+                    <a href="appendices.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer block hover:no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">A-E</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -744,7 +758,7 @@
                             <span>• Appendix A / 矩阵</span>
                             <span>• Appendix B-C / 案例</span>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
         </section>
@@ -768,7 +782,12 @@
                     </h2>
                 </div>
                 <div class="prose max-w-none text-academic-700">
-                    <p class="text-lg leading-relaxed mb-6">[Chapter 1 content placeholder]</p>
+                    <p class="text-lg leading-relaxed mb-6">
+                        <a href="chapter1.html" class="text-primary hover:underline font-semibold">
+                            <span class="lang-en">Click here to view Chapter 1 →</span>
+                            <span class="lang-cn">点击此处查看第一章 →</span>
+                        </a>
+                    </p>
                 </div>
             </div>
         </section>
