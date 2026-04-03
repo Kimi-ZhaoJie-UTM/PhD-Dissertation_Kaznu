@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Access Portal | BRI vs Global Gateway 制度复杂性研究</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+SC:wght@400;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        body { 
+            font-family: 'Inter', sans-serif; 
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* 防止滚动条，由iframe内部处理 */
+        }
+        .serif-sc { font-family: 'Noto Serif SC', serif; }
+        
+        /* 密码门样式 - 完全继承文件1风格 */
+        #gate {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(135deg, #0f172a 0%, #1e3a8a 50%, #312e81 100%);
+            display: grid;
+            place-items: center;
+            z-index: 9999;
+            font-family: 'Inter', sans-serif;
+            transition: opacity 0.5s ease;
+        }
+        #gate-box {
+            background: rgba(255, 255, 255, 0.98);
+            padding: 48px;
+            border-radius: 16px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            text-align: center;
+            max-width: 480px;
+            width: 90%;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            animation: slideUp 0.6s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(30px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        #gate-box h2 {
+            margin: 0 0 8px 0;
+            color: #1e3a8a;
+            font-size: 28px;
+            font-weight: 700;
+        }
+        .gate-subtitle {
+            color: #64748b;
+            font-size: 14px;
+            margin-bottom: 32px;
+            line-height: 1.6;
+        }
+        .gate-subtitle .cn {
+            font-family: 'Noto Serif SC', serif;
+            color: #94a3b8;
+            font-size: 13px;
+        }
+        #gate-box input {
+            width: 100%;
+            padding: 14px 16px;
+            margin: 8px 0;
+            border: 2px solid #e2e8f0;
+            border-radius: 8px;
+            font-size: 15px;
+            box-sizing: border-box;
+            transition: border-color 0.3s;
+            text-align: center;
+            letter-spacing: 2px;
+        }
+        #gate-box input:focus {
+            outline: none;
+            border-color: #3b82f6;
+        }
+        #gate-box button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 12px;
+            background: linear-gradient(135deg, #1e3a8a 0%, #1e40af 100%);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 15px;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+        #gate-box button:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(30, 58, 138, 0.4);
+        }
+        .gate-divider {
+            margin: 28px 0;
+            border-top: 1px solid #e2e8f0;
+            position: relative;
+        }
+        .gate-divider::before {
+            content: "OR | 或";
+            position: absolute;
+            top: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            padding: 0 12px;
+            color: #94a3b8;
+            font-size: 12px;
+            font-weight: 500;
+        }
+        .gate-apply-btn {
+            display: inline-block;
+            width: 100%;
+            padding: 12px;
+            background: #f1f5f9;
+            color: #1e3a8a;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            box-sizing: border-box;
+        }
+        .gate-apply-btn:hover {
+            background: #e2e8f0;
+        }
+        .gate-hint {
+            font-size: 12px;
+            color: #94a3b8;
+            margin-top: 20px;
+            line-height: 1.5;
+        }
+        .gate-hint .cn {
+            font-family: 'Noto Serif SC', serif;
+        }
+        .gate-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+        }
+        .gate-label {
+            display: block;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .gate-label .cn {
+            font-family: 'Noto Serif SC', serif;
+            font-weight: 400;
+            color: #94a3b8;
+            margin-left: 4px;
+        }
+        .error-shake {
+            animation: shake 0.5s;
+            border-color: #dc2626 !important;
+        }
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-10px); }
+            75% { transform: translateX(10px); }
+        }
+        
+        /* 主内容容器 */
+        #main-container {
+            width: 100vw;
+            height: 100vh;
+            display: none; /* 初始隐藏 */
+        }
+        #main-container.active {
+            display: block;
+        }
+        #content-frame {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+        
+        /* 简单的加载指示器 */
+        .loading-indicator {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #1e3a8a;
+            font-size: 14px;
+            display: none;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 密码门 -->
+    <div id="gate">
+        <div id="gate-box">
+            <div class="gate-icon">🔐</div>
+            <h2>Access Required<br><span class="serif-sc" style="font-size: 20px; color: #64748b;">需要授权访问</span></h2>
+            <p class="gate-subtitle">
+                Institutional Complexity Research | Private Academic Content<br>
+                <span class="cn">BRI vs Global Gateway 制度复杂性研究 · 私密学术材料</span>
+            </p>
+            
+            <label class="gate-label">
+                Access Password <span class="cn">访问密码</span>
+            </label>
+            <input type="password" id="pwd" placeholder="Enter password | 输入密码" onkeydown="if(event.key==='Enter')check()">
+            <button onclick="check()">
+                Enter System | 进入系统
+            </button>
+            
+            <div class="gate-divider"></div>
+            
+            <button class="gate-apply-btn" onclick="requestAccess()">
+                📩 Request Access | 申请查看权限
+            </button>
+            
+            <p class="gate-hint">
+                This site contains doctoral dissertation materials.<br>
+                <span class="cn">本站点包含博士论文研究材料，仅供授权学术访问</span>
+            </p>
+        </div>
+    </div>
+
+    <!-- 主内容区 - 通过 iframe 加载原 index.html（请将其重命名为 main.html） -->
+    <div id="main-container">
+        <div class="loading-indicator" id="loading">Loading Research Content | 加载研究内容...</div>
+        <iframe id="content-frame" src="main.html" title="Research Content"></iframe>
+    </div>
+
+    <script>
+        // 密码验证 - kz2026 (编码形式)
+        const _0x6b=["\x6b\x7a\x32\x30\x32\x36"]; // kz2026
+        
+        function check(){
+            const input = document.getElementById('pwd');
+            const gate = document.getElementById('gate');
+            const mainContainer = document.getElementById('main-container');
+            
+            if(input.value === _0x6b[0]){
+                // 验证通过
+                gate.style.opacity = '0';
+                setTimeout(function(){
+                    gate.style.display = 'none';
+                    mainContainer.classList.add('active');
+                    console.log("✓ Authorized access at: " + new Date().toLocaleString());
+                }, 500);
+            } else {
+                // 验证失败
+                input.classList.add('error-shake');
+                input.value = '';
+                input.placeholder = 'Incorrect password | 密码错误';
+                setTimeout(() => {
+                    input.classList.remove('error-shake');
+                    input.placeholder = 'Enter password | 输入密码';
+                }, 1000);
+                input.focus();
+            }
+        }
+        
+        function requestAccess() {
+            // 模拟申请访问功能
+            const email = prompt("Please enter your institutional email address | 请输入您的机构邮箱：");
+            if (email && email.includes('@')) {
+                alert("Access request sent to administrator.\nYou will receive the password via email within 1-24 hours.\n\n申请已发送至管理员，密码将在1-24小时内发送至您的邮箱。");
+            } else if (email) {
+                alert("Please enter a valid email address | 请输入有效的邮箱地址");
+            }
+        }
+        
+        // 防止右键查看源代码（可选的简单防护）
+        document.addEventListener('contextmenu', function(e) {
+            if (document.getElementById('gate').style.display !== 'none') {
+                e.preventDefault();
+            }
+        });
+    </script>
+
+</body>
+</html>
