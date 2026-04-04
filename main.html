@@ -50,17 +50,51 @@
         }
     </script>
     <style>
-        /* Language switching */
-        .lang-en, .lang-cn, .lang-both { display: none !important; }
+        /* ========== FIXED Language switching CSS ========== */
         
-        body[data-lang="en"] .lang-en { display: block !important; }
-        body[data-lang="en"] .lang-en.inline { display: inline !important; }
+        /* Default: hide all language elements */
+        .lang-en, .lang-cn, .lang-both { 
+            display: none !important; 
+        }
         
-        body[data-lang="cn"] .lang-cn { display: block !important; }
-        body[data-lang="cn"] .lang-cn.inline { display: inline !important; }
+        /* EN mode: show only English */
+        body[data-lang="en"] .lang-en { 
+            display: block !important; 
+        }
+        body[data-lang="en"] .lang-en.inline { 
+            display: inline !important; 
+        }
+        /* EN mode: explicitly hide others */
+        body[data-lang="en"] .lang-cn,
+        body[data-lang="en"] .lang-both {
+            display: none !important;
+        }
         
-        body[data-lang="both"] .lang-both { display: block !important; }
-        body[data-lang="both"] .lang-both.inline { display: inline !important; }
+        /* CN mode: show only Chinese */
+        body[data-lang="cn"] .lang-cn { 
+            display: block !important; 
+        }
+        body[data-lang="cn"] .lang-cn.inline { 
+            display: inline !important; 
+        }
+        /* CN mode: explicitly hide others */
+        body[data-lang="cn"] .lang-en,
+        body[data-lang="cn"] .lang-both {
+            display: none !important;
+        }
+        
+        /* BOTH mode: show only bilingual */
+        body[data-lang="both"] .lang-both { 
+            display: block !important; 
+        }
+        body[data-lang="both"] .lang-both.inline { 
+            display: inline !important; 
+        }
+        /* BOTH mode: explicitly hide others */
+        body[data-lang="both"] .lang-en,
+        body[data-lang="both"] .lang-cn {
+            display: none !important;
+        }
         
         /* Bilingual layout */
         body[data-lang="both"] .bilingual-grid {
@@ -184,6 +218,7 @@
         }
     </style>
 <base target="_blank">
+<base target="_blank">
 </head>
 <body class="bg-academic-50 text-academic-800 antialiased font-sans" data-lang="en">
 
@@ -216,16 +251,16 @@
             <ul class="space-y-2 text-sm">
                 <li>
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-700 hover:text-primary font-medium border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('home')">
-                        <span class="lang-en inline">Home</span>
-                        <span class="lang-cn inline">首页</span>
-                        <span class="lang-both inline">Home / 首页</span>
+                        <span class="lang-en">Home</span>
+                        <span class="lang-cn">首页</span>
+                        <span class="lang-both">Home / 首页</span>
                     </div>
                 </li>
                 <li>
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 hover:text-primary border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('abstract')">
-                        <span class="lang-en inline">Abstract</span>
-                        <span class="lang-cn inline">摘要</span>
-                        <span class="lang-both inline">Abstract / 摘要</span>
+                        <span class="lang-en">Abstract</span>
+                        <span class="lang-cn">摘要</span>
+                        <span class="lang-both">Abstract / 摘要</span>
                     </div>
                 </li>
                 <li class="pt-4 border-t border-academic-200">
@@ -233,51 +268,51 @@
                 </li>
                 <li>
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter1')">
-                        <span class="lang-en inline">Ch. 1: Introduction</span>
-                        <span class="lang-cn inline">第1章：引言</span>
-                        <span class="lang-both inline">Ch. 1 / 第1章</span>
+                        <span class="lang-en">Ch. 1: Introduction</span>
+                        <span class="lang-cn">第1章：引言</span>
+                        <span class="lang-both">Ch. 1 / 第1章</span>
                     </div>
                 </li>
                 <li>
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter2')">
-                        <span class="lang-en inline">Ch. 2: Financial Opportunities</span>
-                        <span class="lang-cn inline">第2章：金融机遇</span>
-                        <span class="lang-both inline">Ch. 2 / 第2章</span>
+                        <span class="lang-en">Ch. 2: Financial Opportunities</span>
+                        <span class="lang-cn">第2章：金融机遇</span>
+                        <span class="lang-both">Ch. 2 / 第2章</span>
                     </div>
                 </li>
                 <li>
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter3')">
-                        <span class="lang-en inline">Ch. 3: Prospects and Risks</span>
-                        <span class="lang-cn inline">第3章：前景与风险</span>
-                        <span class="lang-both inline">Ch. 3 / 第3章</span>
+                        <span class="lang-en">Ch. 3: Prospects and Risks</span>
+                        <span class="lang-cn">第3章：前景与风险</span>
+                        <span class="lang-both">Ch. 3 / 第3章</span>
                     </div>
                 </li>
                 <li>
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter4')">
-                        <span class="lang-en inline">Ch. 4: EU Strategy & Cases</span>
-                        <span class="lang-cn inline">第4章：欧盟战略与案例</span>
-                        <span class="lang-both inline">Ch. 4 / 第4章</span>
+                        <span class="lang-en">Ch. 4: EU Strategy & Cases</span>
+                        <span class="lang-cn">第4章：欧盟战略与案例</span>
+                        <span class="lang-both">Ch. 4 / 第4章</span>
                     </div>
                 </li>
                 <li>
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter5')">
-                        <span class="lang-en inline">Ch. 5: Conclusion</span>
-                        <span class="lang-cn inline">第5章：结论</span>
-                        <span class="lang-both inline">Ch. 5 / 第5章</span>
+                        <span class="lang-en">Ch. 5: Conclusion</span>
+                        <span class="lang-cn">第5章：结论</span>
+                        <span class="lang-both">Ch. 5 / 第5章</span>
                     </div>
                 </li>
                 <li class="pt-4 border-t border-academic-200">
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('appendices')">
-                        <span class="lang-en inline">Appendices</span>
-                        <span class="lang-cn inline">附录</span>
-                        <span class="lang-both inline">Appendices / 附录</span>
+                        <span class="lang-en">Appendices</span>
+                        <span class="lang-cn">附录</span>
+                        <span class="lang-both">Appendices / 附录</span>
                     </div>
                 </li>
                 <li>
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('references')">
-                        <span class="lang-en inline">References</span>
-                        <span class="lang-cn inline">参考文献</span>
-                        <span class="lang-both inline">References / 参考文献</span>
+                        <span class="lang-en">References</span>
+                        <span class="lang-cn">参考文献</span>
+                        <span class="lang-both">References / 参考文献</span>
                     </div>
                 </li>
             </ul>
@@ -832,13 +867,21 @@
     </main>
 
     <script>
-        // Language Management
+        // ========== FIXED Language Management ==========
         function setLanguage(lang) {
+            // Validate input
+            if (!['en', 'cn', 'both'].includes(lang)) {
+                lang = 'en';
+            }
+            
+            // Set attribute on body
             document.body.setAttribute('data-lang', lang);
             localStorage.setItem('dissertation-lang', lang);
             
+            // Update button states
             document.querySelectorAll('.lang-btn').forEach(btn => {
-                if(btn.getAttribute('data-active') === lang) {
+                const btnLang = btn.getAttribute('data-active');
+                if(btnLang === lang) {
                     btn.classList.add('bg-primary', 'text-white');
                     btn.classList.remove('hover:bg-primary', 'hover:text-white');
                 } else {
@@ -846,6 +889,11 @@
                     btn.classList.add('hover:bg-primary', 'hover:text-white');
                 }
             });
+            
+            // Force reflow to ensure CSS rules are applied correctly
+            document.body.style.display = 'none';
+            document.body.offsetHeight; // Trigger reflow
+            document.body.style.display = '';
         }
 
         // Sidebar Management
@@ -911,6 +959,10 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
+            // Clear potentially corrupted localStorage for testing
+            // Uncomment next line if you want to reset language on every load
+            // localStorage.removeItem('dissertation-lang');
+            
             const savedLang = localStorage.getItem('dissertation-lang') || 'en';
             setLanguage(savedLang);
             
