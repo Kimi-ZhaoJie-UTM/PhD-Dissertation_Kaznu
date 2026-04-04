@@ -50,50 +50,48 @@
         }
     </script>
     <style>
-        /* ========== FIXED Language switching CSS ========== */
+        /* ========== FIXED Language switching CSS - COMPLETE REWRITE ========== */
         
-        /* Default: hide all language elements */
+        /* Step 1: Default - hide ALL language elements */
         .lang-en, .lang-cn, .lang-both { 
             display: none !important; 
         }
         
-        /* EN mode: show only English */
+        /* Step 2: EN mode - show ONLY English, explicitly hide others */
         body[data-lang="en"] .lang-en { 
-            display: block !important; 
-        }
-        body[data-lang="en"] .lang-en.inline { 
             display: inline !important; 
         }
-        /* EN mode: explicitly hide others */
         body[data-lang="en"] .lang-cn,
         body[data-lang="en"] .lang-both {
             display: none !important;
         }
         
-        /* CN mode: show only Chinese */
+        /* Step 3: CN mode - show ONLY Chinese, explicitly hide others */
         body[data-lang="cn"] .lang-cn { 
-            display: block !important; 
-        }
-        body[data-lang="cn"] .lang-cn.inline { 
             display: inline !important; 
         }
-        /* CN mode: explicitly hide others */
         body[data-lang="cn"] .lang-en,
         body[data-lang="cn"] .lang-both {
             display: none !important;
         }
         
-        /* BOTH mode: show only bilingual */
+        /* Step 4: BOTH mode - show ONLY bilingual, explicitly hide others */
         body[data-lang="both"] .lang-both { 
-            display: block !important; 
-        }
-        body[data-lang="both"] .lang-both.inline { 
             display: inline !important; 
         }
-        /* BOTH mode: explicitly hide others */
         body[data-lang="both"] .lang-en,
         body[data-lang="both"] .lang-cn {
             display: none !important;
+        }
+        
+        /* Block-level elements (for divs, p, etc.) */
+        body[data-lang="en"] div.lang-en,
+        body[data-lang="en"] p.lang-en,
+        body[data-lang="cn"] div.lang-cn,
+        body[data-lang="cn"] p.lang-cn,
+        body[data-lang="both"] div.lang-both,
+        body[data-lang="both"] p.lang-both {
+            display: block !important;
         }
         
         /* Bilingual layout */
@@ -890,10 +888,9 @@
                 }
             });
             
-            // Force reflow to ensure CSS rules are applied correctly
-            document.body.style.display = 'none';
-            document.body.offsetHeight; // Trigger reflow
-            document.body.style.display = '';
+            // Debug: log current state
+            console.log('Language switched to:', lang);
+            console.log('Body data-lang:', document.body.getAttribute('data-lang'));
         }
 
         // Sidebar Management
@@ -959,11 +956,12 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            // Clear potentially corrupted localStorage for testing
+            // Clear potentially corrupted localStorage for fresh start
             // Uncomment next line if you want to reset language on every load
             // localStorage.removeItem('dissertation-lang');
             
             const savedLang = localStorage.getItem('dissertation-lang') || 'en';
+            console.log('Initializing with language:', savedLang);
             setLanguage(savedLang);
             
             if (window.innerWidth >= 768) {
