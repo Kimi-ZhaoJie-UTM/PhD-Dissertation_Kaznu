@@ -27,11 +27,52 @@
         }
     </script>
     <style>
-        .lang-en, .lang-cn, .lang-both { display: none; }
-        body[data-lang="en"] .lang-en, body[data-lang="cn"] .lang-cn { display: block; }
-        body[data-lang="both"] .lang-en, body[data-lang="both"] .lang-cn { display: block; }
+        /* ============================================
+           严格语言切换系统 - 修复版
+           ============================================ */
         
-        /* Bilingual specific layouts */
+        /* 默认状态：隐藏所有语言元素 */
+        .lang-en, .lang-cn, .lang-both { 
+            display: none !important; 
+        }
+        
+        /* 英文模式：只显示英文 */
+        body[data-lang="en"] .lang-en { 
+            display: block !important; 
+        }
+        body[data-lang="en"] span.lang-en { 
+            display: inline !important; 
+        }
+        body[data-lang="en"] .lang-en.table-cell { 
+            display: table-cell !important; 
+        }
+        
+        /* 中文模式：只显示中文 */
+        body[data-lang="cn"] .lang-cn { 
+            display: block !important; 
+        }
+        body[data-lang="cn"] span.lang-cn { 
+            display: inline !important; 
+        }
+        body[data-lang="cn"] .lang-cn.table-cell { 
+            display: table-cell !important; 
+        }
+        
+        /* 双语模式：同时显示中英文 */
+        body[data-lang="both"] .lang-en, 
+        body[data-lang="both"] .lang-cn { 
+            display: block !important; 
+        }
+        body[data-lang="both"] span.lang-en, 
+        body[data-lang="both"] span.lang-cn { 
+            display: inline !important; 
+        }
+        body[data-lang="both"] .lang-en.table-cell, 
+        body[data-lang="both"] .lang-cn.table-cell { 
+            display: table-cell !important; 
+        }
+        
+        /* Bilingual Grid Layout */
         body[data-lang="both"] .bilingual-parallel {
             display: grid; 
             grid-template-columns: 1fr 1fr; 
@@ -40,151 +81,210 @@
         }
         
         body[data-lang="both"] .bilingual-parallel > div,
-        body[data-lang="both"] .bilingual-parallel > p,
-        body[data-lang="both"] .bilingual-parallel > section {
+        body[data-lang="both"] .bilingual-parallel > p {
             border-right: 1px solid #e5e7eb; 
             padding-right: 1rem;
         }
         
         body[data-lang="both"] .bilingual-parallel > div:last-child,
-        body[data-lang="both"] .bilingual-parallel > p:last-child,
-        body[data-lang="both"] .bilingual-parallel > section:last-child {
+        body[data-lang="both"] .bilingual-parallel > p:last-child {
             border-right: none; 
             padding-right: 0;
             padding-left: 1rem;
         }
         
-        /* For tables in bilingual mode */
-        body[data-lang="both"] .bilingual-table tbody tr {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-        }
-        
-        body[data-lang="both"] .bilingual-table td,
-        body[data-lang="both"] .bilingual-table th {
-            display: block;
-            border: none;
-        }
-        
-        body[data-lang="both"] .bilingual-table tr td:first-child,
-        body[data-lang="both"] .bilingual-table tr th:first-child {
-            border-right: 1px solid #e9ecef;
-            padding-right: 1rem;
-        }
-        
-        body[data-lang="both"] .bilingual-table tr td:last-child,
-        body[data-lang="both"] .bilingual-table tr th:last-child {
-            padding-left: 1rem;
-        }
-        
-        /* Hide table headers in bilingual mode to avoid duplication confusion */
-        body[data-lang="both"] .bilingual-table thead {
-            display: none;
-        }
-        
+        /* ============================================
+           导航样式
+           ============================================ */
         .chapter-nav {
-            position: fixed; left: 0; top: 0; height: 100vh; width: 280px;
-            background: white; border-right: 1px solid #e9ecef;
-            overflow-y: auto; z-index: 40; padding: 2rem;
-            transform: translateX(-100%); transition: transform 0.3s;
+            position: fixed; 
+            left: 0; 
+            top: 0; 
+            height: 100vh; 
+            width: 280px;
+            background: white; 
+            border-right: 1px solid #e9ecef;
+            overflow-y: auto; 
+            z-index: 40; 
+            padding: 2rem;
+            transform: translateX(-100%); 
+            transition: transform 0.3s ease;
         }
-        .chapter-nav.open { transform: translateX(0); }
-        .nav-overlay {
-            position: fixed; inset: 0; background: rgba(0,0,0,0.5);
-            z-index: 35; opacity: 0; pointer-events: none; transition: opacity 0.3s;
-        }
-        .nav-overlay.open { opacity: 1; pointer-events: auto; }
-        .content-wrapper { max-width: 800px; margin: 0 auto; padding: 2rem 1rem; }
-        @media (min-width: 1024px) {
-            .content-wrapper { margin-left: 300px; margin-right: auto; padding: 3rem 2rem; }
-            .chapter-nav { transform: translateX(0); }
-            .menu-toggle { display: none; }
+        .chapter-nav.open { 
+            transform: translateX(0); 
+            box-shadow: 4px 0 15px rgba(0,0,0,0.1);
         }
         
-        /* When in bilingual mode, expand content width */
+        @media (min-width: 1024px) {
+            .chapter-nav { 
+                transform: translateX(0) !important; 
+                box-shadow: none;
+            }
+            .content-wrapper { 
+                margin-left: 300px; 
+            }
+            .menu-toggle { 
+                display: none; 
+            }
+            .nav-overlay {
+                display: none !important;
+            }
+        }
+        
+        .nav-overlay {
+            position: fixed; 
+            inset: 0; 
+            background: rgba(0,0,0,0.5);
+            z-index: 35; 
+            opacity: 0; 
+            pointer-events: none; 
+            transition: opacity 0.3s;
+        }
+        .nav-overlay.open { 
+            opacity: 1; 
+            pointer-events: auto; 
+        }
+        
+        .content-wrapper { 
+            max-width: 800px; 
+            margin: 0 auto; 
+            padding: 2rem 1rem; 
+        }
+        
         body[data-lang="both"] .content-wrapper {
             max-width: 1200px;
         }
         
         .toc-item {
-            display: block; padding: 0.5rem 0; color: #6c757d;
-            font-size: 0.875rem; border-left: 2px solid transparent;
-            padding-left: 1rem; margin-left: -1rem; transition: all 0.2s;
+            display: block; 
+            padding: 0.5rem 0; 
+            color: #6c757d;
+            font-size: 0.875rem; 
+            border-left: 2px solid transparent;
+            padding-left: 1rem; 
+            margin-left: -1rem; 
+            transition: all 0.2s;
             cursor: pointer;
+            text-decoration: none;
         }
         .toc-item:hover, .toc-item.active {
-            color: #1a365d; border-left-color: #c9a227;
+            color: #1a365d; 
+            border-left-color: #c9a227;
+            background: #f8f9fa;
         }
-        .toc-item.sub { padding-left: 1.5rem; font-size: 0.8rem; }
+        .toc-item.sub { 
+            padding-left: 1.5rem; 
+            font-size: 0.8rem; 
+        }
         
+        /* ============================================
+           内容样式
+           ============================================ */
         .section-header {
-            font-size: 1.875rem; font-weight: 700; color: #1a365d;
-            margin-top: 3rem; margin-bottom: 1.5rem; padding-bottom: 0.5rem;
-            border-bottom: 2px solid #c9a227; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+            font-size: 1.875rem; 
+            font-weight: 700; 
+            color: #1a365d;
+            margin-top: 3rem; 
+            margin-bottom: 1.5rem; 
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid #c9a227; 
+            font-family: 'Crimson Text', 'Noto Serif SC', serif;
         }
         
         .subsection-header {
-            font-size: 1.5rem; font-weight: 600; color: #2c5282;
-            margin-top: 2rem; margin-bottom: 1rem; font-family: 'Crimson Text', 'Noto Serif SC', serif;
+            font-size: 1.5rem; 
+            font-weight: 600; 
+            color: #2c5282;
+            margin-top: 2rem; 
+            margin-bottom: 1rem; 
+            font-family: 'Crimson Text', 'Noto Serif SC', serif;
         }
         
         .subsubsection-header {
-            font-size: 1.25rem; font-weight: 600; color: #495057;
-            margin-top: 1.5rem; margin-bottom: 0.75rem;
+            font-size: 1.25rem; 
+            font-weight: 600; 
+            color: #495057;
+            margin-top: 1.5rem; 
+            margin-bottom: 0.75rem;
         }
         
         .academic-table {
-            width: 100%; border-collapse: collapse; margin: 1.5rem 0;
-            font-size: 0.9rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+            width: 100%; 
+            border-collapse: collapse; 
+            margin: 1.5rem 0;
+            font-size: 0.9rem; 
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
         .academic-table th {
-            background: #1a365d; color: white; padding: 0.75rem;
-            text-align: left; font-weight: 600;
+            background: #1a365d; 
+            color: white; 
+            padding: 0.75rem;
+            text-align: left; 
+            font-weight: 600;
         }
         .academic-table td {
-            padding: 0.75rem; border-bottom: 1px solid #e9ecef;
+            padding: 0.75rem; 
+            border-bottom: 1px solid #e9ecef;
             vertical-align: top;
         }
-        .academic-table tr:nth-child(even) { background: #f8f9fa; }
-        .academic-table tr:hover { background: #e9ecef; }
+        .academic-table tr:nth-child(even) { 
+            background: #f8f9fa; 
+        }
+        .academic-table tr:hover { 
+            background: #e9ecef; 
+        }
         
         .highlight-box {
             background: linear-gradient(to right, #f8f9fa, #e9ecef);
-            border-left: 4px solid #c9a227; padding: 1.5rem;
-            margin: 2rem 0; border-radius: 0 8px 8px 0;
+            border-left: 4px solid #c9a227; 
+            padding: 1.5rem;
+            margin: 2rem 0; 
+            border-radius: 0 8px 8px 0;
         }
         
         .quote-block {
-            font-style: italic; color: #495057; border-left: 3px solid #adb5bd;
-            padding-left: 1rem; margin: 1.5rem 0;
+            font-style: italic; 
+            color: #495057; 
+            border-left: 3px solid #adb5bd;
+            padding-left: 1rem; 
+            margin: 1.5rem 0;
         }
         
         .pagination {
-            display: flex; justify-content: space-between; margin-top: 4rem;
-            padding-top: 2rem; border-top: 1px solid #dee2e6;
+            display: flex; 
+            justify-content: space-between; 
+            margin-top: 4rem;
+            padding-top: 2rem; 
+            border-top: 1px solid #dee2e6;
         }
         .page-btn {
-            display: inline-flex; align-items: center; gap: 0.5rem;
-            padding: 0.75rem 1.5rem; background: #1a365d; color: white;
-            border-radius: 6px; text-decoration: none; transition: all 0.3s;
+            display: inline-flex; 
+            align-items: center; 
+            gap: 0.5rem;
+            padding: 0.75rem 1.5rem; 
+            background: #1a365d; 
+            color: white;
+            border-radius: 6px; 
+            text-decoration: none; 
+            transition: all 0.3s;
         }
-        .page-btn:hover { background: #2c5282; transform: translateY(-2px); }
+        .page-btn:hover { 
+            background: #2c5282; 
+            transform: translateY(-2px); 
+        }
         
-        /* Card grids */
-        .info-card {
-            background: white; border: 1px solid #e9ecef; 
-            border-radius: 0.5rem; padding: 1rem;
+        .info-card, .phase-card {
+            background: white; 
+            border: 1px solid #e9ecef; 
+            border-radius: 0.5rem; 
+            padding: 1rem;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-        }
-        
-        .phase-card {
-            background: white; border-radius: 0.5rem; 
-            border: 1px solid #e9ecef; padding: 1rem;
         }
     </style>
 <base target="_blank">
 </head>
 <body class="bg-academic-50 text-academic-800 font-sans antialiased" data-lang="en">
+
     <!-- Language Switcher -->
     <div class="fixed top-4 right-4 z-50 flex gap-2 bg-white/90 backdrop-blur rounded-full shadow-lg border border-academic-200 p-1">
         <button onclick="setLang('en')" class="lang-btn px-3 py-1.5 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-lang="en">EN</button>
@@ -196,45 +296,74 @@
     <button onclick="toggleNav()" class="menu-toggle fixed top-4 left-4 z-50 bg-white p-2 rounded-lg shadow-md border border-academic-200">
         <svg class="w-6 h-6 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
     </button>
-    <div class="nav-overlay" onclick="toggleNav()"></div>
+    <div class="nav-overlay" onclick="closeNav()"></div>
 
     <!-- Sidebar Navigation -->
     <nav class="chapter-nav" id="chapterNav">
-        <div class="mb-8">
+        <div class="flex justify-between items-center mb-6 lg:hidden">
+            <h2 class="text-lg font-bold text-primary">Contents</h2>
+            <button onclick="closeNav()" class="p-2 hover:bg-academic-100 rounded-lg">
+                <svg class="w-6 h-6 text-academic-600" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
+            </button>
+        </div>
+
+        <div class="mb-6 hidden lg:block">
             <h2 class="text-lg font-bold text-primary mb-1">Chapter 1</h2>
             <p class="text-xs text-academic-500">
                 <span class="lang-en">Introduction & Theoretical Foundations</span>
                 <span class="lang-cn">引言与理论基础</span>
             </p>
         </div>
+        
         <div class="space-y-1 mb-8">
-            <div class="toc-item" onclick="scrollTo('1.1')">
+            <a class="toc-item" onclick="scrollToSection('1.1'); return false;">
                 <span class="lang-en">1.1 Strategic Objectives</span>
                 <span class="lang-cn">1.1 战略目标</span>
-            </div>
-            <div class="toc-item" onclick="scrollTo('1.2')">
+            </a>
+            <a class="toc-item" onclick="scrollToSection('1.2'); return false;">
                 <span class="lang-en">1.2 Financial Mechanisms</span>
                 <span class="lang-cn">1.2 金融机制</span>
-            </div>
-            <div class="toc-item sub" onclick="scrollTo('1.2.1')">1.2.1 <span class="lang-en">Policy Lending</span><span class="lang-cn">政策性贷款</span></div>
-            <div class="toc-item sub" onclick="scrollTo('1.2.2')">1.2.2 <span class="lang-en">Equity Funds</span><span class="lang-cn">股权基金</span></div>
-            <div class="toc-item sub" onclick="scrollTo('1.2.3')">1.2.3 <span class="lang-en">Multilateral Institutions</span><span class="lang-cn">多边机构</span></div>
-            <div class="toc-item sub" onclick="scrollTo('1.2.4')">1.2.4 <span class="lang-en">Bond Financing</span><span class="lang-cn">债券融资</span></div>
-            <div class="toc-item" onclick="scrollTo('1.3')">
+            </a>
+            <a class="toc-item sub" onclick="scrollToSection('1.2.1'); return false;">
+                <span class="lang-en">1.2.1 Policy Lending</span>
+                <span class="lang-cn">1.2.1 政策性贷款</span>
+            </a>
+            <a class="toc-item sub" onclick="scrollToSection('1.2.2'); return false;">
+                <span class="lang-en">1.2.2 Equity Funds</span>
+                <span class="lang-cn">1.2.2 股权基金</span>
+            </a>
+            <a class="toc-item sub" onclick="scrollToSection('1.2.3'); return false;">
+                <span class="lang-en">1.2.3 Multilateral Institutions</span>
+                <span class="lang-cn">1.2.3 多边机构</span>
+            </a>
+            <a class="toc-item sub" onclick="scrollToSection('1.2.4'); return false;">
+                <span class="lang-en">1.2.4 Bond Financing</span>
+                <span class="lang-cn">1.2.4 债券融资</span>
+            </a>
+            <a class="toc-item" onclick="scrollToSection('1.3'); return false;">
                 <span class="lang-en">1.3 Theoretical Framework</span>
                 <span class="lang-cn">1.3 理论框架</span>
-            </div>
-            <div class="toc-item sub" onclick="scrollTo('1.3.1')">1.3.1 <span class="lang-en">Institutional Complexity</span><span class="lang-cn">制度复杂性</span></div>
-            <div class="toc-item sub" onclick="scrollTo('1.3.2')">1.3.2 <span class="lang-en">Coopetition</span><span class="lang-cn">竞合概念</span></div>
-            <div class="toc-item sub" onclick="scrollTo('1.3.4')">1.3.4 <span class="lang-en">Rule Interaction Types</span><span class="lang-cn">规则互动类型</span></div>
-            <div class="toc-item" onclick="scrollTo('1.4')">
+            </a>
+            <a class="toc-item sub" onclick="scrollToSection('1.3.1'); return false;">
+                <span class="lang-en">1.3.1 Institutional Complexity</span>
+                <span class="lang-cn">1.3.1 制度复杂性</span>
+            </a>
+            <a class="toc-item sub" onclick="scrollToSection('1.3.2'); return false;">
+                <span class="lang-en">1.3.2 Coopetition</span>
+                <span class="lang-cn">1.3.2 竞合概念</span>
+            </a>
+            <a class="toc-item sub" onclick="scrollToSection('1.3.4'); return false;">
+                <span class="lang-en">1.3.4 Rule Interaction Types</span>
+                <span class="lang-cn">1.3.4 规则互动类型</span>
+            </a>
+            <a class="toc-item" onclick="scrollToSection('1.4'); return false;">
                 <span class="lang-en">1.4 Economic Impact</span>
                 <span class="lang-cn">1.4 经济影响</span>
-            </div>
-            <div class="toc-item" onclick="scrollTo('1.5')">
+            </a>
+            <a class="toc-item" onclick="scrollToSection('1.5'); return false;">
                 <span class="lang-en">1.5 Research Design</span>
                 <span class="lang-cn">1.5 研究设计</span>
-            </div>
+            </a>
         </div>
         <div class="pt-4 border-t border-academic-200">
             <a href="main.html" class="block py-2 text-sm text-academic-600 hover:text-primary">← <span class="lang-en">Home</span><span class="lang-cn">首页</span></a>
@@ -248,12 +377,11 @@
     <!-- Main Content -->
     <main class="content-wrapper">
         <!-- Chapter Header -->
-        <header class="mb-12 text-center">
+        <header class="mb-12 text-center pt-12 lg:pt-0">
             <div class="text-sm text-secondary font-semibold tracking-wider uppercase mb-2">Chapter 1 / 第一章</div>
             <h1 class="text-3xl md:text-4xl font-serif font-bold text-primary mb-4 leading-tight">
                 <span class="lang-en">Introduction and Theoretical Foundations</span>
                 <span class="lang-cn">引言与理论基础</span>
-                <span class="lang-both">Introduction and Theoretical Foundations<br>引言与理论基础</span>
             </h1>
             <div class="h-1 w-24 bg-secondary mx-auto"></div>
         </header>
@@ -275,7 +403,6 @@
             <h2 class="section-header">
                 <span class="lang-en">1.1 Assessment of the Strategic Objectives of the Belt and Road Initiative</span>
                 <span class="lang-cn">1.1 "一带一路"倡议战略目标评估</span>
-                <span class="lang-both">1.1 Assessment of Strategic Objectives / 战略目标评估</span>
             </h2>
             
             <div class="bilingual-parallel mb-6">
@@ -294,10 +421,7 @@
                 <p class="lang-cn">"一带一路"倡议由中国于2013年提出。这是一个旨在促进沿线国家互联互通与共同发展的跨境倡议。其核心概念是"五通"——政策沟通、设施联通、贸易畅通、资金融通和民心相通。</p>
             </div>
 
-            <h3 class="subsubsection-header mt-8 mb-4">
-                <span class="lang-en">Three Developmental Phases / 三个发展阶段</span>
-                <span class="lang-cn">三个发展阶段</span>
-            </h3>
+            <h3 class="subsubsection-header mt-8 mb-4">Three Developmental Phases / 三个发展阶段</h3>
             
             <div class="grid md:grid-cols-3 gap-4 my-6">
                 <div class="phase-card">
@@ -334,7 +458,6 @@
             <h2 class="section-header">
                 <span class="lang-en">1.2 Financial Mechanisms and Investment Instruments of the BRI</span>
                 <span class="lang-cn">1.2 "一带一路"的金融机制与投资工具</span>
-                <span class="lang-both">1.2 Financial Mechanisms / 金融机制与投资工具</span>
             </h2>
 
             <div class="bilingual-parallel mb-6">
@@ -351,7 +474,6 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.2.1 Policy-Based Lending and Concessional Lending</span>
                     <span class="lang-cn">1.2.1 政策性贷款与优惠贷款</span>
-                    <span class="lang-both">1.2.1 Policy-Based Lending / 政策性贷款与优惠贷款</span>
                 </h3>
                 
                 <div class="bilingual-parallel">
@@ -366,10 +488,7 @@
                 </div>
 
                 <div class="bg-academic-100 p-4 rounded-lg mt-4">
-                    <h4 class="font-bold text-primary mb-3 text-sm">
-                        <span class="lang-en">Distinguishing Characteristics /  distinguishing特征</span>
-                        <span class="lang-cn"> distinguishing特征</span>
-                    </h4>
+                    <h4 class="font-bold text-primary mb-3 text-sm">Distinguishing Characteristics / 区分特征</h4>
                     <div class="bilingual-parallel text-sm space-y-2">
                         <ul class="lang-en list-disc pl-5 space-y-1">
                             <li><strong>Extended maturities:</strong> 15-20 years, some to 30 years</li>
@@ -390,7 +509,6 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.2.2 Equity Investment and Funds</span>
                     <span class="lang-cn">1.2.2 股权投资与基金</span>
-                    <span class="lang-both">1.2.2 Equity Investment / 股权投资与基金</span>
                 </h3>
                 
                 <div class="bilingual-parallel mb-4">
@@ -429,10 +547,9 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.2.3 Multilateral Financial Institutions</span>
                     <span class="lang-cn">1.2.3 多边金融机构</span>
-                    <span class="lang-both">1.2.3 Multilateral Institutions / 多边金融机构</span>
                 </h3>
                 
-                <div class="bilingual-parallel">
+                <div class="bilingual-parallel mb-4">
                     <p class="lang-en leading-relaxed">
                         The establishment of the <strong>Asian Infrastructure Investment Bank (AIIB)</strong> in 2015 provided a crucial complement to the BRI's financial architecture. Operating as a multilateral development bank (MDB), the AIIB introduces internationally recognized environmental, social, and procurement standards.
                     </p>
@@ -452,7 +569,6 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.2.4 Bond Financing and Financial Innovation</span>
                     <span class="lang-cn">1.2.4 债券融资与金融创新</span>
-                    <span class="lang-both">1.2.4 Bond Financing / 债券融资与金融创新</span>
                 </h3>
                 
                 <div class="bilingual-parallel mb-4">
@@ -483,45 +599,51 @@
                 </p>
                 
                 <div class="overflow-x-auto">
-                    <table class="academic-table bilingual-table">
+                    <table class="academic-table">
                         <thead>
                             <tr>
-                                <th class="lang-en">Financing Instrument</th>
-                                <th class="lang-cn">融资工具</th>
-                                <th class="lang-en">Primary Providers</th>
-                                <th class="lang-cn">主要提供方</th>
+                                <th class="lang-en table-cell">Financing Instrument</th>
+                                <th class="lang-cn table-cell">融资工具</th>
+                                <th class="lang-en table-cell">Primary Providers</th>
+                                <th class="lang-cn table-cell">主要提供方</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="lang-en"><strong>Policy-based Lending</strong><br>Extended tenor, concessional pricing, contractor-linked</td>
-                                <td class="lang-cn"><strong>政策性贷款</strong><br>延长期限、优惠定价、承包商关联</td>
-                                <td class="lang-en" colspan="2">CDB, China Exim Bank / 国开行、进出口银行</td>
+                                <td class="lang-en table-cell"><strong>Policy-based Lending</strong><br>Extended tenor, concessional pricing, contractor-linked</td>
+                                <td class="lang-cn table-cell"><strong>政策性贷款</strong><br>延长期限、优惠定价、承包商关联</td>
+                                <td class="lang-en table-cell">CDB, China Exim Bank</td>
+                                <td class="lang-cn table-cell">国开行、进出口银行</td>
                             </tr>
                             <tr>
-                                <td class="lang-en"><strong>Concessional Loans</strong><br>Below-market rates, limited scale</td>
-                                <td class="lang-cn"><strong>优惠贷款</strong><br>低于市场利率、规模有限</td>
-                                <td class="lang-en" colspan="2">China Exim Bank / 中国进出口银行</td>
+                                <td class="lang-en table-cell"><strong>Concessional Loans</strong><br>Below-market rates, limited scale</td>
+                                <td class="lang-cn table-cell"><strong>优惠贷款</strong><br>低于市场利率、规模有限</td>
+                                <td class="lang-en table-cell">China Exim Bank</td>
+                                <td class="lang-cn table-cell">中国进出口银行</td>
                             </tr>
                             <tr>
-                                <td class="lang-en"><strong>Equity Investment Funds</strong><br>Governance participation, commercial sustainability</td>
-                                <td class="lang-cn"><strong>股权投资基金</strong><br>治理参与、商业可持续性</td>
-                                <td class="lang-en" colspan="2">Silk Road Fund, bilateral funds / 丝路基金、双边基金</td>
+                                <td class="lang-en table-cell"><strong>Equity Investment Funds</strong><br>Governance participation, commercial sustainability</td>
+                                <td class="lang-cn table-cell"><strong>股权投资基金</strong><br>治理参与、商业可持续性</td>
+                                <td class="lang-en table-cell">Silk Road Fund, bilateral funds</td>
+                                <td class="lang-cn table-cell">丝路基金、双边基金</td>
                             </tr>
                             <tr>
-                                <td class="lang-en"><strong>Multilateral Financing</strong><br>High standards, transparency, international legitimacy</td>
-                                <td class="lang-cn"><strong>多边融资</strong><br>高标准、透明度、国际合法性</td>
-                                <td class="lang-en" colspan="2">AIIB, NDB / 亚投行、新开发银行</td>
+                                <td class="lang-en table-cell"><strong>Multilateral Financing</strong><br>High standards, transparency, international legitimacy</td>
+                                <td class="lang-cn table-cell"><strong>多边融资</strong><br>高标准、透明度、国际合法性</td>
+                                <td class="lang-en table-cell">AIIB, NDB</td>
+                                <td class="lang-cn table-cell">亚投行、新开发银行</td>
                             </tr>
                             <tr>
-                                <td class="lang-en"><strong>Panda Bonds</strong><br>Renminbi-denominated, FX risk mitigation</td>
-                                <td class="lang-cn"><strong>熊猫债券</strong><br>人民币计价、外汇风险缓解</td>
-                                <td class="lang-en" colspan="2">Chinese capital markets / 中国资本市场</td>
+                                <td class="lang-en table-cell"><strong>Panda Bonds</strong><br>Renminbi-denominated, FX risk mitigation</td>
+                                <td class="lang-cn table-cell"><strong>熊猫债券</strong><br>人民币计价、外汇风险缓解</td>
+                                <td class="lang-en table-cell">Chinese capital markets</td>
+                                <td class="lang-cn table-cell">中国资本市场</td>
                             </tr>
                             <tr>
-                                <td class="lang-en"><strong>Local-currency Settlement</strong><br>Reduced dollar dependency</td>
-                                <td class="lang-cn"><strong>本币结算</strong><br>降低美元依赖</td>
-                                <td class="lang-en" colspan="2">CIPS / 人民币跨境支付系统</td>
+                                <td class="lang-en table-cell"><strong>Local-currency Settlement</strong><br>Reduced dollar dependency</td>
+                                <td class="lang-cn table-cell"><strong>本币结算</strong><br>降低美元依赖</td>
+                                <td class="lang-en table-cell">CIPS</td>
+                                <td class="lang-cn table-cell">人民币跨境支付系统</td>
                             </tr>
                         </tbody>
                     </table>
@@ -546,14 +668,12 @@
             <h2 class="section-header">
                 <span class="lang-en">1.3 Theoretical Framework: Institutional Complexity and Regulatory Coopetition</span>
                 <span class="lang-cn">1.3 理论框架：制度复杂性与监管竞合</span>
-                <span class="lang-both">1.3 Theoretical Framework / 理论框架：制度复杂性与监管竞合</span>
             </h2>
 
             <div id="1.3.1" class="mt-6">
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.3.1 Institutional Complexity Theory and Its Evolution</span>
                     <span class="lang-cn">1.3.1 制度复杂性理论及其演进</span>
-                    <span class="lang-both">1.3.1 Institutional Complexity / 制度复杂性理论</span>
                 </h3>
                 
                 <div class="bilingual-parallel mb-4">
@@ -566,35 +686,32 @@
                 </div>
 
                 <div class="bg-white p-5 rounded-lg border border-academic-200 my-4 shadow-sm">
-                    <h4 class="font-bold text-primary mb-3 text-sm">
-                        <span class="lang-en">Three Ideal Morphologies (Orsini et al.)</span>
-                        <span class="lang-cn">三种理想形态 (Orsini等)</span>
-                    </h4>
+                    <h4 class="font-bold text-primary mb-3 text-sm">Three Ideal Morphologies (Orsini et al.) / 三种理想形态</h4>
                     <div class="space-y-3 text-sm bilingual-parallel">
-                        <div class="flex gap-3 lang-en">
-                            <span class="font-bold text-secondary min-w-[140px]">Institutional Overlapping</span>
+                        <div class="lang-en">
+                            <span class="font-bold text-secondary">Institutional Overlapping:</span>
                             <span class="text-academic-700">Multiple institutions cover the same policy domain with different rule designs. BRI and Global Gateway coexistence exemplifies this.</span>
                         </div>
-                        <div class="flex gap-3 lang-cn">
-                            <span class="font-bold text-secondary min-w-[140px]">制度重叠</span>
+                        <div class="lang-cn">
+                            <span class="font-bold text-secondary">制度重叠：</span>
                             <span class="text-academic-700">多个机构覆盖相同政策领域但规则设计不同。BRI与全球门户的共存即为例证。</span>
                         </div>
                         
-                        <div class="flex gap-3 lang-en pt-2 border-t border-academic-100">
-                            <span class="font-bold text-secondary min-w-[140px]">Institutional Nesting</span>
+                        <div class="lang-en pt-2 border-t border-academic-100">
+                            <span class="font-bold text-secondary">Institutional Nesting:</span>
                             <span class="text-academic-700">Local institutions embed within global architectures. BRI projects in EU markets must embed within EU legal systems.</span>
                         </div>
-                        <div class="flex gap-3 lang-cn pt-2 border-t border-academic-100">
-                            <span class="font-bold text-secondary min-w-[140px]">制度嵌套</span>
+                        <div class="lang-cn pt-2 border-t border-academic-100">
+                            <span class="font-bold text-secondary">制度嵌套：</span>
                             <span class="text-academic-700">地方机构嵌入全球架构。欧盟市场中的BRI项目必须嵌入欧盟法律体系。</span>
                         </div>
                         
-                        <div class="flex gap-3 lang-en pt-2 border-t border-academic-100">
-                            <span class="font-bold text-secondary min-w-[140px]">Competition/Cooperation</span>
+                        <div class="lang-en pt-2 border-t border-academic-100">
+                            <span class="font-bold text-secondary">Competition/Cooperation:</span>
                             <span class="text-academic-700">Different institutions provide alternative rule choices, enabling "forum shopping" or synergies.</span>
                         </div>
-                        <div class="flex gap-3 lang-cn pt-2 border-t border-academic-100">
-                            <span class="font-bold text-secondary min-w-[140px]">竞争/合作</span>
+                        <div class="lang-cn pt-2 border-t border-academic-100">
+                            <span class="font-bold text-secondary">竞争/合作：</span>
                             <span class="text-academic-700">不同机构提供替代性规则选择，使"论坛购物"或协同效应成为可能。</span>
                         </div>
                     </div>
@@ -605,7 +722,6 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.3.2 The "Coopetition" Concept</span>
                     <span class="lang-cn">1.3.2 "竞合"概念</span>
-                    <span class="lang-both">1.3.2 The "Coopetition" Concept / "竞合"概念</span>
                 </h3>
                 
                 <div class="bilingual-parallel mb-4">
@@ -621,7 +737,7 @@
                     <div class="bg-red-50 border-l-4 border-red-400 p-4">
                         <h5 class="font-bold text-red-800 mb-2 text-sm lang-en">Competitive Dimensions</h5>
                         <h5 class="font-bold text-red-800 mb-2 text-sm lang-cn">竞争维度</h5>
-                        <ul class="text-xs space-y-1 text-red-700 bilingual-parallel">
+                        <ul class="text-xs space-y-1 text-red-700">
                             <li class="lang-en">• Rule competition (flexibility vs. high standards)</li>
                             <li class="lang-cn">• 规则竞争（灵活性vs高标准）</li>
                             <li class="lang-en">• Financing competition (project resources)</li>
@@ -633,7 +749,7 @@
                     <div class="bg-green-50 border-l-4 border-green-400 p-4">
                         <h5 class="font-bold text-green-800 mb-2 text-sm lang-en">Cooperative Dimensions</h5>
                         <h5 class="font-bold text-green-800 mb-2 text-sm lang-cn">合作维度</h5>
-                        <ul class="text-xs space-y-1 text-green-700 bilingual-parallel">
+                        <ul class="text-xs space-y-1 text-green-700">
                             <li class="lang-en">• Project-level cooperation in third markets</li>
                             <li class="lang-cn">• 第三市场的项目级合作</li>
                             <li class="lang-en">• Rule coordination in green finance</li>
@@ -649,7 +765,6 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.3.4 Typology of "Rule Interaction" [Core Innovation]</span>
                     <span class="lang-cn">1.3.4 "规则互动"类型学 [核心创新]</span>
-                    <span class="lang-both">1.3.4 Typology of Rule Interaction / 规则互动类型学</span>
                 </h3>
                 
                 <div class="bilingual-parallel mb-4">
@@ -663,22 +778,22 @@
 
                 <div class="space-y-4">
                     <div class="bg-blue-50 p-4 rounded-lg border border-blue-200">
-                        <h4 class="font-bold text-blue-900 mb-2 bilingual-parallel">
-                            <span class="lang-en">Type I: Harmonious Coordination</span>
+                        <h4 class="font-bold text-blue-900 mb-2">
+                            <span class="lang-en">Type I: Harmonious Coordination (Adaptive)</span>
                             <span class="lang-cn">类型一：协调性协调 (适应性协调)</span>
                         </h4>
                         <div class="bilingual-parallel text-sm">
                             <p class="text-blue-800 mb-2 lang-en">Scenarios wherein BRI projects proactively adapt to EU regulatory requirements. <strong>Core characteristic:</strong> "Adaptive compliance"—accepting EU constraints without sacrificing efficiency.</p>
                             <p class="text-blue-800 mb-2 lang-cn">BRI项目主动适应欧盟监管要求的场景。<strong>核心特征：</strong>"适应性合规"——接受欧盟约束而不牺牲效率。</p>
                         </div>
-                        <div class="text-xs text-blue-700 mt-2 pt-2 border-t border-blue-200 bilingual-parallel">
+                        <div class="text-xs text-blue-700 mt-2 pt-2 border-t border-blue-200">
                             <span class="lang-en"><strong>Case:</strong> Port of Piraeus</span>
                             <span class="lang-cn"><strong>案例：</strong>比雷埃夫斯港</span>
                         </div>
                     </div>
 
                     <div class="bg-orange-50 p-4 rounded-lg border border-orange-200">
-                        <h4 class="font-bold text-orange-900 mb-2 bilingual-parallel">
+                        <h4 class="font-bold text-orange-900 mb-2">
                             <span class="lang-en">Type II: Conflictual Confrontation</span>
                             <span class="lang-cn">类型二：冲突性对抗</span>
                         </h4>
@@ -686,14 +801,14 @@
                             <p class="text-orange-800 mb-2 lang-en">Projects encounter rule mutual exclusivity. <strong>Core characteristic:</strong> "Regulatory friction"—substantive conflicts between rule systems.</p>
                             <p class="text-orange-800 mb-2 lang-cn">项目遭遇规则互斥的场景。<strong>核心特征：</strong>"监管摩擦"——规则体系间的实质性冲突。</p>
                         </div>
-                        <div class="text-xs text-orange-700 mt-2 pt-2 border-t border-orange-200 bilingual-parallel">
+                        <div class="text-xs text-orange-700 mt-2 pt-2 border-t border-orange-200">
                             <span class="lang-en"><strong>Case:</strong> Budapest–Belgrade Railway</span>
                             <span class="lang-cn"><strong>案例：</strong>布达佩斯-贝尔格莱德铁路</span>
                         </div>
                     </div>
 
                     <div class="bg-purple-50 p-4 rounded-lg border border-purple-200">
-                        <h4 class="font-bold text-purple-900 mb-2 bilingual-parallel">
+                        <h4 class="font-bold text-purple-900 mb-2">
                             <span class="lang-en">Type III: Strategic Arbitrage</span>
                             <span class="lang-cn">类型三：战略性套利</span>
                         </h4>
@@ -701,7 +816,7 @@
                             <p class="text-purple-800 mb-2 lang-en">Countries exploit differences to select advantageous rules. <strong>Core characteristic:</strong> "Institutional shopping"—strategic selection among environments.</p>
                             <p class="text-purple-800 mb-2 lang-cn">国家利用差异选择有利规则的场景。<strong>核心特征：</strong>"制度购物"——在环境中的策略性选择。</p>
                         </div>
-                        <div class="text-xs text-purple-700 mt-2 pt-2 border-t border-purple-200 bilingual-parallel">
+                        <div class="text-xs text-purple-700 mt-2 pt-2 border-t border-purple-200">
                             <span class="lang-en"><strong>Case:</strong> Kazakhstan (Nurly Zhol)</span>
                             <span class="lang-cn"><strong>案例：</strong>哈萨克斯坦（光明之路）</span>
                         </div>
@@ -715,14 +830,12 @@
             <h2 class="section-header">
                 <span class="lang-en">1.4 The Impact of BRI on Economic Development</span>
                 <span class="lang-cn">1.4 BRI对经济发展的影响</span>
-                <span class="lang-both">1.4 Economic Development Impact / 对经济发展的影响</span>
             </h2>
 
             <div id="1.4.1" class="mt-6">
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.4.1 Impacts on Asian Countries</span>
                     <span class="lang-cn">1.4.1 对亚洲国家的影响</span>
-                    <span class="lang-both">1.4.1 Asian Impacts / 对亚洲国家的影响</span>
                 </h3>
                 
                 <div class="bilingual-parallel mb-4">
@@ -757,7 +870,6 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.4.2 Impacts on European Countries</span>
                     <span class="lang-cn">1.4.2 对欧洲国家的影响</span>
-                    <span class="lang-both">1.4.2 European Impacts / 对欧洲国家的影响</span>
                 </h3>
                 
                 <div class="bilingual-parallel">
@@ -774,7 +886,6 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.4.3 Heterogeneity: Role of Institutional Factors</span>
                     <span class="lang-cn">1.4.3 异质性：制度因素的调节作用</span>
-                    <span class="lang-both">1.4.3 Institutional Factors / 异质性与制度因素</span>
                 </h3>
                 
                 <div class="bilingual-parallel">
@@ -793,14 +904,12 @@
             <h2 class="section-header">
                 <span class="lang-en">1.5 Research Design</span>
                 <span class="lang-cn">1.5 研究设计</span>
-                <span class="lang-both">1.5 Research Design / 研究设计</span>
             </h2>
 
             <div id="1.5.1" class="mt-6">
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.5.1 Methodological Positioning</span>
                     <span class="lang-cn">1.5.1 方法论定位</span>
-                    <span class="lang-both">1.5.1 Methodology / 方法论定位</span>
                 </h3>
                 
                 <div class="bilingual-parallel mb-4">
@@ -813,10 +922,7 @@
                 </div>
 
                 <div class="bg-academic-100 p-4 rounded-lg">
-                    <h4 class="font-bold text-primary mb-2 text-sm bilingual-parallel">
-                        <span class="lang-en">Three Reasons Against Large-N Statistics</span>
-                        <span class="lang-cn">反对大样本统计的三个理由</span>
-                    </h4>
+                    <h4 class="font-bold text-primary mb-2 text-sm">Three Reasons Against Large-N Statistics / 反对大样本统计的三个理由</h4>
                     <div class="bilingual-parallel text-sm space-y-2">
                         <ol class="lang-en list-decimal pl-5 space-y-1">
                             <li>Time window too short (BRI 2013, Global Gateway 2021)</li>
@@ -836,7 +942,6 @@
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.5.2 Case Selection Logic</span>
                     <span class="lang-cn">1.5.2 案例选择逻辑</span>
-                    <span class="lang-both">1.5.2 Case Selection / 案例选择逻辑</span>
                 </h3>
                 
                 <div class="bilingual-parallel mb-4">
@@ -848,52 +953,60 @@
                     </p>
                 </div>
 
+                <!-- 修复后的表格 - 完全对齐 -->
                 <div class="overflow-x-auto">
-                    <table class="academic-table text-sm">
+                    <table class="academic-table">
                         <thead>
                             <tr>
-                                <th class="lang-en">Control Variable</th>
-                                <th class="lang-cn">控制变量</th>
-                                <th class="lang-en">Similarity</th>
-                                <th class="lang-cn">相似度</th>
+                                <th class="lang-en table-cell w-1/2">Control Variable</th>
+                                <th class="lang-cn table-cell w-1/2">控制变量</th>
+                                <th class="lang-en table-cell w-1/2">Similarity</th>
+                                <th class="lang-cn table-cell w-1/2">相似度</th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td class="lang-en">Project type (infrastructure)</td>
-                                <td class="lang-cn">项目类型（基础设施）</td>
-                                <td colspan="2" class="text-center">Port vs Railway / 港口vs铁路 = 5/5</td>
+                                <td class="lang-en table-cell"><strong>Project type</strong><br>Infrastructure</td>
+                                <td class="lang-cn table-cell"><strong>项目类型</strong><br>基础设施</td>
+                                <td class="lang-en table-cell">Port vs Railway = 5/5</td>
+                                <td class="lang-cn table-cell">港口vs铁路 = 5/5</td>
                             </tr>
                             <tr>
-                                <td class="lang-en">Strategic positioning</td>
-                                <td class="lang-cn">战略定位</td>
-                                <td colspan="2" class="text-center">Flagship project / 旗舰项目 = 5/5</td>
+                                <td class="lang-en table-cell"><strong>Strategic positioning</strong><br>Flagship project</td>
+                                <td class="lang-cn table-cell"><strong>战略定位</strong><br>旗舰项目</td>
+                                <td class="lang-en table-cell">Flagship = 5/5</td>
+                                <td class="lang-cn table-cell">旗舰项目 = 5/5</td>
                             </tr>
                             <tr>
-                                <td class="lang-en">Geographic location</td>
-                                <td class="lang-cn">地理位置</td>
-                                <td colspan="2" class="text-center">EU member / 欧盟成员 = 4/5</td>
+                                <td class="lang-en table-cell"><strong>Geographic location</strong><br>EU member</td>
+                                <td class="lang-cn table-cell"><strong>地理位置</strong><br>欧盟成员</td>
+                                <td class="lang-en table-cell">EU member = 4/5</td>
+                                <td class="lang-cn table-cell">欧盟成员 = 4/5</td>
                             </tr>
                             <tr class="bg-secondary/10">
-                                <td class="lang-en"><strong>Outcome: Rule Pattern</strong></td>
-                                <td class="lang-cn"><strong>结果：规则模式</strong></td>
-                                <td class="lang-en text-center font-bold">Harmonious vs Conflictual</td>
-                                <td class="lang-cn text-center font-bold">协调vs冲突</td>
+                                <td class="lang-en table-cell font-bold text-primary">Outcome: Rule Pattern</td>
+                                <td class="lang-cn table-cell font-bold text-primary">结果：规则模式</td>
+                                <td class="lang-en table-cell font-bold text-primary">Harmonious vs Conflictual</td>
+                                <td class="lang-cn table-cell font-bold text-primary">协调vs冲突</td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
+                
+                <p class="text-xs text-academic-500 mt-2 text-center">
+                    <span class="lang-en">Table: Case Selection Based on Most Similar Background</span>
+                    <span class="lang-cn">表：基于最相似背景的案例选择</span>
+                </p>
             </div>
 
             <div id="1.5.4" class="mt-8">
                 <h3 class="subsubsection-header">
                     <span class="lang-en">1.5.4 Research Limitations</span>
                     <span class="lang-cn">1.5.4 研究局限</span>
-                    <span class="lang-both">1.5.4 Limitations / 研究局限</span>
                 </h3>
                 
                 <div class="space-y-3 text-sm">
-                    <div class="bilingual-parallel border-l-2 border-red-300 pl-4">
+                    <div class="border-l-2 border-red-300 pl-4 py-2">
                         <div class="lang-en">
                             <strong class="text-red-700">Limited case quantity:</strong> Only two cases; findings may not apply universally. <em>Response:</em> Chapter 5 discusses Asian cases for cross-regional testing.
                         </div>
@@ -902,7 +1015,7 @@
                         </div>
                     </div>
                     
-                    <div class="bilingual-parallel border-l-2 border-red-300 pl-4 mt-2">
+                    <div class="border-l-2 border-red-300 pl-4 py-2 mt-2">
                         <div class="lang-en">
                             <strong class="text-red-700">Dependence on public sources:</strong> No field interviews. <em>Response:</em> Utilize semi-public data and multi-source triangulation.
                         </div>
@@ -911,7 +1024,7 @@
                         </div>
                     </div>
                     
-                    <div class="bilingual-parallel border-l-2 border-red-300 pl-4 mt-2">
+                    <div class="border-l-2 border-red-300 pl-4 py-2 mt-2">
                         <div class="lang-en">
                             <strong class="text-red-700">Temporal constraints:</strong> Global Gateway implementation period short (2021–present). <em>Response:</em> Define boundaries through end-2025.
                         </div>
@@ -933,18 +1046,24 @@
         <!-- Pagination -->
         <div class="pagination">
             <a href="main.html" class="page-btn">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/></svg>
-                <span class="lang-en">Home</span><span class="lang-cn">首页</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
+                </svg>
+                <span class="lang-en">Home</span>
+                <span class="lang-cn">首页</span>
             </a>
             <a href="chapter2.html" class="page-btn">
-                <span class="lang-en">Chapter 2 →</span><span class="lang-cn">第二章 →</span>
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/></svg>
+                <span class="lang-en">Chapter 2 →</span>
+                <span class="lang-cn">第二章 →</span>
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                </svg>
             </a>
         </div>
 
         <!-- Footer -->
         <footer class="mt-16 pt-8 border-t border-academic-200 text-center text-sm text-academic-500">
-            <p class="bilingual-parallel justify-center">
+            <p>
                 <span class="lang-en">Chapter 1: Introduction | ZHAO JIE | Almaty 2026</span>
                 <span class="lang-cn">第一章：引言 | 赵杰 | 阿拉木图 2026</span>
             </p>
@@ -952,13 +1071,14 @@
     </main>
 
     <script>
-        // Language Management
+        // 语言切换 - 严格版本
         function setLang(lang) {
             document.body.setAttribute('data-lang', lang);
             localStorage.setItem('dissertation-lang', lang);
             
             document.querySelectorAll('.lang-btn').forEach(btn => {
-                if(btn.getAttribute('data-lang') === lang) {
+                const btnLang = btn.getAttribute('data-lang');
+                if(btnLang === lang) {
                     btn.classList.add('bg-primary', 'text-white');
                     btn.classList.remove('hover:bg-primary', 'hover:text-white');
                 } else {
@@ -968,25 +1088,40 @@
             });
         }
 
-        // Navigation
+        // 导航功能
         function toggleNav() {
-            document.getElementById('chapterNav').classList.toggle('open');
-            document.querySelector('.nav-overlay').classList.toggle('open');
+            const nav = document.getElementById('chapterNav');
+            const overlay = document.querySelector('.nav-overlay');
+            nav.classList.toggle('open');
+            overlay.classList.toggle('open');
         }
 
-        function scrollTo(id) {
-            const el = document.getElementById(id);
-            if(el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-                document.getElementById('chapterNav').classList.remove('open');
-                document.querySelector('.nav-overlay').classList.remove('open');
+        function closeNav() {
+            const nav = document.getElementById('chapterNav');
+            const overlay = document.querySelector('.nav-overlay');
+            nav.classList.remove('open');
+            overlay.classList.remove('open');
+        }
+
+        function scrollToSection(id) {
+            const element = document.getElementById(id);
+            if(element) {
+                element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if(window.innerWidth < 1024) {
+                    setTimeout(() => closeNav(), 300);
+                }
             }
         }
 
-        // Initialize
+        // 初始化
         document.addEventListener('DOMContentLoaded', () => {
             const savedLang = localStorage.getItem('dissertation-lang') || 'en';
             setLang(savedLang);
+            
+            // 点击内容区关闭导航（移动端）
+            document.querySelector('.content-wrapper').addEventListener('click', () => {
+                if(window.innerWidth < 1024) closeNav();
+            });
         });
     </script>
 </body>
