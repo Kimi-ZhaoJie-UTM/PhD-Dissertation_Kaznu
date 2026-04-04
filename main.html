@@ -3,6 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
     <title>BRI & Global Gateway: Financial Opportunities and Challenges | Dissertation Interactive</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Inter:wght@300;400;500;600&family=Noto+Serif+SC:wght@400;600;700&family=Noto+Sans+SC:wght@300;400;500&display=swap" rel="stylesheet">
@@ -50,62 +53,135 @@
         }
     </script>
     <style>
-        /* ========== FIXED Language switching CSS - COMPLETE REWRITE ========== */
+        /* ========== ULTRA-SPECIFIC Language switching CSS for GitHub Pages ========== */
         
-        /* Step 1: Default - hide ALL language elements */
-        .lang-en, .lang-cn, .lang-both { 
-            display: none !important; 
+        /* Base state - hide all language spans with maximum specificity */
+        html body .lang-en,
+        html body .lang-cn,
+        html body .lang-both,
+        body .lang-en,
+        body .lang-cn,
+        body .lang-both,
+        .lang-en,
+        .lang-cn,
+        .lang-both {
+            display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
         
-        /* Step 2: EN mode - show ONLY English, explicitly hide others */
-        body[data-lang="en"] .lang-en { 
-            display: inline !important; 
+        /* EN mode - show English with extreme specificity */
+        html body[data-lang="en"] .lang-en,
+        body[data-lang="en"] .lang-en,
+        html body[data-lang="en"] nav .lang-en,
+        html body[data-lang="en"] main .lang-en,
+        html body[data-lang="en"] footer .lang-en,
+        html body[data-lang="en"] div .lang-en,
+        html body[data-lang="en"] span .lang-en,
+        html body[data-lang="en"] h1 .lang-en,
+        html body[data-lang="en"] h2 .lang-en,
+        html body[data-lang="en"] h3 .lang-en,
+        html body[data-lang="en"] p .lang-en,
+        html body[data-lang="en"] button .lang-en,
+        html body[data-lang="en"] a .lang-en {
+            display: inline !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
+        
+        /* EN mode - force hide others */
+        html body[data-lang="en"] .lang-cn,
+        html body[data-lang="en"] .lang-both,
         body[data-lang="en"] .lang-cn,
         body[data-lang="en"] .lang-both {
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
         
-        /* Step 3: CN mode - show ONLY Chinese, explicitly hide others */
-        body[data-lang="cn"] .lang-cn { 
-            display: inline !important; 
+        /* CN mode - show Chinese */
+        html body[data-lang="cn"] .lang-cn,
+        body[data-lang="cn"] .lang-cn,
+        html body[data-lang="cn"] nav .lang-cn,
+        html body[data-lang="cn"] main .lang-cn,
+        html body[data-lang="cn"] footer .lang-cn,
+        html body[data-lang="cn"] div .lang-cn,
+        html body[data-lang="cn"] span .lang-cn,
+        html body[data-lang="cn"] h1 .lang-cn,
+        html body[data-lang="cn"] h2 .lang-cn,
+        html body[data-lang="cn"] h3 .lang-cn,
+        html body[data-lang="cn"] p .lang-cn,
+        html body[data-lang="cn"] button .lang-cn,
+        html body[data-lang="cn"] a .lang-cn {
+            display: inline !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
+        
+        /* CN mode - force hide others */
+        html body[data-lang="cn"] .lang-en,
+        html body[data-lang="cn"] .lang-both,
         body[data-lang="cn"] .lang-en,
         body[data-lang="cn"] .lang-both {
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
         
-        /* Step 4: BOTH mode - show ONLY bilingual, explicitly hide others */
-        body[data-lang="both"] .lang-both { 
-            display: inline !important; 
+        /* BOTH mode - show bilingual */
+        html body[data-lang="both"] .lang-both,
+        body[data-lang="both"] .lang-both,
+        html body[data-lang="both"] nav .lang-both,
+        html body[data-lang="both"] main .lang-both,
+        html body[data-lang="both"] footer .lang-both,
+        html body[data-lang="both"] div .lang-both,
+        html body[data-lang="both"] span .lang-both,
+        html body[data-lang="both"] h1 .lang-both,
+        html body[data-lang="both"] h2 .lang-both,
+        html body[data-lang="both"] h3 .lang-both,
+        html body[data-lang="both"] p .lang-both,
+        html body[data-lang="both"] button .lang-both,
+        html body[data-lang="both"] a .lang-both {
+            display: inline !important;
+            visibility: visible !important;
+            opacity: 1 !important;
         }
+        
+        /* BOTH mode - force hide others */
+        html body[data-lang="both"] .lang-en,
+        html body[data-lang="both"] .lang-cn,
         body[data-lang="both"] .lang-en,
         body[data-lang="both"] .lang-cn {
             display: none !important;
+            visibility: hidden !important;
+            opacity: 0 !important;
         }
         
-        /* Block-level elements (for divs, p, etc.) */
-        body[data-lang="en"] div.lang-en,
-        body[data-lang="en"] p.lang-en,
-        body[data-lang="cn"] div.lang-cn,
-        body[data-lang="cn"] p.lang-cn,
-        body[data-lang="both"] div.lang-both,
-        body[data-lang="both"] p.lang-both {
+        /* Block-level elements */
+        html body[data-lang="en"] div.lang-en,
+        html body[data-lang="en"] p.lang-en,
+        html body[data-lang="cn"] div.lang-cn,
+        html body[data-lang="cn"] p.lang-cn,
+        html body[data-lang="both"] div.lang-both,
+        html body[data-lang="both"] p.lang-both {
             display: block !important;
         }
         
         /* Bilingual layout */
+        html body[data-lang="both"] .bilingual-grid,
         body[data-lang="both"] .bilingual-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
         
+        html body[data-lang="both"] .bilingual-grid > div,
         body[data-lang="both"] .bilingual-grid > div {
             border-right: 1px solid #e5e7eb;
             padding-right: 1rem;
         }
         
+        html body[data-lang="both"] .bilingual-grid > div:last-child,
         body[data-lang="both"] .bilingual-grid > div:last-child {
             border-right: none;
             padding-right: 0;
@@ -210,6 +286,7 @@
         }
         
         @media (max-width: 768px) {
+            html body[data-lang="both"] .bilingual-grid,
             body[data-lang="both"] .bilingual-grid {
                 grid-template-columns: 1fr;
             }
@@ -865,7 +942,7 @@
     </main>
 
     <script>
-        // ========== FIXED Language Management ==========
+        // ========== FIXED Language Management for GitHub Pages ==========
         function setLanguage(lang) {
             // Validate input
             if (!['en', 'cn', 'both'].includes(lang)) {
@@ -888,7 +965,11 @@
                 }
             });
             
-            // Debug: log current state
+            // Force reflow to ensure CSS rules are applied
+            document.body.style.display = 'none';
+            void document.body.offsetHeight; // Trigger reflow
+            document.body.style.display = '';
+            
             console.log('Language switched to:', lang);
             console.log('Body data-lang:', document.body.getAttribute('data-lang'));
         }
