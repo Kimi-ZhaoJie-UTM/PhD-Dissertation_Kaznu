@@ -234,7 +234,22 @@
                 transform: translateX(0) !important;
             }
         }
+        
+        /* Additional utility classes */
+        .no-underline {
+            text-decoration: none !important;
+        }
+        
+        a.chapter-card {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        a.chapter-card:hover {
+            color: inherit;
+        }
     </style>
+<base target="_blank">
 <base target="_blank">
 <base target="_blank">
 </head>
@@ -285,39 +300,39 @@
                     <h3 class="px-3 text-xs font-semibold text-academic-400 uppercase tracking-wider mb-2">Chapters / 章节</h3>
                 </li>
                 <li>
-                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter1')">
+                    <a href="chapter1.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 1: Introduction</span>
                         <span class="lang-cn">第1章：引言</span>
                         <span class="lang-both">Ch. 1 / 第1章</span>
-                    </div>
+                    </a>
                 </li>
                 <li>
-                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter2')">
+                    <a href="chapter2.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 2: Financial Opportunities</span>
                         <span class="lang-cn">第2章：金融机遇</span>
                         <span class="lang-both">Ch. 2 / 第2章</span>
-                    </div>
+                    </a>
                 </li>
                 <li>
-                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter3')">
+                    <a href="chapter3.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 3: Prospects and Risks</span>
                         <span class="lang-cn">第3章：前景与风险</span>
                         <span class="lang-both">Ch. 3 / 第3章</span>
-                    </div>
+                    </a>
                 </li>
                 <li>
-                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter4')">
+                    <a href="chapter4.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 4: EU Strategy & Cases</span>
                         <span class="lang-cn">第4章：欧盟战略与案例</span>
                         <span class="lang-both">Ch. 4 / 第4章</span>
-                    </div>
+                    </a>
                 </li>
                 <li>
-                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter5')">
+                    <a href="chapter5.html" class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary">
                         <span class="lang-en">Ch. 5: Conclusion</span>
                         <span class="lang-cn">第5章：结论</span>
                         <span class="lang-both">Ch. 5 / 第5章</span>
-                    </div>
+                    </a>
                 </li>
                 <li class="pt-4 border-t border-academic-200">
                     <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('appendices')">
@@ -582,7 +597,7 @@
                 </h2>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <div onclick="navigateTo('chapter1')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
+                    <a href="chapter1.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 block no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">01</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -599,9 +614,9 @@
                             <span class="lang-cn">战略目标、金融机制</span>
                             <span class="lang-both">Strategic objectives / 战略目标</span>
                         </p>
-                    </div>
+                    </a>
 
-                    <div onclick="navigateTo('chapter2')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
+                    <a href="chapter2.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 block no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">02</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -618,9 +633,9 @@
                             <span class="lang-cn">投资流动、监管壁垒</span>
                             <span class="lang-both">Investment flows / 投资流动</span>
                         </p>
-                    </div>
+                    </a>
 
-                    <div onclick="navigateTo('chapter3')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
+                    <a href="chapter3.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 block no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">03</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -637,9 +652,9 @@
                             <span class="lang-cn">八维比较分析</span>
                             <span class="lang-both">8-Dimensional / 八维分析</span>
                         </p>
-                    </div>
+                    </a>
 
-                    <div onclick="navigateTo('chapter4')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
+                    <a href="chapter4.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 block no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">04</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -656,9 +671,9 @@
                             <span class="lang-cn">比雷埃夫斯与匈塞铁路</span>
                             <span class="lang-both">Piraeus & Budapest / 比雷埃夫斯与匈塞铁路</span>
                         </p>
-                    </div>
+                    </a>
 
-                    <div onclick="navigateTo('chapter5')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
+                    <a href="chapter5.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 block no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">05</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -675,9 +690,9 @@
                             <span class="lang-cn">主要发现、政策建议</span>
                             <span class="lang-both">Findings / 发现与建议</span>
                         </p>
-                    </div>
+                    </a>
 
-                    <div onclick="navigateTo('appendices')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
+                    <a href="appendices.html" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 block no-underline">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">A-E</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -694,7 +709,7 @@
                             <span class="lang-cn">扩展矩阵、案例材料</span>
                             <span class="lang-both">Data & Materials / 数据与材料</span>
                         </p>
-                    </div>
+                    </a>
                 </div>
             </div>
         </div>
@@ -703,12 +718,12 @@
         <div id="chapter1" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
+                    <a href="main.html#chapters" class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                         <span>Back to Contents / 返回目录</span>
-                    </button>
+                    </a>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 1: Introduction and Theoretical Foundations</span>
                         <span class="lang-cn">第1章：引言与理论基础</span>
@@ -729,12 +744,12 @@
         <div id="chapter2" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
+                    <a href="main.html#chapters" class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                         <span>Back to Contents / 返回目录</span>
-                    </button>
+                    </a>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 2: Financial Opportunities and Challenges</span>
                         <span class="lang-cn">第2章：金融机遇与挑战</span>
@@ -751,12 +766,12 @@
         <div id="chapter3" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
+                    <a href="main.html#chapters" class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                         <span>Back to Contents / 返回目录</span>
-                    </button>
+                    </a>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 3: Prospects and Risks Analysis</span>
                         <span class="lang-cn">第3章：前景与风险分析</span>
@@ -773,12 +788,12 @@
         <div id="chapter4" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
+                    <a href="main.html#chapters" class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                         <span>Back to Contents / 返回目录</span>
-                    </button>
+                    </a>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 4: EU Strategy and Case Studies</span>
                         <span class="lang-cn">第4章：欧盟战略与案例研究</span>
@@ -795,12 +810,12 @@
         <div id="chapter5" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
+                    <a href="main.html#chapters" class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                         <span>Back to Contents / 返回目录</span>
-                    </button>
+                    </a>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 5: Conclusion and Implications</span>
                         <span class="lang-cn">第5章：结论与启示</span>
@@ -817,12 +832,12 @@
         <div id="appendices" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
+                    <a href="main.html#chapters" class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                         <span>Back to Contents / 返回目录</span>
-                    </button>
+                    </a>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Appendices</span>
                         <span class="lang-cn">附录</span>
@@ -839,12 +854,12 @@
         <div id="references" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
+                    <a href="main.html#chapters" class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
                         <span>Back to Contents / 返回目录</span>
-                    </button>
+                    </a>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">References</span>
                         <span class="lang-cn">参考文献</span>
