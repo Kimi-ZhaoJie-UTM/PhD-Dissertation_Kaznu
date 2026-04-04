@@ -28,36 +28,85 @@
         }
     </script>
     <style>
-        .lang-en, .lang-cn, .lang-both { display: none; }
-        body[data-lang="cn"] .lang-cn { display: block; }
-        body[data-lang="en"] .lang-en { display: block; }
-        body[data-lang="both"] .lang-both { 
-            display: grid; 
-            grid-template-columns: 1fr 1fr; 
+                .lang-en, .lang-cn, .lang-both { display: none; }
+
+        /* 单语模式 */
+        body[data-lang="en"] .lang-en,
+        body[data-lang="cn"] .lang-cn { 
+            display: block; 
+        }
+
+        /* 单语模式下，表格单元格显示完整内容（不拆分） */
+        body[data-lang="en"] td,
+        body[data-lang="cn"] td {
+            display: table-cell;
+        }
+
+        /* 单语模式下，隐藏独立语言元素中的另一侧 */
+        body[data-lang="en"] .lang-cn,
+        body[data-lang="cn"] .lang-en {
+            display: none !important;
+        }
+
+        /* 但表格单元格内的内容保持显示 */
+        body[data-lang="en"] td .lang-cn,
+        body[data-lang="cn"] td .lang-en {
+            display: inline !important;
+        }
+
+        /* 双语模式 */
+        body[data-lang="both"] .lang-en,
+        body[data-lang="both"] .lang-cn { 
+            display: block; 
+        }
+
+        body[data-lang="both"] .lang-both {
+            display: grid !important;
+            grid-template-columns: 1fr 1fr;
             gap: 2rem;
             align-items: start;
         }
-        body[data-lang="both"] .lang-both > div {
+
+        body[data-lang="both"] .lang-both > .lang-en,
+        body[data-lang="both"] .lang-both > .lang-cn {
             border-right: 1px solid #e5e7eb;
             padding-right: 1rem;
         }
-        body[data-lang="both"] .lang-both > div:last-child {
+
+        body[data-lang="both"] .lang-both > .lang-cn:last-child {
             border-right: none;
             padding-right: 0;
             padding-left: 1rem;
         }
-        /* 双语模式下普通段落处理 */
-        body[data-lang="both"] .bilingual-text {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 2rem;
-            margin: 1.5rem 0;
+
+        /* 表格单元格在双语模式下的显示 */
+        body[data-lang="both"] td .lang-en,
+        body[data-lang="both"] td .lang-cn {
+            display: block;
         }
-        body[data-lang="both"] .bilingual-text > p:first-child {
-            border-right: 1px solid #e5e7eb;
-            padding-right: 1rem;
+
+        body[data-lang="both"] td .lang-cn {
+            color: #6c757d;
+            font-size: 0.9em;
+            margin-top: 0.25rem;
         }
-        
+
+        /* 表头样式 */
+        body[data-lang="both"] th .lang-en,
+        body[data-lang="both"] th .lang-cn {
+            display: block;
+        }
+
+        body[data-lang="both"] th .lang-cn {
+            color: #e9ecef;
+            font-size: 0.85em;
+            font-weight: normal;
+        }
+
+        body[data-lang="en"] th .lang-cn,
+        body[data-lang="cn"] th .lang-en {
+            display: none;
+        }
         .chapter-nav {
             position: fixed; left: 0; top: 0; height: 100vh; width: 300px;
             background: white; border-right: 1px solid #e9ecef;
@@ -143,6 +192,7 @@
         .lang-btn:hover { background: #e9ecef; }
         .lang-btn.active { background: #1a365d; color: white; }
     </style>
+<base target="_blank">
 </head>
 <body data-lang="both" class="bg-academic-50 text-academic-800 font-sans antialiased">
 
@@ -165,21 +215,21 @@
             <p class="text-sm text-academic-500">前景与风险分析</p>
         </div>
         <div class="space-y-1">
-            <a href="#3.0" class="toc-item" onclick="scrollTo('3.0')">本章概述</a>
-            <a href="#3.1" class="toc-item" onclick="scrollTo('3.1')">3.1 BRI与全球门户金融规则比较</a>
-            <a href="#3.1.1" class="toc-item sub" onclick="scrollTo('3.1.1')">3.1.1 融资机制：国家主导vs市场导向</a>
-            <a href="#3.1.2" class="toc-item sub" onclick="scrollTo('3.1.2')">3.1.2 环境与社会标准</a>
-            <a href="#3.1.3" class="toc-item sub" onclick="scrollTo('3.1.3')">3.1.3 采购规则</a>
-            <a href="#3.1.4" class="toc-item sub" onclick="scrollTo('3.1.4')">3.1.4 债务可持续性框架</a>
-            <a href="#3.1.5" class="toc-item sub" onclick="scrollTo('3.1.5')">3.1.5 透明度与治理</a>
-            <a href="#3.1.6" class="toc-item sub" onclick="scrollTo('3.1.6')">3.1.6 实施效率：速度vs标准</a>
-            <a href="#3.1.7" class="toc-item sub" onclick="scrollTo('3.1.7')">3.1.7 规则适用性</a>
-            <a href="#3.1.8" class="toc-item sub" onclick="scrollTo('3.1.8')">3.1.8 合作模式</a>
-            <a href="#3.1.9" class="toc-item sub" onclick="scrollTo('3.1.9')">3.1.9 核心差异总结</a>
-            <a href="#3.1.11" class="toc-item sub" onclick="scrollTo('3.1.11')">3.1.11 转化机制</a>
-            <a href="#3.2" class="toc-item" onclick="scrollTo('3.2')">3.2 规则差异如何塑造机遇</a>
-            <a href="#3.3" class="toc-item" onclick="scrollTo('3.3')">3.3 规则差异如何产生风险</a>
-            <a href="#3.4" class="toc-item" onclick="scrollTo('3.4')">3.4 章节小结</a>
+            <a href="#3.0" class="toc-item" onclick="return scrollTo('3.0', event)">本章概述</a>
+            <a href="#3.1" class="toc-item" onclick="return scrollTo('3.1', event)">3.1 BRI与全球门户金融规则比较</a>
+            <a href="#3.1.1" class="toc-item sub" onclick="return scrollTo('3.1.1', event)">3.1.1 融资机制：国家主导vs市场导向</a>
+            <a href="#3.1.2" class="toc-item sub" onclick="return scrollTo('3.1.2', event)">3.1.2 环境与社会标准</a>
+            <a href="#3.1.3" class="toc-item sub" onclick="return scrollTo('3.1.3', event)">3.1.3 采购规则</a>
+            <a href="#3.1.4" class="toc-item sub" onclick="return scrollTo('3.1.4', event)">3.1.4 债务可持续性框架</a>
+            <a href="#3.1.5" class="toc-item sub" onclick="return scrollTo('3.1.5', event)">3.1.5 透明度与治理</a>
+            <a href="#3.1.6" class="toc-item sub" onclick="return scrollTo('3.1.6', event)">3.1.6 实施效率：速度vs标准</a>
+            <a href="#3.1.7" class="toc-item sub" onclick="return scrollTo('3.1.7', event)">3.1.7 规则适用性</a>
+            <a href="#3.1.8" class="toc-item sub" onclick="return scrollTo('3.1.8', event)">3.1.8 合作模式</a>
+            <a href="#3.1.9" class="toc-item sub" onclick="return scrollTo('3.1.9', event)">3.1.9 核心差异总结</a>
+            <a href="#3.1.11" class="toc-item sub" onclick="return scrollTo('3.1.11', event)">3.1.11 转化机制</a>
+            <a href="#3.2" class="toc-item" onclick="return scrollTo('3.2', event)">3.2 规则差异如何塑造机遇</a>
+            <a href="#3.3" class="toc-item" onclick="return scrollTo('3.3', event)">3.3 规则差异如何产生风险</a>
+            <a href="#3.4" class="toc-item" onclick="return scrollTo('3.4', event)">3.4 章节小结</a>
         </div>
         <div class="mt-8 pt-4 border-t">
             <a href="chapter2.html" class="block text-sm text-academic-600 hover:text-primary mb-2">← 第二章</a>
@@ -239,7 +289,7 @@
                     <table class="comparison-table">
                         <thead>
                             <tr>
-                                <th class="dimension-col">Sub-Dimension<br>子维度</th>
+                                <th class="dimension-col"><span class="lang-en">Sub-Dimension</span><span class="lang-cn">子维度</span></th>
                                 <th class="bri-col">BRI Rule Characteristics<br>BRI规则特征</th>
                                 <th class="eu-col">Global Gateway Rule Characteristics<br>全球门户规则特征</th>
                                 <th class="diff-col">Essential Difference<br>本质差异</th>
@@ -428,7 +478,7 @@
                 </div>
 
                 <div class="mt-6 p-4 bg-blue-50 rounded-lg border-l-4 border-blue-500 text-sm">
-                    <p><strong>Research Finding / 研究发现：</strong> Hoong et al. (2024) employ PMG-ARDL analysis across nine Asian countries, finding that BRI engagement produces negative long-term effects on government debt-to-GDP ratios (i.e., reducing debt levels), though short-term effects vary according to national governance capacity. This challenges the "debt trap" narrative.</p>
+                    <p><strong><span class="lang-en">Research Finding:</span><span class="lang-cn">研究发现：</span></strong> Hoong et al. (2024) employ PMG-ARDL analysis across nine Asian countries, finding that BRI engagement produces negative long-term effects on government debt-to-GDP ratios (i.e., reducing debt levels), though short-term effects vary according to national governance capacity. This challenges the "debt trap" narrative.</p>
                     <p class="mt-2 text-academic-600">Hoong等人(2024)采用PMG-ARDL方法对九个亚洲国家进行分析，发现BRI参与对政府债务/GDP比率产生负的长期影响（即降低债务水平），尽管短期效应因国家治理能力而异。这对"债务陷阱"叙事提出了挑战。</p>
                 </div>
             </div>
@@ -865,10 +915,10 @@
                     <span class="lang-en block text-base text-academic-600 mt-1">Opportunities for Chinese Enterprises: Speed Advantages and Industrial Chain Integration</span>
                 </h3>
                 <ul class="list-disc pl-6 space-y-2 text-academic-700">
-                    <li><strong>Speed Advantage:</strong> BRI financing model enables rapid project initiation and market share capture (Piraeus, China-Laos Railway examples)<br>速度优势：BRI融资模式使项目能够快速启动和获取市场份额（比雷埃夫斯港、中老铁路案例）</li>
-                    <li><strong>Industrial Chain Synergies:</strong> Combination of policy-based lending and EPC contracting creates "coordinated overseas expansion" effect<br>产业链协同：政策性贷款与EPC承包的结合创造"协调出海"效应</li>
-                    <li><strong>RMB Internationalization:</strong> Panda bonds and CIPS create conditions for reducing exchange rate risks<br>人民币国际化：熊猫债券和CIPS为降低汇率风险创造条件</li>
-                    <li><strong>Standard Export:</strong> As BRI shifts to "high-quality development," opportunities to integrate Chinese standards into international rule systems<br>标准输出：随着BRI转向"高质量发展"，将中国标准融入国际规则体系的机会</li>
+                    <li><span class="lang-en"><strong>Speed Advantage:</strong> BRI financing model enables rapid project initiation and market share capture (Piraeus, China-Laos Railway examples)</span><span class="lang-cn">速度优势：BRI融资模式使项目能够快速启动和获取市场份额（比雷埃夫斯港、中老铁路案例）</span></li>
+                    <li><span class="lang-en"><strong>Industrial Chain Synergies:</strong> Combination of policy-based lending and EPC contracting creates "coordinated overseas expansion" effect</span><span class="lang-cn">产业链协同：政策性贷款与EPC承包的结合创造"协调出海"效应</span></li>
+                    <li><span class="lang-en"><strong>RMB Internationalization:</strong> Panda bonds and CIPS create conditions for reducing exchange rate risks</span><span class="lang-cn">人民币国际化：熊猫债券和CIPS为降低汇率风险创造条件</span></li>
+                    <li><span class="lang-en"><strong>Standard Export:</strong> As BRI shifts to "high-quality development," opportunities to integrate Chinese standards into international rule systems</span><span class="lang-cn">标准输出：随着BRI转向"高质量发展"，将中国标准融入国际规则体系的机会</span></li>
                 </ul>
             </div>
 
@@ -878,10 +928,10 @@
                     <span class="lang-en block text-base text-academic-600 mt-1">Opportunities for European Enterprises: Standard Advantages and Compliant Market Access</span>
                 </h3>
                 <ul class="list-disc pl-6 space-y-2 text-academic-700">
-                    <li><strong>Standard Advantages:</strong> Global Gateway emphasis on environmental, social, and transparency standards provides unique advantages in renewable energy and green finance<br>标准优势：全球门户对环境、社会和透明度标准的强调在可再生能源和绿色金融领域提供独特优势</li>
-                    <li><strong>Blended Finance:</strong> Public funds assume early-stage risks, creating participation space for private capital (ACLB guarantees)<br>混合融资：公共资金承担早期风险，为私人资本创造参与空间（非洲本币债券担保）</li>
-                    <li><strong>Trust Premiums:</strong> "Transparency as advantage" logic enables reputational premiums for "high standards, trustworthiness"<br>信任溢价："透明作为优势"的逻辑使"高标准、可信赖"获得声誉溢价</li>
-                    <li><strong>Supply Chain Resilience:</strong> Net-Zero Industry Act non-price criteria create market space for European local suppliers<br>供应链韧性：《净零工业法》非价格标准为欧洲本地供应商创造市场空间</li>
+                    <li><span class="lang-en"><strong>Standard Advantages:</strong> Global Gateway emphasis on environmental, social, and transparency standards provides unique advantages in renewable energy and green finance</span><span class="lang-cn">标准优势：全球门户对环境、社会和透明度标准的强调在可再生能源和绿色金融领域提供独特优势</span></li>
+                    <li><span class="lang-en"><strong>Blended Finance:</strong> Public funds assume early-stage risks, creating participation space for private capital (ACLB guarantees)</span><span class="lang-cn">混合融资：公共资金承担早期风险，为私人资本创造参与空间（非洲本币债券担保）</span></li>
+                    <li><span class="lang-en"><strong>Trust Premiums:</strong> "Transparency as advantage" logic enables reputational premiums for "high standards, trustworthiness"</span><span class="lang-cn">信任溢价："透明作为优势"的逻辑使"高标准、可信赖"获得声誉溢价</span></li>
+                    <li><span class="lang-en"><strong>Supply Chain Resilience:</strong> Net-Zero Industry Act non-price criteria create market space for European local suppliers</span><span class="lang-cn">供应链韧性：《净零工业法》非价格标准为欧洲本地供应商创造市场空间</span></li>
                 </ul>
             </div>
         </section>
@@ -911,10 +961,10 @@
                         <span class="lang-en block text-sm mt-1">Compliance Risks: Cost Escalation</span>
                     </h3>
                     <ul class="text-sm space-y-2 text-academic-700">
-                        <li>• Dual compliance costs when projects involve both rule systems<br>项目涉及两套规则体系时的双重合规成本</li>
-                        <li>• Rule uncertainty from rapid EU external economic law evolution<br>欧盟对外经济法快速演变带来的规则不确定性</li>
-                        <li>• Flexible interpretation risks (FSR "foreign subsidies" definition)<br>灵活解释风险（外国补贴条例"外国补贴"定义）</li>
-                        <li>• Non-price criteria creating entry barriers for Chinese products<br>非价格标准为中国产品创造进入壁垒</li>
+                        <li><span class="lang-en">• Dual compliance costs when projects involve both rule systems</span><span class="lang-cn">项目涉及两套规则体系时的双重合规成本</span></li>
+                        <li><span class="lang-en">• Rule uncertainty from rapid EU external economic law evolution</span><span class="lang-cn">欧盟对外经济法快速演变带来的规则不确定性</span></li>
+                        <li><span class="lang-en">• Flexible interpretation risks (FSR "foreign subsidies" definition)</span><span class="lang-cn">灵活解释风险（外国补贴条例"外国补贴"定义）</span></li>
+                        <li><span class="lang-en">• Non-price criteria creating entry barriers for Chinese products</span><span class="lang-cn">非价格标准为中国产品创造进入壁垒</span></li>
                     </ul>
                 </div>
 
@@ -924,9 +974,9 @@
                         <span class="lang-en block text-sm mt-1">Reputational Risks: Project Controversies</span>
                     </h3>
                     <ul class="text-sm space-y-2 text-academic-700">
-                        <li>• Environmental and social controversies ("environmental destruction")<br>环境和社会争议（"环境破坏"）</li>
-                        <li>• Politicization of "debt trap" narratives affecting legitimacy<br>"债务陷阱"叙事的政治化影响合法性</li>
-                        <li>• Transparency questioning vs. Global Gateway "mandatory transparency"<br>透明度质疑 vs 全球门户"强制透明"</li>
+                        <li><span class="lang-en">• Environmental and social controversies ("environmental destruction")</span><span class="lang-cn">环境和社会争议（"环境破坏"）</span></li>
+                        <li><span class="lang-en">• Politicization of "debt trap" narratives affecting legitimacy</span><span class="lang-cn">"债务陷阱"叙事的政治化影响合法性</span></li>
+                        <li><span class="lang-en">• Transparency questioning vs. Global Gateway "mandatory transparency"</span><span class="lang-cn">透明度质疑 vs 全球门户"强制透明"</span></li>
                     </ul>
                 </div>
 
@@ -936,9 +986,9 @@
                         <span class="lang-en block text-sm mt-1">Geopolitical Risks: Politicization of Rule Competition</span>
                     </h3>
                     <ul class="text-sm space-y-2 text-academic-700">
-                        <li>• "De-risking" strategies intensifying scrutiny of BRI projects<br>"去风险"战略加强对BRI项目的审查</li>
-                        <li>• Member state withdrawal risks (Italy 2023, Panama 2025)<br>成员国退出风险（意大利2023，巴拿马2025）</li>
-                        <li>• Corridor differentiation strategic risks (Northern/Central/Southern)<br>走廊分化战略风险（北线/中线/南线）</li>
+                        <li><span class="lang-en">• "De-risking" strategies intensifying scrutiny of BRI projects</span><span class="lang-cn">"去风险"战略加强对BRI项目的审查</span></li>
+                        <li><span class="lang-en">• Member state withdrawal risks (Italy 2023, Panama 2025)</span><span class="lang-cn">成员国退出风险（意大利2023，巴拿马2025）</span></li>
+                        <li><span class="lang-en">• Corridor differentiation strategic risks (Northern/Central/Southern)</span><span class="lang-cn">走廊分化战略风险（北线/中线/南线）</span></li>
                     </ul>
                     
                     <div class="mt-4 p-3 bg-purple-50 rounded text-xs">
@@ -952,9 +1002,9 @@
                         <span class="lang-en block text-sm mt-1">Debt Risks: Assessment Framework Mismatches</span>
                     </h3>
                     <ul class="text-sm space-y-2 text-academic-700">
-                        <li>• Policy mismatches from assessment standard differences (development-first vs. fiscal prudence)<br>评估标准差异导致的政策错配（发展优先 vs 财政审慎）</li>
-                        <li>• Uncoordinated debt treatment mechanisms (bilateral vs. multilateral)<br>不协调的债务处理机制（双边 vs 多边）</li>
-                        <li>• Hidden debt risks (enterprise borrowing not on sovereign balance sheets)<br>隐性债务风险（企业借贷不在主权资产负债表上）</li>
+                        <li><span class="lang-en">• Policy mismatches from assessment standard differences (development-first vs. fiscal prudence)</span><span class="lang-cn">评估标准差异导致的政策错配（发展优先 vs 财政审慎）</span></li>
+                        <li><span class="lang-en">• Uncoordinated debt treatment mechanisms (bilateral vs. multilateral)</span><span class="lang-cn">不协调的债务处理机制（双边 vs 多边）</span></li>
+                        <li><span class="lang-en">• Hidden debt risks (enterprise borrowing not on sovereign balance sheets)</span><span class="lang-cn">隐性债务风险（企业借贷不在主权资产负债表上）</span></li>
                     </ul>
                 </div>
             </div>
@@ -1033,12 +1083,19 @@
             document.getElementById('nav').classList.toggle('open');
         }
 
-        function scrollTo(id) {
+        function scrollTo(id, event) {
+            if(event) {
+                event.preventDefault();
+                event.stopPropagation();
+            }
             const el = document.getElementById(id);
             if(el) {
-                el.scrollIntoView({ behavior: 'smooth' });
-                document.getElementById('nav').classList.remove('open');
+                el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                if(window.innerWidth < 1024) {
+                    document.getElementById('nav').classList.remove('open');
+                }
             }
+            return false;
         }
 
         document.addEventListener('DOMContentLoaded', () => {
