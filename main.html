@@ -34,7 +34,6 @@
                     animation: {
                         'fade-in': 'fadeIn 0.5s ease-out',
                         'slide-up': 'slideUp 0.5s ease-out',
-                        'gentle-pulse': 'gentlePulse 3s infinite',
                     },
                     keyframes: {
                         fadeIn: {
@@ -42,12 +41,8 @@
                             '100%': { opacity: '1' },
                         },
                         slideUp: {
-                            '0%': { transform: 'translateY(10px)', opacity: '0' },
+                            '0%': { transform: 'translateY(20px)', opacity: '0' },
                             '100%': { transform: 'translateY(0)', opacity: '1' },
-                        },
-                        gentlePulse: {
-                            '0%, 100%': { opacity: '1' },
-                            '50%': { opacity: '0.7' },
                         }
                     }
                 }
@@ -55,26 +50,19 @@
         }
     </script>
     <style>
-        /* Reset: Hide all language variants by default */
+        /* Language switching */
         .lang-en, .lang-cn, .lang-both { display: none !important; }
         
-        /* English Mode: Show EN only */
-        body[data-lang="en"] .lang-en { display: inline !important; }
-        body[data-lang="en"] .lang-en.block { display: block !important; }
+        body[data-lang="en"] .lang-en { display: block !important; }
+        body[data-lang="en"] .lang-en.inline { display: inline !important; }
         
-        /* Chinese Mode: Show CN only */
-        body[data-lang="cn"] .lang-cn { display: inline !important; }
-        body[data-lang="cn"] .lang-cn.block { display: block !important; }
+        body[data-lang="cn"] .lang-cn { display: block !important; }
+        body[data-lang="cn"] .lang-cn.inline { display: inline !important; }
         
-        /* Both Mode: Show combined text only */
-        body[data-lang="both"] .lang-both { display: inline !important; }
-        body[data-lang="both"] .lang-both.block { display: block !important; }
+        body[data-lang="both"] .lang-both { display: block !important; }
+        body[data-lang="both"] .lang-both.inline { display: inline !important; }
         
-        /* Exception: Inside bilingual-grid containers in BOTH mode, show EN and CN as columns */
-        body[data-lang="both"] .bilingual-grid .lang-en { display: block !important; }
-        body[data-lang="both"] .bilingual-grid .lang-cn { display: block !important; }
-        
-        /* Bilingual Layout Mode */
+        /* Bilingual layout */
         body[data-lang="both"] .bilingual-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -92,34 +80,34 @@
             padding-left: 1rem;
         }
         
-        /* Typography refinements */
-        .dissertation-title {
-            font-feature-settings: "liga" 1, "calt" 1;
-            text-rendering: optimizeLegibility;
+        /* Abstract content styling */
+        .abstract-content p {
+            margin-bottom: 1rem;
+            line-height: 1.75;
         }
         
-        .chapter-card {
-            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-        
-        .chapter-card:hover {
-            transform: translateY(-4px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-        
-        /* Section Display - 修复：使用更简单的显示逻辑 */
-        section {
+        /* Section management */
+        .section-container {
             display: none;
-            opacity: 0;
+            min-height: 100vh;
         }
         
-        section.active {
+        .section-container.active {
             display: block;
-            opacity: 1;
             animation: slideUp 0.4s ease-out;
         }
         
-        /* Progress indicator */
+        /* Home section special handling */
+        #home.section-container {
+            display: none;
+        }
+        
+        #home.section-container.active {
+            display: flex;
+            animation: fadeIn 0.5s ease-out;
+        }
+        
+        /* Progress bar */
         .progress-bar {
             position: fixed;
             top: 0;
@@ -128,30 +116,40 @@
             background: linear-gradient(90deg, #c9a227, #1a365d);
             z-index: 50;
             transition: width 0.3s;
+            width: 0%;
         }
         
-        /* Print styles */
-        @media print {
-            .no-print { display: none !important; }
-            section { display: block !important; opacity: 1 !important; }
+        /* Typography */
+        .dissertation-title {
+            font-feature-settings: "liga" 1, "calt" 1;
+            text-rendering: optimizeLegibility;
         }
         
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
+        .chapter-card {
+            transition: all 0.3s ease;
+            cursor: pointer;
         }
-        ::-webkit-scrollbar-track {
-            background: #f1f1f1;
+        
+        .chapter-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
         }
-        ::-webkit-scrollbar-thumb {
-            background: #888;
-            border-radius: 4px;
+        
+        .prose-content {
+            line-height: 1.8;
+            color: #495057;
         }
-        ::-webkit-scrollbar-thumb:hover {
-            background: #555;
+        
+        .prose-content h3 {
+            font-family: 'Crimson Text', 'Noto Serif SC', serif;
+            color: #1a365d;
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
         }
-
-        /* Sidebar toggle button positioning */
+        
+        /* Sidebar toggle */
         .sidebar-toggle-btn {
             position: absolute;
             right: -12px;
@@ -168,166 +166,119 @@
             justify-content: center;
             box-shadow: 2px 0 8px rgba(0,0,0,0.1);
             z-index: 60;
-            transition: all 0.3s ease;
         }
         
-        .sidebar-toggle-btn:hover {
-            background: #f8f9fa;
-            width: 28px;
-            right: -16px;
-        }
-
-        /* Prevent default link outline and cursor for nav links */
         .nav-link {
             cursor: pointer;
-            -webkit-tap-highlight-color: transparent;
         }
         
-        /* Internal link styling */
-        .internal-link {
-            position: relative;
+        @media print {
+            .no-print { display: none !important; }
+            .section-container { display: block !important; }
         }
         
-        /* Content typography */
-        .prose-content {
-            line-height: 1.8;
-            color: #495057;
-        }
-        
-        .prose-content h3 {
-            font-family: 'Crimson Text', 'Noto Serif SC', serif;
-            color: #1a365d;
-            font-size: 1.5rem;
-            font-weight: 600;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-        }
-        
-        .prose-content p {
-            margin-bottom: 1.25rem;
-            text-align: justify;
-        }
-
-        /* 修复：确保内容区域没有额外的上边距 */
-        #mainContent {
-            min-height: 100vh;
-        }
-
-        /* 修复：首屏section没有额外的padding-top */
-        #home.active {
-            animation: fadeIn 0.5s ease-out;
+        @media (max-width: 768px) {
+            body[data-lang="both"] .bilingual-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
-<base target="_blank">
 <base target="_blank">
 </head>
 <body class="bg-academic-50 text-academic-800 antialiased font-sans" data-lang="en">
 
     <!-- Progress Bar -->
-    <div class="progress-bar" id="progressBar" style="width: 0%"></div>
+    <div class="progress-bar" id="progressBar"></div>
 
-    <!-- Language Switcher (Fixed Top Right) -->
+    <!-- Language Switcher -->
     <div class="fixed top-6 right-6 z-50 flex gap-2 bg-white/90 backdrop-blur-md rounded-full shadow-lg border border-academic-200 p-1 no-print">
-        <button onclick="setLanguage('en')" class="lang-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white" data-active="en">EN</button>
-        <button onclick="setLanguage('cn')" class="lang-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white" data-active="cn">CN</button>
-        <button onclick="setLanguage('both')" class="lang-btn px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 hover:bg-primary hover:text-white" data-active="both">EN/CN</button>
+        <button onclick="setLanguage('en')" class="lang-btn px-4 py-2 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white bg-primary text-white" data-active="en">EN</button>
+        <button onclick="setLanguage('cn')" class="lang-btn px-4 py-2 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-active="cn">CN</button>
+        <button onclick="setLanguage('both')" class="lang-btn px-4 py-2 rounded-full text-sm font-medium transition-all hover:bg-primary hover:text-white" data-active="both">EN/CN</button>
     </div>
 
-    <!-- Navigation (Collapsible Sidebar) -->
+    <!-- Navigation Sidebar -->
     <nav class="fixed left-0 top-0 h-full w-64 bg-white border-r border-academic-200 transform transition-transform duration-300 z-40 overflow-y-auto no-print shadow-lg" id="sideNav">
-        <!-- Sidebar Toggle Button (Desktop) -->
-        <button onclick="toggleSidebar()" class="sidebar-toggle-btn hidden md:flex" id="sidebarToggleBtn" title="Toggle Sidebar (Shortcut: [ or b)">
-            <svg id="sidebarToggleIcon" class="w-4 h-4 text-primary transition-transform duration-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <button onclick="toggleSidebar()" class="sidebar-toggle-btn hidden md:flex" title="Toggle Sidebar">
+            <svg id="sidebarToggleIcon" class="w-4 h-4 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
             </svg>
         </button>
 
         <div class="p-8">
-            <div class="mb-8 flex items-center justify-between">
-                <div>
-                    <div class="h-12 w-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center text-white font-serif text-xl font-bold mb-4">
-                        DBA
-                    </div>
-                    <h2 class="text-sm font-semibold text-academic-600 uppercase tracking-wider mb-1">Navigation</h2>
+            <div class="mb-8">
+                <div class="h-12 w-12 bg-gradient-to-br from-primary to-accent rounded-lg flex items-center justify-center text-white font-serif text-xl font-bold mb-4">
+                    DBA
                 </div>
-                <!-- Mobile Close Button -->
-                <button onclick="toggleMobileNav()" class="md:hidden text-academic-500 hover:text-primary p-2">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
-                    </svg>
-                </button>
+                <h2 class="text-sm font-semibold text-academic-600 uppercase tracking-wider">Navigation</h2>
             </div>
             
             <ul class="space-y-2 text-sm">
                 <li>
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-700 hover:text-primary font-medium border-l-2 border-transparent hover:border-secondary" onclick="showSection('home', event)">
-                        <span class="lang-en">Home</span>
-                        <span class="lang-cn">首页</span>
-                        <span class="lang-both">Home / 首页</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-700 hover:text-primary font-medium border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('home')">
+                        <span class="lang-en inline">Home</span>
+                        <span class="lang-cn inline">首页</span>
+                        <span class="lang-both inline">Home / 首页</span>
+                    </div>
                 </li>
                 <li>
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 hover:text-primary border-l-2 border-transparent hover:border-secondary" onclick="showSection('abstract', event)">
-                        <span class="lang-en">Abstract</span>
-                        <span class="lang-cn">摘要</span>
-                        <span class="lang-both">Abstract / 摘要</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 hover:text-primary border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('abstract')">
+                        <span class="lang-en inline">Abstract</span>
+                        <span class="lang-cn inline">摘要</span>
+                        <span class="lang-both inline">Abstract / 摘要</span>
+                    </div>
                 </li>
                 <li class="pt-4 border-t border-academic-200">
-                    <h3 class="px-3 text-xs font-semibold text-academic-400 uppercase tracking-wider mb-2">
-                        <span class="lang-en">Chapters</span>
-                        <span class="lang-cn">章节</span>
-                        <span class="lang-both">Chapters / 章节</span>
-                    </h3>
+                    <h3 class="px-3 text-xs font-semibold text-academic-400 uppercase tracking-wider mb-2">Chapters / 章节</h3>
                 </li>
                 <li>
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter1', event)">
-                        <span class="lang-en">Ch. 1: Introduction</span>
-                        <span class="lang-cn">第1章：引言</span>
-                        <span class="lang-both">Ch. 1 / 第1章</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter1')">
+                        <span class="lang-en inline">Ch. 1: Introduction</span>
+                        <span class="lang-cn inline">第1章：引言</span>
+                        <span class="lang-both inline">Ch. 1 / 第1章</span>
+                    </div>
                 </li>
                 <li>
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter2', event)">
-                        <span class="lang-en">Ch. 2: Financial Opportunities</span>
-                        <span class="lang-cn">第2章：金融机遇</span>
-                        <span class="lang-both">Ch. 2 / 第2章</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter2')">
+                        <span class="lang-en inline">Ch. 2: Financial Opportunities</span>
+                        <span class="lang-cn inline">第2章：金融机遇</span>
+                        <span class="lang-both inline">Ch. 2 / 第2章</span>
+                    </div>
                 </li>
                 <li>
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter3', event)">
-                        <span class="lang-en">Ch. 3: Prospects and Risks</span>
-                        <span class="lang-cn">第3章：前景与风险</span>
-                        <span class="lang-both">Ch. 3 / 第3章</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter3')">
+                        <span class="lang-en inline">Ch. 3: Prospects and Risks</span>
+                        <span class="lang-cn inline">第3章：前景与风险</span>
+                        <span class="lang-both inline">Ch. 3 / 第3章</span>
+                    </div>
                 </li>
                 <li>
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter4', event)">
-                        <span class="lang-en">Ch. 4: EU Strategy & Cases</span>
-                        <span class="lang-cn">第4章：欧盟战略与案例</span>
-                        <span class="lang-both">Ch. 4 / 第4章</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter4')">
+                        <span class="lang-en inline">Ch. 4: EU Strategy & Cases</span>
+                        <span class="lang-cn inline">第4章：欧盟战略与案例</span>
+                        <span class="lang-both inline">Ch. 4 / 第4章</span>
+                    </div>
                 </li>
                 <li>
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('chapter5', event)">
-                        <span class="lang-en">Ch. 5: Conclusion</span>
-                        <span class="lang-cn">第5章：结论</span>
-                        <span class="lang-both">Ch. 5 / 第5章</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('chapter5')">
+                        <span class="lang-en inline">Ch. 5: Conclusion</span>
+                        <span class="lang-cn inline">第5章：结论</span>
+                        <span class="lang-both inline">Ch. 5 / 第5章</span>
+                    </div>
                 </li>
                 <li class="pt-4 border-t border-academic-200">
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('appendices', event)">
-                        <span class="lang-en">Appendices</span>
-                        <span class="lang-cn">附录</span>
-                        <span class="lang-both">Appendices / 附录</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('appendices')">
+                        <span class="lang-en inline">Appendices</span>
+                        <span class="lang-cn inline">附录</span>
+                        <span class="lang-both inline">Appendices / 附录</span>
+                    </div>
                 </li>
                 <li>
-                    <a class="nav-link internal-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="showSection('references', event)">
-                        <span class="lang-en">References</span>
-                        <span class="lang-cn">参考文献</span>
-                        <span class="lang-both">References / 参考文献</span>
-                    </a>
+                    <div class="nav-link block py-2 px-3 rounded-lg hover:bg-academic-100 transition-colors text-academic-600 text-xs border-l-2 border-transparent hover:border-secondary" onclick="navigateTo('references')">
+                        <span class="lang-en inline">References</span>
+                        <span class="lang-cn inline">参考文献</span>
+                        <span class="lang-both inline">References / 参考文献</span>
+                    </div>
                 </li>
             </ul>
         </div>
@@ -340,21 +291,18 @@
         </svg>
     </button>
 
-    <!-- Main Content Area -->
-    <main class="min-h-screen relative transition-all duration-300 ease-in-out md:ml-64" id="mainContent">
-        
-        <!-- SECTION: HOME / HERO -->
-        <section id="home" class="active min-h-screen flex flex-col justify-center relative overflow-hidden py-0">
-            <!-- Background Elements -->
+    <!-- Main Content -->
+    <main class="min-h-screen transition-all duration-300 md:ml-64" id="mainContent">
+
+        <!-- SECTION: HOME -->
+        <div id="home" class="section-container active min-h-screen flex flex-col justify-center relative overflow-hidden">
             <div class="absolute inset-0 z-0">
                 <div class="absolute top-0 right-0 w-1/2 h-full bg-gradient-to-bl from-blue-50/50 to-transparent"></div>
                 <div class="absolute bottom-0 left-0 w-96 h-96 bg-gradient-to-tr from-amber-50/30 to-transparent rounded-full blur-3xl"></div>
-                <div class="absolute top-1/4 right-1/4 w-64 h-64 border border-academic-200/50 rounded-full animate-gentle-pulse"></div>
             </div>
 
             <div class="container mx-auto px-8 py-16 relative z-10 max-w-5xl">
-                <!-- Institution Header -->
-                <div class="mb-12 text-center animate-fade-in">
+                <div class="mb-12 text-center">
                     <div class="lang-en">
                         <p class="text-sm font-semibold tracking-widest text-secondary uppercase mb-2">Ministry of Education and Science of the Republic of Kazakhstan</p>
                         <p class="text-lg text-primary font-serif">Al-Farabi Kazakh National University</p>
@@ -372,9 +320,8 @@
                     </div>
                 </div>
 
-                <!-- Main Title -->
-                <div class="text-center mb-16 animate-slide-up">
-                    <h1 class="dissertation-title text-4xl md:text-6xl font-serif font-bold text-primary leading-tight mb-6">
+                <div class="text-center mb-16">
+                    <h1 class="dissertation-title text-4xl md:text-5xl font-serif font-bold text-primary leading-tight mb-6">
                         <span class="lang-en block">BRI as a factor of financial opportunities and challenges for European and Asian countries: prospects and risks</span>
                         <span class="lang-cn block mt-4 text-3xl md:text-5xl">"一带一路"作为欧亚国家金融机遇与挑战的因素：前景与风险</span>
                         <span class="lang-both block text-3xl md:text-5xl">
@@ -392,8 +339,7 @@
                     </p>
                 </div>
 
-                <!-- Author Info -->
-                <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-16 text-center animate-fade-in" style="animation-delay: 0.3s">
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-16 text-center">
                     <div class="bg-white/60 backdrop-blur-sm rounded-xl p-6 border border-academic-200 shadow-sm">
                         <p class="text-sm text-academic-500 uppercase tracking-wider mb-1">
                             <span class="lang-en">Author</span>
@@ -415,9 +361,8 @@
                     </div>
                 </div>
 
-                <!-- Start Button -->
-                <div class="text-center animate-fade-in" style="animation-delay: 0.6s">
-                    <button onclick="showSection('abstract', event)" class="group inline-flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-accent transition-all duration-300 shadow-lg hover:shadow-xl transform hover:-translate-y-1 cursor-pointer">
+                <div class="text-center">
+                    <button onclick="navigateTo('abstract')" class="group inline-flex items-center gap-3 bg-primary text-white px-8 py-4 rounded-full font-medium text-lg hover:bg-accent transition-all shadow-lg hover:shadow-xl transform hover:-translate-y-1">
                         <span class="lang-en">Enter Dissertation</span>
                         <span class="lang-cn">进入论文</span>
                         <span class="lang-both">Enter Dissertation / 进入论文</span>
@@ -425,55 +370,14 @@
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                         </svg>
                     </button>
-                    <p class="mt-4 text-sm text-academic-500">
-                        <span class="lang-en">Interactive Web Edition • Single Page Application</span>
-                        <span class="lang-cn">交互式网页版 • 单页应用</span>
-                        <span class="lang-both">Interactive Web Edition / 交互式网页版 • Single Page Application / 单页应用</span>
-                    </p>
-                </div>
-
-                <!-- Quick Stats -->
-                <div class="mt-20 grid grid-cols-2 md:grid-cols-4 gap-4 max-w-3xl mx-auto">
-                    <div class="text-center p-4 rounded-lg bg-white/40 border border-academic-200">
-                        <div class="text-2xl font-bold text-primary">5</div>
-                        <div class="text-xs text-academic-500 uppercase">
-                            <span class="lang-en">Chapters</span>
-                            <span class="lang-cn">章节</span>
-                            <span class="lang-both">Chapters / 章节</span>
-                        </div>
-                    </div>
-                    <div class="text-center p-4 rounded-lg bg-white/40 border border-academic-200">
-                        <div class="text-2xl font-bold text-primary">2</div>
-                        <div class="text-xs text-academic-500 uppercase">
-                            <span class="lang-en">Cases</span>
-                            <span class="lang-cn">案例</span>
-                            <span class="lang-both">Cases / 案例</span>
-                        </div>
-                    </div>
-                    <div class="text-center p-4 rounded-lg bg-white/40 border border-academic-200">
-                        <div class="text-2xl font-bold text-primary">8</div>
-                        <div class="text-xs text-academic-500 uppercase">
-                            <span class="lang-en">Dimensions</span>
-                            <span class="lang-cn">维度</span>
-                            <span class="lang-both">Dimensions / 维度</span>
-                        </div>
-                    </div>
-                    <div class="text-center p-4 rounded-lg bg-white/40 border border-academic-200">
-                        <div class="text-2xl font-bold text-primary">150+</div>
-                        <div class="text-xs text-academic-500 uppercase">
-                            <span class="lang-en">Countries</span>
-                            <span class="lang-cn">国家</span>
-                            <span class="lang-both">Countries / 国家</span>
-                        </div>
-                    </div>
                 </div>
             </div>
-        </section>
+        </div>
 
-        <!-- SECTION: ABSTRACT -->
-        <section id="abstract" class="py-12 bg-white">
+        <!-- SECTION: ABSTRACT - 恢复完整内容 -->
+        <div id="abstract" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-6xl">
-                <div class="mb-8 border-b border-academic-200 pb-6">
+                <div class="mb-12 border-b border-academic-200 pb-8">
                     <h2 class="text-3xl font-serif font-bold text-primary mb-4">
                         <span class="lang-en">Abstract</span>
                         <span class="lang-cn">摘要</span>
@@ -488,19 +392,23 @@
                 </div>
 
                 <!-- English Version -->
-                <div class="lang-en max-w-4xl mx-auto space-y-6">
-                    <p class="text-xl font-serif italic text-academic-600 border-l-4 border-secondary pl-6 leading-relaxed">
+                <div class="lang-en abstract-content max-w-4xl mx-auto">
+                    <p class="mb-6 text-xl font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
                         Imagine you are a finance minister in Astana or Athens. On your desk lie two proposals. One, from Beijing, promises rapid construction, no political strings attached, and financing that arrives before the feasibility study is fully printed. The other, from Brussels, comes with a thick binder of environmental safeguards, procurement protocols, and transparency requirements—conditions that will take years to satisfy, but once met, confer a seal of international legitimacy.
                     </p>
-                    <div class="prose-content">
-                        <p>This is not a hypothetical. Since 2021, the Eurasian infrastructure space has become an unlikely theater of institutional competition between China's Belt and Road Initiative (BRI) and the European Union's Global Gateway. For participating countries, this is not merely a choice between two funding sources; it is a navigation between two distinct institutional logics, each carrying its own promises and perils.</p>
-                        <p>This dissertation asks a deceptively simple question: how do these rule divergences translate into financial reality on the ground? Moving beyond the tired "China-versus-EU" geopolitics, I conceptualize the BRI–Global Gateway nexus as a case of regime coopetition—a space where competition and complementarity coexist. Drawing on institutional complexity theory, I construct a novel typology of regulatory interaction, distinguishing between three ideal-typical outcomes: adaptive coordination, where rules harmonize; structural confrontation, where they collide; and institutional arbitrage, where actors strategically navigate the interstices.</p>
-                        <p>The analysis unfolds in two moves. First, I systematically dissect both regimes across six institutional dimensions—financing mechanisms, environmental standards, procurement rules, debt sustainability, transparency, and implementation efficiency—revealing not just surface differences but deep-seated contradictions in developmental philosophy. Second, I put this framework to the test through theory-guided process tracing of two polar cases: the Port of Piraeus (a textbook example of adaptive coordination) and the Budapest–Belgrade railway (a cautionary tale of structural gridlock).</p>
-                    </div>
+                    <p class="mb-4 text-academic-700">
+                        This is not a hypothetical. Since 2021, the Eurasian infrastructure space has become an unlikely theater of institutional competition between China's Belt and Road Initiative (BRI) and the European Union's Global Gateway. For participating countries, this is not merely a choice between two funding sources; it is a navigation between two distinct institutional logics, each carrying its own promises and perils.
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        This dissertation asks a deceptively simple question: how do these rule divergences translate into financial reality on the ground? Moving beyond the tired "China-versus-EU" geopolitics, I conceptualize the BRI–Global Gateway nexus as a case of regime coopetition—a space where competition and complementarity coexist. Drawing on institutional complexity theory, I construct a novel typology of regulatory interaction, distinguishing between three ideal-typical outcomes: adaptive coordination, where rules harmonize; structural confrontation, where they collide; and institutional arbitrage, where actors strategically navigate the interstices.
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        The analysis unfolds in two moves. First, I systematically dissect both regimes across six institutional dimensions—financing mechanisms, environmental standards, procurement rules, debt sustainability, transparency, and implementation efficiency—revealing not just surface differences but deep-seated contradictions in developmental philosophy. Second, I put this framework to the test through theory-guided process tracing of two polar cases: the Port of Piraeus (a textbook example of adaptive coordination) and the Budapest–Belgrade railway (a cautionary tale of structural gridlock).
+                    </p>
                     
-                    <div class="mt-8 pt-6 border-t border-academic-200">
+                    <div class="mt-8 pt-8 border-t border-academic-200">
                         <h3 class="text-xl font-bold text-primary mb-4">Three Key Findings</h3>
-                        <ol class="list-decimal pl-6 space-y-3 text-academic-700 prose-content">
+                        <ol class="list-decimal pl-6 space-y-3 text-academic-700">
                             <li><strong>Institutional Arbitrage:</strong> Institutional overlap creates genuine arbitrage opportunities, enabling savvy host states to optimize financing by cherry-picking advantageous rules.</li>
                             <li><strong>Adaptive Compliance:</strong> The morphology of rule interaction is not fate but choice: Piraeus's success hinged on investors' proactive adaptive compliance.</li>
                             <li><strong>Regulatory Bricolage:</strong> Through pragmatic recombination of rules, Pareto improvements reconciling efficiency and compliance are achievable.</li>
@@ -516,19 +424,23 @@
                 </div>
 
                 <!-- Chinese Version -->
-                <div class="lang-cn max-w-4xl mx-auto space-y-6">
-                    <p class="text-xl font-serif italic text-academic-600 border-l-4 border-secondary pl-6 leading-relaxed">
+                <div class="lang-cn abstract-content max-w-4xl mx-auto">
+                    <p class="mb-6 text-xl font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
                         想象一下，您是阿斯塔纳或雅典的财政部长。桌上摆着两份提案。一份来自北京，承诺快速建设、不附加政治条件，且在可行性研究报告尚未完全打印完毕之前资金就已到位。另一份来自布鲁塞尔，附带厚厚一叠环境保障措施、采购协议和透明度要求——这些条件需要数年才能满足，但一旦满足，就会赋予国际合法性的印章。
                     </p>
-                    <div class="prose-content">
-                        <p>这并非虚构。自2021年以来，欧亚基础设施领域已成为中国"一带一路"倡议(BRI)与欧盟"全球门户"(Global Gateway)之间制度竞争的意想不到的剧场。对于参与国而言，这不仅仅是两个资金来源之间的选择；而是在两种截然不同的制度逻辑之间航行，每种逻辑都带有其自身的承诺与风险。</p>
-                        <p>本论文提出了一个看似简单的问题：这些规则差异如何转化为现实的金融结果？超越陈旧的"中国对阵欧盟"地缘政治叙事，我将BRI-全球门户关系概念化为制度竞合(regime coopetition)的案例——一个竞争与互补共存的空间。借鉴制度复杂性理论，我构建了一种新的监管互动类型学，区分了三种理想类型结果：适应性协调(adaptive coordination)，即规则协调一致；结构性对抗(structural confrontation)，即规则相互碰撞；以及制度套利(institutional arbitrage)，即行为者策略性地在间隙中航行。</p>
-                        <p>分析分两步展开。首先，我系统地剖析了两个制度体系的六个制度维度——融资机制、环境标准、采购规则、债务可持续性、透明度和实施效率——揭示的不仅是表面差异，更是发展哲学上的深层次矛盾。其次，我通过理论引导的过程追踪，对两个极端案例进行了检验：比雷埃夫斯港(适应性协调的教科书式范例)和布达佩斯-贝尔格莱德铁路(结构性僵局的警示故事)。</p>
-                    </div>
+                    <p class="mb-4 text-academic-700">
+                        这并非虚构。自2021年以来，欧亚基础设施领域已成为中国"一带一路"倡议(BRI)与欧盟"全球门户"(Global Gateway)之间制度竞争的意想不到的剧场。对于参与国而言，这不仅仅是两个资金来源之间的选择；而是在两种截然不同的制度逻辑之间航行，每种逻辑都带有其自身的承诺与风险。
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        本论文提出了一个看似简单的问题：这些规则差异如何转化为现实的金融结果？超越陈旧的"中国对阵欧盟"地缘政治叙事，我将BRI-全球门户关系概念化为制度竞合(regime coopetition)的案例——一个竞争与互补共存的空间。借鉴制度复杂性理论，我构建了一种新的监管互动类型学，区分了三种理想类型结果：适应性协调(adaptive coordination)，即规则协调一致；结构性对抗(structural confrontation)，即规则相互碰撞；以及制度套利(institutional arbitrage)，即行为者策略性地在间隙中航行。
+                    </p>
+                    <p class="mb-4 text-academic-700">
+                        分析分两步展开。首先，我系统地剖析了两个制度体系的六个制度维度——融资机制、环境标准、采购规则、债务可持续性、透明度和实施效率——揭示的不仅是表面差异，更是发展哲学上的深层次矛盾。其次，我通过理论引导的过程追踪，对两个极端案例进行了检验：比雷埃夫斯港(适应性协调的教科书式范例)和布达佩斯-贝尔格莱德铁路(结构性僵局的警示故事)。
+                    </p>
                     
-                    <div class="mt-8 pt-6 border-t border-academic-200">
+                    <div class="mt-8 pt-8 border-t border-academic-200">
                         <h3 class="text-xl font-bold text-primary mb-4">三项主要发现</h3>
-                        <ol class="list-decimal pl-6 space-y-3 text-academic-700 prose-content">
+                        <ol class="list-decimal pl-6 space-y-3 text-academic-700">
                             <li><strong>制度套利：</strong>制度重叠创造了真正的套利机会，使精明的主机国能够通过挑选有利规则来优化融资。</li>
                             <li><strong>适应性合规：</strong>规则互动的形态并非宿命而是选择：比雷埃夫斯的成功取决于投资者的主动适应性强合规。</li>
                             <li><strong>监管拼凑：</strong>通过规则的实用主义重组，可以实现协调效率与合规性的帕累托改进。</li>
@@ -543,41 +455,55 @@
                     </div>
                 </div>
 
-                <!-- Bilingual Version -->
-                <div class="lang-both">
+                <!-- Bilingual Version (Side by Side) -->
+                <div class="lang-both abstract-content">
                     <div class="bilingual-grid">
-                        <div class="space-y-4">
-                            <p class="text-lg font-serif italic text-academic-600 border-l-4 border-secondary pl-6 leading-relaxed">
-                                Imagine you are a finance minister in Astana or Athens. On your desk lie two proposals. One, from Beijing, promises rapid construction, no political strings attached, and financing that arrives before the feasibility study is fully printed.
+                        <!-- Left Column: English -->
+                        <div>
+                            <p class="mb-6 text-lg font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
+                                Imagine you are a finance minister in Astana or Athens. On your desk lie two proposals. One, from Beijing, promises rapid construction, no political strings attached, and financing that arrives before the feasibility study is fully printed. The other, from Brussels, comes with a thick binder of environmental safeguards, procurement protocols, and transparency requirements—conditions that will take years to satisfy, but once met, confer a seal of international legitimacy.
                             </p>
-                            <div class="prose-content text-sm">
-                                <p>This is not a hypothetical. Since 2021, the Eurasian infrastructure space has become an unlikely theater of institutional competition between China's Belt and Road Initiative (BRI) and the European Union's Global Gateway.</p>
-                                <p>This dissertation asks a deceptively simple question: how do these rule divergences translate into financial reality on the ground? Drawing on institutional complexity theory, I construct a novel typology of regulatory interaction.</p>
-                            </div>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                This is not a hypothetical. Since 2021, the Eurasian infrastructure space has become an unlikely theater of institutional competition between China's Belt and Road Initiative (BRI) and the European Union's Global Gateway. For participating countries, this is not merely a choice between two funding sources; it is a navigation between two distinct institutional logics, each carrying its own promises and perils.
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                This dissertation asks a deceptively simple question: how do these rule divergences translate into financial reality on the ground? Moving beyond the tired "China-versus-EU" geopolitics, I conceptualize the BRI–Global Gateway nexus as a case of regime coopetition—a space where competition and complementarity coexist. Drawing on institutional complexity theory, I construct a novel typology of regulatory interaction, distinguishing between three ideal-typical outcomes: adaptive coordination, where rules harmonize; structural confrontation, where they collide; and institutional arbitrage, where actors strategically navigate the interstices.
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                The analysis unfolds in two moves. First, I systematically dissect both regimes across six institutional dimensions—financing mechanisms, environmental standards, procurement rules, debt sustainability, transparency, and implementation efficiency—revealing not just surface differences but deep-seated contradictions in developmental philosophy. Second, I put this framework to the test through theory-guided process tracing of two polar cases: the Port of Piraeus (a textbook example of adaptive coordination) and the Budapest–Belgrade railway (a cautionary tale of structural gridlock).
+                            </p>
+                            
                             <div class="mt-6 pt-6 border-t border-academic-200">
                                 <h3 class="text-lg font-bold text-primary mb-3">Three Key Findings</h3>
                                 <ol class="list-decimal pl-5 space-y-2 text-sm text-academic-700">
-                                    <li><strong>Institutional Arbitrage:</strong> Creates genuine arbitrage opportunities.</li>
-                                    <li><strong>Adaptive Compliance:</strong> Success hinges on proactive compliance.</li>
-                                    <li><strong>Regulatory Bricolage:</strong> Pareto improvements are achievable.</li>
+                                    <li><strong>Institutional Arbitrage:</strong> Institutional overlap creates genuine arbitrage opportunities, enabling savvy host states to optimize financing by cherry-picking advantageous rules.</li>
+                                    <li><strong>Adaptive Compliance:</strong> The morphology of rule interaction is not fate but choice: Piraeus's success hinged on investors' proactive adaptive compliance.</li>
+                                    <li><strong>Regulatory Bricolage:</strong> Through pragmatic recombination of rules, Pareto improvements reconciling efficiency and compliance are achievable.</li>
                                 </ol>
                             </div>
                         </div>
 
-                        <div class="space-y-4">
-                            <p class="text-lg font-serif italic text-academic-600 border-l-4 border-secondary pl-6 leading-relaxed">
-                                想象一下，您是阿斯塔纳或雅典的财政部长。桌上摆着两份提案。一份来自北京，承诺快速建设、不附加政治条件，且在可行性研究报告尚未完全打印完毕之前资金就已到位。
+                        <!-- Right Column: Chinese -->
+                        <div>
+                            <p class="mb-6 text-lg font-serif italic text-academic-600 border-l-4 border-secondary pl-6">
+                                想象一下，您是阿斯塔纳或雅典的财政部长。桌上摆着两份提案。一份来自北京，承诺快速建设、不附加政治条件，且在可行性研究报告尚未完全打印完毕之前资金就已到位。另一份来自布鲁塞尔，附带厚厚一叠环境保障措施、采购协议和透明度要求——这些条件需要数年才能满足，但一旦满足，就会赋予国际合法性的印章。
                             </p>
-                            <div class="prose-content text-sm">
-                                <p>这并非虚构。自2021年以来，欧亚基础设施领域已成为中国"一带一路"倡议(BRI)与欧盟"全球门户"(Global Gateway)之间制度竞争的意想不到的剧场。</p>
-                                <p>本论文提出了一个看似简单的问题：这些规则差异如何转化为现实的金融结果？借鉴制度复杂性理论，我构建了一种新的监管互动类型学。</p>
-                            </div>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                这并非虚构。自2021年以来，欧亚基础设施领域已成为中国"一带一路"倡议(BRI)与欧盟"全球门户"(Global Gateway)之间制度竞争的意想不到的剧场。对于参与国而言，这不仅仅是两个资金来源之间的选择；而是在两种截然不同的制度逻辑之间航行，每种逻辑都带有其自身的承诺与风险。
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                本论文提出了一个看似简单的问题：这些规则差异如何转化为现实的金融结果？超越陈旧的"中国对阵欧盟"地缘政治叙事，我将BRI-全球门户关系概念化为制度竞合(regime coopetition)的案例——一个竞争与互补共存的空间。借鉴制度复杂性理论，我构建了一种新的监管互动类型学，区分了三种理想类型结果：适应性协调(adaptive coordination)，即规则协调一致；结构性对抗(structural confrontation)，即规则相互碰撞；以及制度套利(institutional arbitrage)，即行为者策略性地在间隙中航行。
+                            </p>
+                            <p class="mb-4 text-academic-700 text-sm leading-relaxed">
+                                分析分两步展开。首先，我系统地剖析了两个制度体系的六个制度维度——融资机制、环境标准、采购规则、债务可持续性、透明度和实施效率——揭示的不仅是表面差异，更是发展哲学上的深层次矛盾。其次，我通过理论引导的过程追踪，对两个极端案例进行了检验：比雷埃夫斯港(适应性协调的教科书式范例)和布达佩斯-贝尔格莱德铁路(结构性僵局的警示故事)。
+                            </p>
+                            
                             <div class="mt-6 pt-6 border-t border-academic-200">
                                 <h3 class="text-lg font-bold text-primary mb-3">三项主要发现</h3>
                                 <ol class="list-decimal pl-5 space-y-2 text-sm text-academic-700">
-                                    <li><strong>制度套利：</strong>创造真正的套利机会。</li>
-                                    <li><strong>适应性合规：</strong>成功取决于主动合规。</li>
-                                    <li><strong>监管拼凑：</strong>可以实现帕累托改进。</li>
+                                    <li><strong>制度套利：</strong>制度重叠创造了真正的套利机会，使精明的主机国能够通过挑选有利规则来优化融资。</li>
+                                    <li><strong>适应性合规：</strong>规则互动的形态并非宿命而是选择：比雷埃夫斯的成功取决于投资者的主动适应性强合规。</li>
+                                    <li><strong>监管拼凑：</strong>通过规则的实用主义重组，可以实现协调效率与合规性的帕累托改进。</li>
                                 </ol>
                             </div>
                         </div>
@@ -591,10 +517,10 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- SECTION: CHAPTERS (Table of Contents) -->
-        <section id="chapters" class="py-12 bg-academic-50">
+        <div id="chapters" class="section-container py-16 bg-academic-50">
             <div class="container mx-auto px-8 max-w-6xl">
                 <h2 class="text-3xl font-serif font-bold text-primary mb-12 text-center">
                     <span class="lang-en">Dissertation Structure</span>
@@ -603,8 +529,7 @@
                 </h2>
 
                 <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    <!-- Chapter 1 -->
-                    <div onclick="showSection('chapter1', event)" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer hover:no-underline">
+                    <div onclick="navigateTo('chapter1')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">01</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -617,14 +542,13 @@
                             <span class="lang-both">Introduction / 引言与理论基础</span>
                         </h3>
                         <p class="text-sm text-academic-500">
-                            <span class="lang-en">Strategic objectives, financial mechanisms, institutional complexity theory</span>
-                            <span class="lang-cn">战略目标、金融机制、制度复杂性理论</span>
-                            <span class="lang-both">Strategic objectives / 战略目标与金融机制</span>
+                            <span class="lang-en">Strategic objectives, financial mechanisms</span>
+                            <span class="lang-cn">战略目标、金融机制</span>
+                            <span class="lang-both">Strategic objectives / 战略目标</span>
                         </p>
                     </div>
 
-                    <!-- Chapter 2 -->
-                    <div onclick="showSection('chapter2', event)" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer hover:no-underline">
+                    <div onclick="navigateTo('chapter2')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">02</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -637,14 +561,13 @@
                             <span class="lang-both">Financial Opportunities / 金融机遇</span>
                         </h3>
                         <p class="text-sm text-academic-500">
-                            <span class="lang-en">Investment flows, infrastructure projects, regulatory barriers</span>
-                            <span class="lang-cn">投资流动、基础设施项目、监管壁垒</span>
-                            <span class="lang-both">Investment flows / 投资流动与监管壁垒</span>
+                            <span class="lang-en">Investment flows, regulatory barriers</span>
+                            <span class="lang-cn">投资流动、监管壁垒</span>
+                            <span class="lang-both">Investment flows / 投资流动</span>
                         </p>
                     </div>
 
-                    <!-- Chapter 3 -->
-                    <div onclick="showSection('chapter3', event)" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer hover:no-underline">
+                    <div onclick="navigateTo('chapter3')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">03</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -657,14 +580,13 @@
                             <span class="lang-both">Prospects & Risks / 前景与风险</span>
                         </h3>
                         <p class="text-sm text-academic-500">
-                            <span class="lang-en">8-dimensional comparative analysis of BRI vs Global Gateway</span>
-                            <span class="lang-cn">BRI与全球门户八维比较分析</span>
-                            <span class="lang-both">8-Dimensional / 八维比较分析</span>
+                            <span class="lang-en">8-dimensional comparative analysis</span>
+                            <span class="lang-cn">八维比较分析</span>
+                            <span class="lang-both">8-Dimensional / 八维分析</span>
                         </p>
                     </div>
 
-                    <!-- Chapter 4 -->
-                    <div onclick="showSection('chapter4', event)" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer hover:no-underline">
+                    <div onclick="navigateTo('chapter4')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">04</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -677,14 +599,13 @@
                             <span class="lang-both">EU Strategy / 欧盟战略与案例</span>
                         </h3>
                         <p class="text-sm text-academic-500">
-                            <span class="lang-en">Port of Piraeus & Budapest-Belgrade Railway</span>
-                            <span class="lang-cn">比雷埃夫斯港与匈塞铁路</span>
+                            <span class="lang-en">Piraeus & Budapest-Belgrade Railway</span>
+                            <span class="lang-cn">比雷埃夫斯与匈塞铁路</span>
                             <span class="lang-both">Piraeus & Budapest / 比雷埃夫斯与匈塞铁路</span>
                         </p>
                     </div>
 
-                    <!-- Chapter 5 -->
-                    <div onclick="showSection('chapter5', event)" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer hover:no-underline">
+                    <div onclick="navigateTo('chapter5')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">05</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -697,14 +618,13 @@
                             <span class="lang-both">Conclusion / 结论与启示</span>
                         </h3>
                         <p class="text-sm text-academic-500">
-                            <span class="lang-en">Key findings, policy recommendations, regulatory bricolage</span>
-                            <span class="lang-cn">主要发现、政策建议、监管拼凑</span>
+                            <span class="lang-en">Key findings, policy recommendations</span>
+                            <span class="lang-cn">主要发现、政策建议</span>
                             <span class="lang-both">Findings / 发现与建议</span>
                         </p>
                     </div>
 
-                    <!-- Appendices -->
-                    <div onclick="showSection('appendices', event)" class="chapter-card bg-white rounded-xl p-6 border border-academic-200 cursor-pointer hover:no-underline">
+                    <div onclick="navigateTo('appendices')" class="chapter-card bg-white rounded-xl p-6 border border-academic-200">
                         <div class="flex items-start justify-between mb-4">
                             <span class="text-4xl font-serif font-bold text-secondary/30">A-E</span>
                             <svg class="w-6 h-6 text-academic-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -714,7 +634,7 @@
                         <h3 class="font-bold text-primary text-lg mb-2">
                             <span class="lang-en">Appendices</span>
                             <span class="lang-cn">附录与参考文献</span>
-                            <span class="lang-both">Appendices / 附录与参考文献</span>
+                            <span class="lang-both">Appendices / 附录</span>
                         </h3>
                         <p class="text-sm text-academic-500">
                             <span class="lang-en">Extended matrices, case materials</span>
@@ -724,239 +644,131 @@
                     </div>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- SECTION: CHAPTER 1 -->
-        <section id="chapter1" class="py-12 bg-white">
+        <div id="chapter1" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2 cursor-pointer" onclick="showSection('chapters', event)">
+                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
-                        <span class="lang-en">Back to Contents</span>
-                        <span class="lang-cn">返回目录</span>
-                        <span class="lang-both">Back / 返回</span>
+                        <span>Back to Contents / 返回目录</span>
                     </button>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 1: Introduction and Theoretical Foundations</span>
                         <span class="lang-cn">第1章：引言与理论基础</span>
                         <span class="lang-both">Chapter 1 / 第1章：引言与理论基础</span>
                     </h2>
-                    <div class="mt-4 flex flex-wrap gap-2 text-sm text-academic-500">
-                        <span class="px-3 py-1 bg-academic-100 rounded-full">1.1 Research Background</span>
-                        <span class="px-3 py-1 bg-academic-100 rounded-full">1.2 Literature Review</span>
-                        <span class="px-3 py-1 bg-academic-100 rounded-full">1.3 Theoretical Framework</span>
-                    </div>
                 </div>
-                
                 <div class="prose-content">
-                    <div class="lang-en space-y-6">
-                        <h3>1.1 Research Background and Problem Statement</h3>
-                        <p>The Belt and Road Initiative (BRI), launched by China in 2013, has fundamentally reshaped the landscape of international infrastructure development. Spanning over 150 countries and involving investments exceeding $1 trillion, the BRI represents one of the most ambitious economic cooperation frameworks in modern history.</p>
-                        <p>Simultaneously, the European Union's Global Gateway strategy, unveiled in 2021, marks Brussels' strategic response to growing infrastructure deficits and the need for sustainable connectivity partnerships.</p>
-                        
-                        <h3>1.2 Institutional Complexity Theory</h3>
-                        <p>Drawing on institutional complexity theory, this study conceptualizes the BRI-Global Gateway nexus as a case of "regime coopetition"—a space where competitive and complementary dynamics coexist.</p>
-                    </div>
-                    
-                    <div class="lang-cn space-y-6">
-                        <h3>1.1 研究背景与问题陈述</h3>
-                        <p>中国于2013年提出的"一带一路"倡议(BRI)从根本上重塑了国际基础设施发展的格局。该倡议覆盖150多个国家，投资规模超过1万亿美元，是现代历史上最雄心勃勃的经济合作框架之一。</p>
-                        <p>与此同时，欧盟于2021年推出的"全球门户"(Global Gateway)战略，标志着布鲁塞尔对基础设施赤字日益严重和可持续互联互通伙伴关系需求的战略回应。</p>
-                        
-                        <h3>1.2 制度复杂性理论</h3>
-                        <p>借鉴制度复杂性理论，本研究将BRI-全球门户关系概念化为"制度竞合"(regime coopetition)的案例——一个竞争与互补动态共存的空间。</p>
-                    </div>
-                    
-                    <div class="lang-both bilingual-grid">
-                        <div class="space-y-4">
-                            <h3>1.1 Research Background</h3>
-                            <p class="text-sm leading-relaxed">The Belt and Road Initiative (BRI), launched by China in 2013, has fundamentally reshaped the landscape of international infrastructure development. Spanning over 150 countries and involving investments exceeding $1 trillion.</p>
-                            
-                            <h3>1.2 Institutional Complexity Theory</h3>
-                            <p class="text-sm leading-relaxed">Drawing on institutional complexity theory, this study conceptualizes the BRI-Global Gateway nexus as a case of "regime coopetition".</p>
-                        </div>
-                        <div class="space-y-4">
-                            <h3>1.1 研究背景</h3>
-                            <p class="text-sm leading-relaxed">中国于2013年提出的"一带一路"倡议(BRI)从根本上重塑了国际基础设施发展的格局。该倡议覆盖150多个国家，投资规模超过1万亿美元。</p>
-                            
-                            <h3>1.2 制度复杂性理论</h3>
-                            <p class="text-sm leading-relaxed">借鉴制度复杂性理论，本研究将BRI-全球门户关系概念化为"制度竞合"(regime coopetition)的案例。</p>
-                        </div>
-                    </div>
+                    <p class="text-academic-700 mb-4">
+                        <span class="lang-en">Chapter 1 establishes the theoretical scaffolding...</span>
+                        <span class="lang-cn">第1章为后续实证分析奠定理论基础...</span>
+                        <span class="lang-both">Chapter 1 content placeholder / 第1章内容占位</span>
+                    </p>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- SECTION: CHAPTER 2 -->
-        <section id="chapter2" class="py-12 bg-white">
+        <div id="chapter2" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2 cursor-pointer" onclick="showSection('chapters', event)">
+                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
-                        <span class="lang-en">Back to Contents</span>
-                        <span class="lang-cn">返回目录</span>
-                        <span class="lang-both">Back / 返回</span>
+                        <span>Back to Contents / 返回目录</span>
                     </button>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 2: Financial Opportunities and Challenges</span>
                         <span class="lang-cn">第2章：金融机遇与挑战</span>
-                        <span class="lang-both">Chapter 2 / 第2章：金融机遇与挑战</span>
+                        <span class="lang-both">Chapter 2 / 第2章</span>
                     </h2>
                 </div>
-                
-                <div class="prose-content">
-                    <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center">
-                        <p class="text-academic-500 text-lg">Chapter 2 Content Placeholder / 第2章内容占位</p>
-                        <p class="text-academic-400 text-sm mt-2">Investment flows, infrastructure projects, regulatory barriers analysis.</p>
-                    </div>
+                <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center">
+                    <p class="text-academic-500">Chapter 2 Content Placeholder / 第2章内容占位</p>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- SECTION: CHAPTER 3 -->
-        <section id="chapter3" class="py-12 bg-white">
+        <div id="chapter3" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2 cursor-pointer" onclick="showSection('chapters', event)">
+                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
-                        <span class="lang-en">Back to Contents</span>
-                        <span class="lang-cn">返回目录</span>
-                        <span class="lang-both">Back / 返回</span>
+                        <span>Back to Contents / 返回目录</span>
                     </button>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 3: Prospects and Risks Analysis</span>
                         <span class="lang-cn">第3章：前景与风险分析</span>
-                        <span class="lang-both">Chapter 3 / 第3章：前景与风险分析</span>
+                        <span class="lang-both">Chapter 3 / 第3章</span>
                     </h2>
                 </div>
-                
-                <div class="prose-content">
-                    <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center">
-                        <p class="text-academic-500 text-lg">Chapter 3 Content Placeholder / 第3章内容占位</p>
-                        <p class="text-academic-400 text-sm mt-2">8-dimensional comparative analysis and risk assessment.</p>
-                    </div>
+                <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center">
+                    <p class="text-academic-500">Chapter 3 Content Placeholder / 第3章内容占位</p>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- SECTION: CHAPTER 4 -->
-        <section id="chapter4" class="py-12 bg-white">
+        <div id="chapter4" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2 cursor-pointer" onclick="showSection('chapters', event)">
+                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
-                        <span class="lang-en">Back to Contents</span>
-                        <span class="lang-cn">返回目录</span>
-                        <span class="lang-both">Back / 返回</span>
+                        <span>Back to Contents / 返回目录</span>
                     </button>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 4: EU Strategy and Case Studies</span>
                         <span class="lang-cn">第4章：欧盟战略与案例研究</span>
-                        <span class="lang-both">Chapter 4 / 第4章：欧盟战略与案例研究</span>
+                        <span class="lang-both">Chapter 4 / 第4章</span>
                     </h2>
                 </div>
-                
-                <div class="prose-content space-y-6">
-                    <div class="lang-en space-y-6">
-                        <h3>4.1 The Port of Piraeus: Adaptive Coordination</h3>
-                        <p>The Port of Piraeus represents a textbook example of adaptive coordination between Chinese investment and EU regulatory frameworks. Since COSCO's initial investment in 2009, the port has successfully navigated between Chinese efficiency-oriented practices and EU compliance requirements.</p>
-                        
-                        <h3>4.2 The Budapest-Belgrade Railway: Structural Confrontation</h3>
-                        <p>In contrast, the Budapest-Belgrade railway project illustrates the challenges of structural confrontation. Delays stemming from EU procurement rules incompatibility with Chinese construction timelines have created a cautionary tale of institutional gridlock.</p>
-                    </div>
-                    
-                    <div class="lang-cn space-y-6">
-                        <h3>4.1 比雷埃夫斯港：适应性协调</h3>
-                        <p>比雷埃夫斯港是中国投资与欧盟监管框架之间适应性协调的教科书式范例。自2009年中远集团最初投资以来，该港成功在中国效率导向的实践与欧盟合规要求之间找到了平衡点。</p>
-                        
-                        <h3>4.2 布达佩斯-贝尔格莱德铁路：结构性对抗</h3>
-                        <p>相比之下，布达佩斯-贝尔格莱德铁路项目展示了结构性对抗的挑战。源于欧盟采购规则与中国建设时间表不兼容的延误，创造了制度僵局的警示故事。</p>
-                    </div>
-                    
-                    <div class="lang-both bilingual-grid">
-                        <div class="space-y-4">
-                            <h3>4.1 The Port of Piraeus</h3>
-                            <p class="text-sm leading-relaxed">The Port of Piraeus represents a textbook example of adaptive coordination between Chinese investment and EU regulatory frameworks.</p>
-                        </div>
-                        <div class="space-y-4">
-                            <h3>4.1 比雷埃夫斯港</h3>
-                            <p class="text-sm leading-relaxed">比雷埃夫斯港是中国投资与欧盟监管框架之间适应性协调的教科书式范例。</p>
-                        </div>
-                    </div>
+                <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center">
+                    <p class="text-academic-500">Chapter 4 Content Placeholder / 第4章内容占位</p>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- SECTION: CHAPTER 5 -->
-        <section id="chapter5" class="py-12 bg-white">
+        <div id="chapter5" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2 cursor-pointer" onclick="showSection('chapters', event)">
+                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
-                        <span class="lang-en">Back to Contents</span>
-                        <span class="lang-cn">返回目录</span>
-                        <span class="lang-both">Back / 返回</span>
+                        <span>Back to Contents / 返回目录</span>
                     </button>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Chapter 5: Conclusion and Implications</span>
                         <span class="lang-cn">第5章：结论与启示</span>
-                        <span class="lang-both">Chapter 5 / 第5章：结论与启示</span>
+                        <span class="lang-both">Chapter 5 / 第5章</span>
                     </h2>
                 </div>
-                
-                <div class="prose-content">
-                    <div class="lang-en space-y-6">
-                        <h3>5.1 Summary of Key Findings</h3>
-                        <p>This dissertation has demonstrated that institutional overlap between the BRI and Global Gateway creates genuine arbitrage opportunities. Savvy host states can optimize financing by strategically cherry-picking advantageous rules from both regimes.</p>
-                        
-                        <div class="bg-primary/5 p-6 rounded-lg border-l-4 border-secondary">
-                            <h4 class="font-bold text-primary mb-2">Policy Implications</h4>
-                            <ul class="list-disc pl-5 space-y-2 text-sm text-academic-700">
-                                <li>Host states should develop "institutional navigation" capabilities</li>
-                                <li>EU and China could benefit from limited rule harmonization</li>
-                                <li>Multilateral development banks can serve as neutral coordination platforms</li>
-                            </ul>
-                        </div>
-                    </div>
-                    
-                    <div class="lang-cn space-y-6">
-                        <h3>5.1 主要发现总结</h3>
-                        <p>本论文证明了BRI与全球门户之间的制度重叠创造了真正的套利机会。精明的主机国可以通过策略性地从两种制度中挑选有利规则来优化融资。</p>
-                        
-                        <div class="bg-primary/5 p-6 rounded-lg border-l-4 border-secondary">
-                            <h4 class="font-bold text-primary mb-2">政策启示</h4>
-                            <ul class="list-disc pl-5 space-y-2 text-sm text-academic-700">
-                                <li>主机国应发展"制度导航"能力</li>
-                                <li>欧盟和中国可以在技术标准方面受益于有限的规则协调</li>
-                                <li>多边开发银行可以充当中立协调平台</li>
-                            </ul>
-                        </div>
-                    </div>
+                <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center">
+                    <p class="text-academic-500">Chapter 5 Content Placeholder / 第5章内容占位</p>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- SECTION: APPENDICES -->
-        <section id="appendices" class="py-12 bg-white">
+        <div id="appendices" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2 cursor-pointer" onclick="showSection('chapters', event)">
+                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
-                        <span class="lang-en">Back to Contents</span>
-                        <span class="lang-cn">返回目录</span>
-                        <span class="lang-both">Back / 返回</span>
+                        <span>Back to Contents / 返回目录</span>
                     </button>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">Appendices</span>
@@ -964,31 +776,21 @@
                         <span class="lang-both">Appendices / 附录</span>
                     </h2>
                 </div>
-                
-                <div class="space-y-6">
-                    <div class="p-6 bg-academic-50 rounded-xl border border-academic-200">
-                        <h3 class="text-xl font-bold text-primary mb-2">Appendix A / 附录A</h3>
-                        <p class="text-academic-600 text-sm">Comparative Matrices / 比较矩阵</p>
-                    </div>
-                    <div class="p-6 bg-academic-50 rounded-xl border border-academic-200">
-                        <h3 class="text-xl font-bold text-primary mb-2">Appendix B / 附录B</h3>
-                        <p class="text-academic-600 text-sm">Case Study Materials / 案例研究材料</p>
-                    </div>
+                <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center">
+                    <p class="text-academic-500">Appendices Content Placeholder / 附录内容占位</p>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- SECTION: REFERENCES -->
-        <section id="references" class="py-12 bg-white">
+        <div id="references" class="section-container py-16 bg-white">
             <div class="container mx-auto px-8 max-w-4xl">
                 <div class="mb-8">
-                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2 cursor-pointer" onclick="showSection('chapters', event)">
+                    <button class="text-academic-500 hover:text-primary mb-4 flex items-center gap-2" onclick="navigateTo('chapters')">
                         <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"/>
                         </svg>
-                        <span class="lang-en">Back to Contents</span>
-                        <span class="lang-cn">返回目录</span>
-                        <span class="lang-both">Back / 返回</span>
+                        <span>Back to Contents / 返回目录</span>
                     </button>
                     <h2 class="text-4xl font-serif font-bold text-primary">
                         <span class="lang-en">References</span>
@@ -996,12 +798,11 @@
                         <span class="lang-both">References / 参考文献</span>
                     </h2>
                 </div>
-                
-                <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center text-academic-500">
-                    References content placeholder / 参考文献内容占位
+                <div class="p-8 bg-academic-50 rounded-xl border border-academic-200 text-center">
+                    <p class="text-academic-500">References Content Placeholder / 参考文献内容占位</p>
                 </div>
             </div>
-        </section>
+        </div>
 
         <!-- Footer -->
         <footer class="bg-academic-900 text-academic-300 py-12 border-t border-academic-800">
@@ -1015,13 +816,12 @@
                     <div>
                         <h4 class="text-white font-serif font-bold mb-4">Citation / 引用</h4>
                         <p class="text-xs font-mono bg-academic-800 p-3 rounded">
-                            Zhao, J. (2026). BRI as a factor of financial opportunities and challenges. Dissertation, Al-Farabi Kazakh National University.
+                            Zhao, J. (2026). BRI as a factor of financial opportunities...
                         </p>
                     </div>
                     <div>
-                        <h4 class="text-white font-serif font-bold mb-4">Repository / 代码库</h4>
-                        <p class="text-sm mb-2">Interactive SPA Edition / 单页应用交互版</p>
-                        <a href="#" class="text-secondary hover:text-white transition-colors text-sm">View Source Code / 查看源码 →</a>
+                        <h4 class="text-white font-serif font-bold mb-4">SPA Edition / 单页版</h4>
+                        <p class="text-sm">Interactive Single Page Application</p>
                     </div>
                 </div>
                 <div class="mt-8 pt-8 border-t border-academic-800 text-center text-xs">
@@ -1053,10 +853,6 @@
         
         function toggleSidebar() {
             sidebarCollapsed = !sidebarCollapsed;
-            updateSidebarState();
-        }
-        
-        function updateSidebarState() {
             const nav = document.getElementById('sideNav');
             const main = document.getElementById('mainContent');
             const icon = document.getElementById('sidebarToggleIcon');
@@ -1076,71 +872,40 @@
             }
         }
 
-        function initSidebar() {
-            const savedState = localStorage.getItem('sidebar-collapsed');
-            if (savedState === 'true') sidebarCollapsed = true;
-            
-            if (window.innerWidth >= 768) {
-                updateSidebarState();
-            } else {
-                document.getElementById('sideNav').classList.add('-translate-x-full');
-            }
-        }
-
         function toggleMobileNav() {
             const nav = document.getElementById('sideNav');
             nav.classList.toggle('-translate-x-full');
         }
-        
-        function closeMobileNav() {
+
+        // Navigation
+        function navigateTo(sectionId) {
             if (window.innerWidth < 768) {
                 document.getElementById('sideNav').classList.add('-translate-x-full');
             }
-        }
-
-        // Section Navigation - 修复版
-        function showSection(sectionId, event) {
-            if(event) {
-                event.preventDefault();
-                event.stopPropagation();
-            }
             
-            closeMobileNav();
+            const allSections = document.querySelectorAll('.section-container');
+            const targetSection = document.getElementById(sectionId);
             
-            // 获取所有section并强制隐藏（修复多内容问题）
-            const allSections = document.querySelectorAll('section');
+            if (!targetSection) return;
+            
             allSections.forEach(sec => {
                 sec.classList.remove('active');
-                // 强制重置样式，确保完全隐藏
-                sec.style.display = 'none';
-                sec.style.opacity = '0';
             });
             
-            // 显示目标section
-            const target = document.getElementById(sectionId);
-            if(!target) return;
+            targetSection.classList.add('active');
             
-            // 先设置为block但不透明，然后触发重绘，再添加动画
-            target.style.display = 'block';
-            // 强制重绘
-            void target.offsetWidth;
-            target.classList.add('active');
-            target.style.opacity = '1';
+            window.scrollTo({
+                top: 0,
+                behavior: 'auto'
+            });
             
-            // 立即滚动到顶部（修复空白问题）
-            window.scrollTo(0, 0);
-            document.documentElement.scrollTop = 0;
-            document.body.scrollTop = 0;
-            
-            // 更新进度条
             const sectionList = ['home', 'abstract', 'chapters', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'appendices', 'references'];
             const index = sectionList.indexOf(sectionId);
-            if(index !== -1) {
+            if (index !== -1) {
                 const progress = ((index + 1) / sectionList.length) * 100;
                 document.getElementById('progressBar').style.width = progress + '%';
             }
             
-            // 更新URL
             history.pushState({section: sectionId}, '', '#' + sectionId);
         }
 
@@ -1148,65 +913,60 @@
         document.addEventListener('DOMContentLoaded', function() {
             const savedLang = localStorage.getItem('dissertation-lang') || 'en';
             setLanguage(savedLang);
-            initSidebar();
             
-            // 初始加载时确保只有一个section是active
+            if (window.innerWidth >= 768) {
+                const savedState = localStorage.getItem('sidebar-collapsed');
+                if (savedState === 'true') {
+                    sidebarCollapsed = true;
+                    toggleSidebar();
+                }
+            } else {
+                document.getElementById('sideNav').classList.add('-translate-x-full');
+            }
+            
             const hash = window.location.hash.replace('#', '');
             const validSections = ['home', 'abstract', 'chapters', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'appendices', 'references'];
-            const targetId = (hash && validSections.includes(hash)) ? hash : 'home';
             
-            // 先隐藏所有
-            document.querySelectorAll('section').forEach(sec => {
+            document.querySelectorAll('.section-container').forEach(sec => {
                 sec.classList.remove('active');
-                sec.style.display = 'none';
-                sec.style.opacity = '0';
             });
             
-            // 显示目标
-            const target = document.getElementById(targetId);
-            if(target) {
-                target.style.display = 'block';
-                void target.offsetWidth;
-                target.classList.add('active');
-                target.style.opacity = '1';
-                
-                const index = validSections.indexOf(targetId);
+            const initialSection = (hash && validSections.includes(hash)) ? hash : 'home';
+            const targetEl = document.getElementById(initialSection);
+            if (targetEl) {
+                targetEl.classList.add('active');
+                const index = validSections.indexOf(initialSection);
                 document.getElementById('progressBar').style.width = ((index + 1) / validSections.length) * 100 + '%';
             }
             
             window.addEventListener('popstate', function(e) {
-                if(e.state && e.state.section) {
-                    showSection(e.state.section);
-                }
-            });
-            
-            window.addEventListener('resize', function() {
-                if (window.innerWidth >= 768) {
-                    updateSidebarState();
-                } else {
-                    document.getElementById('sideNav').classList.add('-translate-x-full');
+                if (e.state && e.state.section) {
+                    const sectionId = e.state.section;
+                    document.querySelectorAll('.section-container').forEach(sec => {
+                        sec.classList.remove('active');
+                    });
+                    const target = document.getElementById(sectionId);
+                    if (target) {
+                        target.classList.add('active');
+                        window.scrollTo(0, 0);
+                    }
                 }
             });
         });
 
         // Keyboard shortcuts
         document.addEventListener('keydown', function(e) {
-            if(e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+            if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
                 const sections = ['home', 'abstract', 'chapters', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'appendices', 'references'];
-                const current = document.querySelector('section.active');
-                if(current) {
+                const current = document.querySelector('.section-container.active');
+                if (current) {
                     const index = sections.indexOf(current.id);
-                    if(e.key === 'ArrowRight' && index < sections.length - 1) {
-                        showSection(sections[index + 1], e);
-                    } else if(e.key === 'ArrowLeft' && index > 0) {
-                        showSection(sections[index - 1], e);
+                    if (e.key === 'ArrowRight' && index < sections.length - 1) {
+                        navigateTo(sections[index + 1]);
+                    } else if (e.key === 'ArrowLeft' && index > 0) {
+                        navigateTo(sections[index - 1]);
                     }
                 }
-            }
-            
-            if((e.key === '[' || e.key === 'b') && window.innerWidth >= 768) {
-                e.preventDefault();
-                toggleSidebar();
             }
         });
     </script>
