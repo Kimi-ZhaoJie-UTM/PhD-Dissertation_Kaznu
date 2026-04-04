@@ -53,136 +53,72 @@
         }
     </script>
     <style>
-        /* ========== ULTRA-SPECIFIC Language switching CSS for GitHub Pages ========== */
+        /* ========== NAVIGATION DEBUG & FIX ========== */
         
-        /* Base state - hide all language spans with maximum specificity */
-        html body .lang-en,
-        html body .lang-cn,
-        html body .lang-both,
-        body .lang-en,
-        body .lang-cn,
-        body .lang-both,
-        .lang-en,
-        .lang-cn,
-        .lang-both {
-            display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
-        }
-        
-        /* EN mode - show English with extreme specificity */
-        html body[data-lang="en"] .lang-en,
-        body[data-lang="en"] .lang-en,
-        html body[data-lang="en"] nav .lang-en,
-        html body[data-lang="en"] main .lang-en,
-        html body[data-lang="en"] footer .lang-en,
-        html body[data-lang="en"] div .lang-en,
-        html body[data-lang="en"] span .lang-en,
-        html body[data-lang="en"] h1 .lang-en,
-        html body[data-lang="en"] h2 .lang-en,
-        html body[data-lang="en"] h3 .lang-en,
-        html body[data-lang="en"] p .lang-en,
-        html body[data-lang="en"] button .lang-en,
-        html body[data-lang="en"] a .lang-en {
-            display: inline !important;
+        /* Force navigation to be visible */
+        nav#sideNav {
+            display: block !important;
             visibility: visible !important;
             opacity: 1 !important;
+            transform: none !important;
         }
         
-        /* EN mode - force hide others */
-        html body[data-lang="en"] .lang-cn,
-        html body[data-lang="en"] .lang-both,
-        body[data-lang="en"] .lang-cn,
-        body[data-lang="en"] .lang-both {
+        nav#sideNav.collapsed {
+            transform: translateX(-100%) !important;
+        }
+        
+        /* Language switching - CRITICAL FIX */
+        .lang-en, .lang-cn, .lang-both {
             display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
         }
         
-        /* CN mode - show Chinese */
-        html body[data-lang="cn"] .lang-cn,
-        body[data-lang="cn"] .lang-cn,
-        html body[data-lang="cn"] nav .lang-cn,
-        html body[data-lang="cn"] main .lang-cn,
-        html body[data-lang="cn"] footer .lang-cn,
-        html body[data-lang="cn"] div .lang-cn,
-        html body[data-lang="cn"] span .lang-cn,
-        html body[data-lang="cn"] h1 .lang-cn,
-        html body[data-lang="cn"] h2 .lang-cn,
-        html body[data-lang="cn"] h3 .lang-cn,
-        html body[data-lang="cn"] p .lang-cn,
-        html body[data-lang="cn"] button .lang-cn,
-        html body[data-lang="cn"] a .lang-cn {
+        /* EN mode */
+        [data-lang="en"] .lang-en {
             display: inline !important;
-            visibility: visible !important;
-            opacity: 1 !important;
         }
-        
-        /* CN mode - force hide others */
-        html body[data-lang="cn"] .lang-en,
-        html body[data-lang="cn"] .lang-both,
-        body[data-lang="cn"] .lang-en,
-        body[data-lang="cn"] .lang-both {
+        [data-lang="en"] .lang-cn,
+        [data-lang="en"] .lang-both {
             display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
         }
         
-        /* BOTH mode - show bilingual */
-        html body[data-lang="both"] .lang-both,
-        body[data-lang="both"] .lang-both,
-        html body[data-lang="both"] nav .lang-both,
-        html body[data-lang="both"] main .lang-both,
-        html body[data-lang="both"] footer .lang-both,
-        html body[data-lang="both"] div .lang-both,
-        html body[data-lang="both"] span .lang-both,
-        html body[data-lang="both"] h1 .lang-both,
-        html body[data-lang="both"] h2 .lang-both,
-        html body[data-lang="both"] h3 .lang-both,
-        html body[data-lang="both"] p .lang-both,
-        html body[data-lang="both"] button .lang-both,
-        html body[data-lang="both"] a .lang-both {
+        /* CN mode */
+        [data-lang="cn"] .lang-cn {
             display: inline !important;
-            visibility: visible !important;
-            opacity: 1 !important;
         }
-        
-        /* BOTH mode - force hide others */
-        html body[data-lang="both"] .lang-en,
-        html body[data-lang="both"] .lang-cn,
-        body[data-lang="both"] .lang-en,
-        body[data-lang="both"] .lang-cn {
+        [data-lang="cn"] .lang-en,
+        [data-lang="cn"] .lang-both {
             display: none !important;
-            visibility: hidden !important;
-            opacity: 0 !important;
         }
         
-        /* Block-level elements */
-        html body[data-lang="en"] div.lang-en,
-        html body[data-lang="en"] p.lang-en,
-        html body[data-lang="cn"] div.lang-cn,
-        html body[data-lang="cn"] p.lang-cn,
-        html body[data-lang="both"] div.lang-both,
-        html body[data-lang="both"] p.lang-both {
+        /* BOTH mode */
+        [data-lang="both"] .lang-both {
+            display: inline !important;
+        }
+        [data-lang="both"] .lang-en,
+        [data-lang="both"] .lang-cn {
+            display: none !important;
+        }
+        
+        /* Block elements */
+        [data-lang="en"] div.lang-en,
+        [data-lang="cn"] div.lang-cn,
+        [data-lang="both"] div.lang-both {
             display: block !important;
         }
         
         /* Bilingual layout */
-        html body[data-lang="both"] .bilingual-grid,
-        body[data-lang="both"] .bilingual-grid {
+        [data-lang="both"] .bilingual-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 2rem;
         }
         
-        html body[data-lang="both"] .bilingual-grid > div,
-        body[data-lang="both"] .bilingual-grid > div {
+        [data-lang="both"] .bilingual-grid > div {
             border-right: 1px solid #e5e7eb;
             padding-right: 1rem;
         }
         
-        html body[data-lang="both"] .bilingual-grid > div:last-child,
-        body[data-lang="both"] .bilingual-grid > div:last-child {
+        [data-lang="both"] .bilingual-grid > div:last-child {
             border-right: none;
             padding-right: 0;
             padding-left: 1rem;
@@ -286,9 +222,16 @@
         }
         
         @media (max-width: 768px) {
-            html body[data-lang="both"] .bilingual-grid,
-            body[data-lang="both"] .bilingual-grid {
+            [data-lang="both"] .bilingual-grid {
                 grid-template-columns: 1fr;
+            }
+            
+            nav#sideNav {
+                transform: translateX(-100%) !important;
+            }
+            
+            nav#sideNav.mobile-open {
+                transform: translateX(0) !important;
             }
         }
     </style>
@@ -942,14 +885,50 @@
     </main>
 
     <script>
-        // ========== FIXED Language Management for GitHub Pages ==========
+        // ========== DEBUG & FIX FOR GITHUB PAGES ==========
+        
+        // Debug function to check current state
+        function debugLanguage() {
+            console.log('=== LANGUAGE DEBUG ===');
+            console.log('Body data-lang:', document.body.getAttribute('data-lang'));
+            console.log('Body classes:', document.body.className);
+            console.log('localStorage lang:', localStorage.getItem('dissertation-lang'));
+            
+            const enElements = document.querySelectorAll('.lang-en');
+            const cnElements = document.querySelectorAll('.lang-cn');
+            const bothElements = document.querySelectorAll('.lang-both');
+            
+            console.log('EN elements found:', enElements.length);
+            console.log('CN elements found:', cnElements.length);
+            console.log('BOTH elements found:', bothElements.length);
+            
+            // Check computed style of first nav link spans
+            const firstNavLink = document.querySelector('.nav-link');
+            if (firstNavLink) {
+                const spans = firstNavLink.querySelectorAll('span');
+                spans.forEach((span, i) => {
+                    const computed = window.getComputedStyle(span);
+                    console.log(`Span ${i} (${span.className}): display=${computed.display}, visibility=${computed.visibility}`);
+                });
+            }
+        }
+
+        // Language Management with forced refresh
         function setLanguage(lang) {
+            console.log('Setting language to:', lang);
+            
             // Validate input
             if (!['en', 'cn', 'both'].includes(lang)) {
                 lang = 'en';
             }
             
-            // Set attribute on body
+            // Remove all data-lang attributes first
+            document.body.removeAttribute('data-lang');
+            
+            // Force reflow
+            void document.body.offsetHeight;
+            
+            // Set new language
             document.body.setAttribute('data-lang', lang);
             localStorage.setItem('dissertation-lang', lang);
             
@@ -965,13 +944,12 @@
                 }
             });
             
-            // Force reflow to ensure CSS rules are applied
+            // Force complete re-render
             document.body.style.display = 'none';
-            void document.body.offsetHeight; // Trigger reflow
+            void document.body.offsetHeight;
             document.body.style.display = '';
             
-            console.log('Language switched to:', lang);
-            console.log('Body data-lang:', document.body.getAttribute('data-lang'));
+            debugLanguage();
         }
 
         // Sidebar Management
@@ -984,12 +962,14 @@
             const icon = document.getElementById('sidebarToggleIcon');
             
             if (sidebarCollapsed) {
+                nav.classList.add('collapsed');
                 nav.classList.add('-translate-x-full');
                 main.classList.remove('md:ml-64');
                 main.classList.add('md:ml-0');
                 if (icon) icon.style.transform = 'rotate(180deg)';
                 localStorage.setItem('sidebar-collapsed', 'true');
             } else {
+                nav.classList.remove('collapsed');
                 nav.classList.remove('-translate-x-full');
                 main.classList.add('md:ml-64');
                 main.classList.remove('md:ml-0');
@@ -1000,6 +980,7 @@
 
         function toggleMobileNav() {
             const nav = document.getElementById('sideNav');
+            nav.classList.toggle('mobile-open');
             nav.classList.toggle('-translate-x-full');
         }
 
@@ -1007,6 +988,7 @@
         function navigateTo(sectionId) {
             if (window.innerWidth < 768) {
                 document.getElementById('sideNav').classList.add('-translate-x-full');
+                document.getElementById('sideNav').classList.remove('mobile-open');
             }
             
             const allSections = document.querySelectorAll('.section-container');
@@ -1037,14 +1019,20 @@
 
         // Initialize
         document.addEventListener('DOMContentLoaded', function() {
-            // Clear potentially corrupted localStorage for fresh start
-            // Uncomment next line if you want to reset language on every load
+            console.log('=== INITIALIZATION ===');
+            
+            // Clear localStorage for testing (uncomment if needed)
             // localStorage.removeItem('dissertation-lang');
             
             const savedLang = localStorage.getItem('dissertation-lang') || 'en';
-            console.log('Initializing with language:', savedLang);
-            setLanguage(savedLang);
+            console.log('Saved language:', savedLang);
             
+            // Small delay to ensure DOM is fully ready
+            setTimeout(() => {
+                setLanguage(savedLang);
+            }, 10);
+            
+            // Sidebar init
             if (window.innerWidth >= 768) {
                 const savedState = localStorage.getItem('sidebar-collapsed');
                 if (savedState === 'true') {
@@ -1055,6 +1043,7 @@
                 document.getElementById('sideNav').classList.add('-translate-x-full');
             }
             
+            // Navigation init
             const hash = window.location.hash.replace('#', '');
             const validSections = ['home', 'abstract', 'chapters', 'chapter1', 'chapter2', 'chapter3', 'chapter4', 'chapter5', 'appendices', 'references'];
             
@@ -1070,6 +1059,7 @@
                 document.getElementById('progressBar').style.width = ((index + 1) / validSections.length) * 100 + '%';
             }
             
+            // Popstate handler
             window.addEventListener('popstate', function(e) {
                 if (e.state && e.state.section) {
                     const sectionId = e.state.section;
@@ -1083,6 +1073,9 @@
                     }
                 }
             });
+            
+            // Run debug after init
+            setTimeout(debugLanguage, 100);
         });
 
         // Keyboard shortcuts
@@ -1100,6 +1093,9 @@
                 }
             }
         });
+        
+        // Expose debug function globally
+        window.debugLanguage = debugLanguage;
     </script>
 </body>
 </html>
